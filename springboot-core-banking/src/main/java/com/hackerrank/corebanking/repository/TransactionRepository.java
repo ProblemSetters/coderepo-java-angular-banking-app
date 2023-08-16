@@ -7,5 +7,5 @@ import java.util.Date;
 import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    List<Transaction> findByDateCreatedBetween(Date from, Date to);
+    List<Transaction> findByDateCreatedBetweenAndFromAccountIdOrToAccountId(Date from, Date to, String fromAccountId, String toAccountId);
 }

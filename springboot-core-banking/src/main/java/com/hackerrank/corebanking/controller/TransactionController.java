@@ -30,9 +30,9 @@ public class TransactionController {
   }
 
   //get
-  @GetMapping("/history")
+  @GetMapping("/transactionHistory")
   @ResponseStatus(HttpStatus.OK)
-  public List<Transaction> getAccountByAccountId(@RequestParam(name = "fromDate") Date fromDate, @RequestParam(name = "toDate") Date toDate) {
-    return transactionRepository.findByDateCreatedBetween(fromDate, toDate);
+  public List<Transaction> transactionHistory(@RequestParam(name = "accountId") String accountId, @RequestParam(name = "fromDate") Date fromDate, @RequestParam(name = "toDate") Date toDate) {
+    return transactionRepository.findByDateCreatedBetweenAndFromAccountIdOrToAccountId(fromDate, toDate, accountId, accountId);
   }
 }
