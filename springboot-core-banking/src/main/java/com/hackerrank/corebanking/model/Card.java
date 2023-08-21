@@ -25,6 +25,5 @@ public class Card implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cardNumber; //accountId for simplicity
     private String name;
-    private double limit;
     private double balance;
 }
