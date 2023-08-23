@@ -30,4 +30,5 @@ public class Account implements Serializable {
   private String city;
   private String emailAddress;
   private Double balance;
+  private String password;
 }
