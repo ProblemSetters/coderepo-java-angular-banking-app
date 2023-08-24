@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/core-banking/transaction")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class TransactionController {
   private final TransactionService transactionService;
   private final TransactionRepository transactionRepository;
