@@ -1,0 +1,51 @@
+<nav class="relative flex flex-wrap items-center justify-between px-2 py-3 bg-cool-gray shadow-md">
+    <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
+      <div class="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start">
+        <a routerLink="/" class="flex items-center">
+          <img src="../../../assets/bank_318-373992.avif" class="h-8 mr-3" alt="Banking Logo" />
+          <span class="self-center text-2xl font-semibold whitespace-nowrap text-primary-blue">Banking System</span>
+        </a>
+        <button class="text-primary-blue cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" (click)="toggleNavbar()">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+          </svg>
+        </button>       
+      </div>
+      <div [ngClass]="{'hidden': !showMenu, 'flex': showMenu}" class="lg:flex lg:flex-grow items-center">
+        <ul class="flex flex-col lg:flex-row list-none ml-auto pt-4 lg:pt-0">
+          <li *ngFor="let menu of menuList" class="nav-item">
+            <a
+              routerLink="{{menu.url}}"
+              class="px-3 py-2 flex items-center text-lg font-normal leading-snug text-primary-blue hover:opacity-75 active:font-bold focus:font-bold"
+              [ngClass]="{'active': currentUrl && currentUrl.split('/')[1] === menu.url}"
+            >
+                <i class="fab fa-facebook-square text-lg leading-lg text-primary-blue opacity-75"></i>
+                <span class="">{{menu.name}}</span>
+            </a>
+          </li>
+          <li *ngIf="!isAuth" class="nav-item">
+            <a
+              routerLink="/login"
+              class="px-3 py-2 flex items-center text-lg font-normal leading-snug text-primary-blue hover:opacity-75 active:font-bold focus:font-bold"
+              [ngClass]="{'active': currentUrl && currentUrl.split('/')[1] === 'login'}"
+            >
+                <i class="fab fa-pinterest text-lg leading-lg text-primary-blue opacity-75"></i>
+                <span class="">Login</span>
+            </a>
+          </li>
+          <li *ngIf="isAuth" class="nav-item">
+            <a
+              (click)="logout()"
+              routerLink="#"
+              class="px-3 py-2 flex items-center text-lg font-normal leading-snug text-primary-blue hover:opacity-75 active:font-bold focus:font-bold"
+              [ngClass]="{'active': currentUrl && currentUrl.split('/')[1] === 'logout'}"
+            >
+                <i class="fab fa-pinterest text-lg leading-lg text-primary-blue opacity-75"></i>
+                <span class="">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

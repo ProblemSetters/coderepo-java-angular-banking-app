@@ -1,0 +1,70 @@
+import { Component } from '@angular/core';
+import { MenuList, User } from 'src/app/dto/types';
+import { menuList } from 'src/app/menu'
+import { Router, NavigationEnd } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { AuthenticationService } from "src/app/services/authentication.service";
+import { ToastrService } from 'ngx-toastr';
+
+
+@Component({
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss']
+})
+export class NavbarComponent {
+  public showMenu:Boolean = false;
+  public menuList: MenuList[];
+  public currentUrl?: string;
+  public isAuth: boolean = false;
+  public user?: User;
+
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private authService: AuthService,
+    private authenticationService: AuthenticationService,
+  ) {
+		this.menuList = menuList;
+    this.authenticationService
+			.isAuthenticate()
+			.subscribe((status: boolean) => {
+				this.isAuth = status;
+			});
+
+		this.authenticationService.user().subscribe((user: User) => {
+			this.user = user;
+		});
+	}
+
+  ngOnInit() {
+		this.router.events.subscribe((event) => {
+			if (event instanceof NavigationEnd) {
+				this.currentUrl = event.url;
+			}
+		});
+		this.currentUrl = this.router.url;
+	}
+
+  toggleNavbar(){
+    this.showMenu = !this.showMenu;
+  }
+
+  logout() {
+    const res = this.authService
+			.logout()
+			.subscribe(
+				(data: any) => {
+          console.log(data)
+					this.authenticationService.logout();
+		      this.toastr.success("Logout Successfully");
+				},
+				(error: any) => {
+          console.log(error)
+					this.toastr.error(error);
+				},
+			);
+		
+	}
+
+}

@@ -1,0 +1,91 @@
+<div class="relative">
+    <div class="relative overflow-x-auto sm:rounded-lg mx-8 lg:mx-20 my-20">
+        <div class="grid grid-cols-1 lg:grid-cols-3">
+            <div *ngFor="let card of cardList"
+                class="card my-8 mx-0 md:mx-16 rounded-lg border border-gray-200"
+            >
+                <div
+                    class="w-full bg-gray-600 rounded-t-lg font-medium tracking-wide px-4"
+                    [class.blocked]="card.isBlocked"
+                >
+                    <div class="card-bank-name text-lg text-end font-normal uppercase text-white px-3 py-4">
+                        Bank Name
+                    </div>
+                    <div class="px-3">
+                        <img src="../../assets/chip.png" alt="chip" class="w-12 h-9" />
+                    </div>
+                    <div class="card-no text-xl text-start font-normal uppercase text-white p-3">
+                        {{ card.cardNumber }}
+                    </div>
+                    <div class="flex gap-2 items-start justify-end px-3">
+                        <pre class="text-xs text-gray-400 leading-3">
+                            VALID
+                            THRU
+                        </pre>
+                        <p class="card-expire-month-year text-sm text-white">
+                            {{ card.expireMonth }}/{{ card.expireYear }}
+                        </p>
+                    </div>
+                    <div class="flex justify-between items-center pb-4 px-3">
+                        <div class="card-holder-name text-lg text-start font-normal uppercase text-white">
+                            {{ card.cardHolderName }}
+                        </div>
+                        <div class="card-cvv text-lg text-start font-normal uppercase">
+                            <span class="text-white leading-3">
+                                {{ card.cvv }}
+                            </span>                   
+                        </div>
+                    </div>
+                </div>
+                <div class="rounded-lg font-medium tracking-wide px-4 mt-2">
+                    <div class="my-4">
+                        Account Number :  {{ card.accountId }}
+                    </div>
+                    <div class="card-pin  my-4" [class.blocked]="card.isBlocked">
+                        <form
+                            [formGroup]="cardUpdatePinForms[card.id]"
+                            (ngSubmit)="onSubmit(card)" 
+                            class="card-update-pin-form flex"
+                            [id]="'cardUpdatePinForm-' + card.id"
+                        >
+                            <label
+                                for="cardPin"
+                            >
+                                Card Pin
+                            </label>
+                            <input
+                                id="cardPin"
+                                type="number"
+                                name="cardPin"
+                                formControlName="cardPin"
+                                class="w-24 border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 p-2 ml-1"
+                            >
+        
+                            <button
+                                type="submit"
+                                [disabled]="!cardUpdatePinForms[card.id].valid"
+                                class="ml-6 focus:ring-2 focus:ring-offset-2 focus:ring-secondary-blue text-sm font-semibold uppercase leading-none text-white focus:outline-none bg-primary-blue border rounded hover:bg-secondary-blue p-2 disabled:opacity-25"
+                                
+                            >Update</button>
+                        </form>
+                        <div class="error-message" *ngIf="getFormControlError('cardPin', card.id)">{{ getFormControlError('cardPin', card.id) }}</div>
+                    </div>
+                    <div class="card-block flex justify-end my-2">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input
+                                type="checkbox"
+                                [(ngModel)]="card.isBlocked"
+                                class="sr-only peer"
+                                (ngModelChange)="cardBlockUnblock(card)"
+                            >
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                {{ card.isBlocked ? 'Unblock' : 'Block' }}
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
