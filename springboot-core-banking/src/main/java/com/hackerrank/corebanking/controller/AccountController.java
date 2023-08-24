@@ -1,26 +1,36 @@
 package com.hackerrank.corebanking.controller;
 
 import com.hackerrank.corebanking.model.Account;
+import com.hackerrank.corebanking.repository.AccountRepository;
 import com.hackerrank.corebanking.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/core-banking/account")
 public class AccountController {
   private final AccountService accountService;
+  private final AccountRepository accountRepository;
 
   @Autowired
-  public AccountController(AccountService accountService) {
+  public AccountController(AccountService accountService, AccountRepository accountRepository) {
     this.accountService = accountService;
+    this.accountRepository = accountRepository;
   }
 
   //create
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Account createNewAccount(@RequestBody Account account) {
-    return accountService.createNewAccount(account);
+  public Object createNewAccount(@RequestBody Account account) {
+    Optional<Account> existing = accountRepository.findByEmailAddress(account.getEmailAddress());
+    if (existing.isPresent()) {
+      return "User with email address already exists.";
+    } else {
+      return accountService.createNewAccount(account);
+    }
   }
 
   //get

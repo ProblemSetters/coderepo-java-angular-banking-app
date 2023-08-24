@@ -1,10 +1,7 @@
 package com.hackerrank.corebanking.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -28,6 +25,7 @@ public class Account implements Serializable {
   private String gender;
   private String address;
   private String city;
+  @Column(unique = true)
   private String emailAddress;
   private Double balance;
   private String password;
