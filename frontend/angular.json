@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "java-angular-base": {
+    "banking-system-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/java-angular-base",
+            "outputPath": "dist/banking-system-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -30,9 +30,18 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.css",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.min.css",
+              "node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/datatables.net/js/jquery.dataTables.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -65,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "java-angular-base:build:production"
+              "browserTarget": "banking-system-app:build:production"
             },
             "development": {
-              "browserTarget": "java-angular-base:build:development"
+              "browserTarget": "banking-system-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +85,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "java-angular-base:build"
+            "browserTarget": "banking-system-app:build"
           }
         },
         "test": {
@@ -100,5 +109,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "7404cc63-bf39-4457-9f61-17cd79f15d4c"
   }
 }
