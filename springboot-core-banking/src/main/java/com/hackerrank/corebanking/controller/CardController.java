@@ -52,7 +52,7 @@ public class CardController {
   //update pin
   @PutMapping("/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
-  public Card updatePin(@PathVariable Long cardNumber, @RequestParam int newPin) {
+  public Card updatePin(@PathVariable Long cardNumber, @RequestParam(name = "newPin") int newPin) {
     return cardService.updatePin(cardNumber, newPin);
   }
 
