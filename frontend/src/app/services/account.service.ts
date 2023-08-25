@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "./http.service";
 import { environment } from "src/app/environments/environment";
+import { HttpHeaders } from "@angular/common/http";
 
 @Injectable({
 	providedIn: "root",
@@ -11,9 +12,8 @@ export class AccountService {
 	constructor(private httpService: HttpService) {
 		this.apiUrl = environment.API_URL;
 	}
-
+	
 	public openAccount(
-						accountId: string,
 						balance: number,
 						firstName: string,
 						lastName: string,
@@ -22,10 +22,9 @@ export class AccountService {
 						address: string,
 						city: string,
 						emailAddress: string,
-						// password: string,
+						password: string,
 					) {
 		return this.httpService.post(`${this.apiUrl}/api/core-banking/account`, {
-			accountId,
 			balance,
 			firstName,
 			lastName,
@@ -34,7 +33,7 @@ export class AccountService {
 			address,
 			city,
 			emailAddress,
-			// password,
+			password,
 		});
 	}
 }

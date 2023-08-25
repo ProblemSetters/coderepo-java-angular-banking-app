@@ -52,9 +52,11 @@ export class LoginComponent {
 			)
 			.subscribe(
 				(data: any) => {
-					this.toastr.success(data?.success);
-					this.authenticationService.setToken(data.token);
-					this.authenticationService.setUser(data.user);
+					console.log('login')
+					console.log(data)
+					// this.toastr.success(data?.success);
+					// this.authenticationService.setToken(data.token);
+					// this.authenticationService.setUser(data.user);
 				},
 				(error: any) => {
           console.log(error)

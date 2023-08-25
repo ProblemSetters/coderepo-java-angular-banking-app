@@ -22,22 +22,22 @@ export class AuthService {
 	}
 
 	public logout() {
-		return this.httpService.post(`${this.apiUrl}/api/core-banking/auth/signout`, {});
+		return this.httpService.post(`${this.apiUrl}/api/core-banking/auth/signout`, null);
 	}
 
-	public profile(
-		username: string,
-		email: string,
-		password: string,
-		phone: string,
-		address: string,
-	) {
-		return this.httpService.put(`${this.apiUrl}/api/auth/profile`, {
-			username,
-			email,
-			password,
-			phone,
-			address,
-		});
-	}
+	// public profile(
+	// 	username: string,
+	// 	email: string,
+	// 	password: string,
+	// 	phone: string,
+	// 	address: string,
+	// ) {
+	// 	return this.httpService.put(`${this.apiUrl}/api/auth/profile`, {
+	// 		username,
+	// 		email,
+	// 		password,
+	// 		phone,
+	// 		address,
+	// 	});
+	// }
 }
