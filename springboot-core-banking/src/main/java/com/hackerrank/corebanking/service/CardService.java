@@ -5,6 +5,8 @@ import com.hackerrank.corebanking.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CardService {
   private final CardRepository cardRepository;
@@ -23,17 +25,43 @@ public class CardService {
     return cardRepository.save(card);
   }
 
-  public Card getCardByCardId(Long cardId) {
+  public Card getCardByCardNumber(Long cardNumber) {
     return cardRepository
-            .findById(cardId)
-            .orElseThrow(() -> new IllegalArgumentException("Card with given cardId not found."));
+            .findCardByCardNumber(cardNumber)
+            .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
   }
 
-  public Card deleteCardByCardId(Long cardId) {
+  public List<Card> getAllCards(Long accountId) {
+    return cardRepository
+            .findCardsByAccountId(accountId)
+            .orElseThrow(() -> new IllegalArgumentException("Card with given accountId not found."));
+  }
+
+  public Card deleteCardByCardNumber(Long cardNumber) {
     Card existing = cardRepository
-            .findById(cardId)
-            .orElseThrow(() -> new IllegalArgumentException("Card with given cardId not found."));
+            .findCardByCardNumber(cardNumber)
+            .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
     cardRepository.delete(existing);
+
+    return existing;
+  }
+
+  public Card updatePin(Long cardNumber, int newPin) {
+    Card existing = cardRepository
+            .findCardByCardNumber(cardNumber)
+            .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
+    existing.setPin(newPin);
+    cardRepository.save(existing);
+
+    return existing;
+  }
+
+  public Card blockCard(Long cardNumber) {
+    Card existing = cardRepository
+            .findCardByCardNumber(cardNumber)
+            .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
+    existing.setBlocked(true);
+    cardRepository.save(existing);
 
     return existing;
   }

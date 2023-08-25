@@ -23,7 +23,10 @@ public class Card implements Serializable {
     Date lastCreated;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cardNumber; //accountId for simplicity
+    private Long cardNumber;
+    private Long accountId;
     private String name;
     private double balance;
+    private int pin;
+    private boolean blocked = false;
 }
