@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/core-banking/card")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class CardController {
   private final CardService cardService;
 
@@ -57,7 +56,7 @@ public class CardController {
   }
 
   //block card
-  @PutMapping("/{cardNumber}")
+  @PostMapping("/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
   public Card blockCard(@PathVariable Long cardNumber) {
     return cardService.blockCard(cardNumber);
