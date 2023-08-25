@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/core-banking/card")
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -25,16 +27,39 @@ public class CardController {
   }
 
   //get
-  @GetMapping("/{cardId}")
+  @GetMapping("/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
-  public Card getCardByCardId(@PathVariable Long cardId) {
-    return cardService.getCardByCardId(cardId);
+  public Card getCardByCardNumber(@PathVariable Long cardNumber) {
+    return cardService.getCardByCardNumber(cardNumber);
   }
 
-  //delete
-  @DeleteMapping("/{cardId}")
+
+  //get all
+  @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public Card deleteCardByCardId(@PathVariable Long cardId) {
-    return cardService.deleteCardByCardId(cardId);
+  public List<Card> getAllCards(@RequestParam(name = "accountId") Long accountId) {
+    return cardService.getAllCards(accountId);
+  }
+
+
+  //delete
+  @DeleteMapping("/{cardNumber}")
+  @ResponseStatus(HttpStatus.OK)
+  public Card deleteCardByCardNumber(@PathVariable Long cardNumber) {
+    return cardService.deleteCardByCardNumber(cardNumber);
+  }
+
+  //update pin
+  @PutMapping("/{cardNumber}")
+  @ResponseStatus(HttpStatus.OK)
+  public Card updatePin(@PathVariable Long cardNumber, @RequestParam int newPin) {
+    return cardService.updatePin(cardNumber, newPin);
+  }
+
+  //block card pin
+  @PutMapping("/{cardNumber}")
+  @ResponseStatus(HttpStatus.OK)
+  public Card blockCard(@PathVariable Long cardNumber) {
+    return cardService.blockCard(cardNumber);
   }
 }
