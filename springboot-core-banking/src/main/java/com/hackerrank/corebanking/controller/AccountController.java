@@ -45,6 +45,10 @@ public class AccountController {
       card1.setPin(1111 + random.nextInt(1111));
       card1.setBlocked(false);
       card1.setName("Visa");
+      card1.setExpireMonth("08");
+      card1.setExpireYear("2035");
+      card1.setCardHolderName("test3");
+      card1.setCvv(345);
       cardService.createNewCard(card1);
 
       Card card2 = new Card();
@@ -52,6 +56,10 @@ public class AccountController {
       card2.setPin(1111 + random.nextInt(1111));
       card2.setBlocked(false);
       card2.setName("MasterCard");
+      card2.setExpireMonth("08");
+      card2.setExpireYear("2035");
+      card2.setCardHolderName("test3");
+      card2.setCvv(345);
       cardService.createNewCard(card2);
 
       return newAccount;
