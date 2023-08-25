@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/core-banking/account")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class AccountController {
   private final AccountService accountService;
   private final AccountRepository accountRepository;

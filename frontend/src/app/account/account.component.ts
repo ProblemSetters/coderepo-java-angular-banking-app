@@ -18,7 +18,7 @@ import { Router } from "@angular/router";
 export class AccountComponent {
   public openAccountForm!: FormGroup;
   public datePickerConfig = <IDatePickerDirectiveConfig>{
-    format: "DD-MM-YYYY",
+    format: "YYYY-MM-DD",
   };
   public isAuth: boolean = false;
 
@@ -39,10 +39,6 @@ export class AccountComponent {
 		this.router.navigate([""]);
 	}
 	this.openAccountForm = new FormGroup({
-	  accountId: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^\d{12}$/),
-      ]),
 	  balance: new FormControl(null, [
 				Validators.required,
 				Validators.pattern(/^\d+(\.\d{1,2})?$/),
@@ -93,7 +89,6 @@ export class AccountComponent {
 		}
 
 		const openAccount = {
-			accountId: this.openAccountForm.get("accountId")!.value,
 			balance: this.openAccountForm.get("balance")!.value,
 			firstName: this.openAccountForm.get("firstName")!.value,
 			lastName: this.openAccountForm.get("lastName")!.value,
@@ -102,12 +97,11 @@ export class AccountComponent {
 			address: this.openAccountForm.get("address")!.value,
 			city: this.openAccountForm.get("city")!.value,
 			emailAddress: this.openAccountForm.get("emailAddress")!.value,
-			// password: this.openAccountForm.get("password")!.value,
+			password: this.openAccountForm.get("password")!.value,
 		};
 
 		const res = this.accountService
 			.openAccount(
-				this.openAccountForm.get("accountId")!.value,
 				this.openAccountForm.get("balance")!.value,
 				this.openAccountForm.get("firstName")!.value,
 				this.openAccountForm.get("lastName")!.value,
@@ -116,18 +110,17 @@ export class AccountComponent {
 				this.openAccountForm.get("address")!.value,
 				this.openAccountForm.get("city")!.value,
 				this.openAccountForm.get("emailAddress")!.value,
-				// this.openAccountForm.get("password")!.value,
+				this.openAccountForm.get("password")!.value,
 			)
 			.subscribe(
 				(data: any) => {
-					if (data?.token) {
-						this.router.navigate(["login"]);
-					} else {
-						this.toastr.error("Error in open account");
-					}
+					console.log(data)
+					// this.router.navigate(["login"]);
+					this.toastr.success("successfully open account");
 				},
 				(error: any) => {
-					this.toastr.error(error);
+					console.log(error)
+					this.toastr.error(error.error.text);
 				},
 			);
 
