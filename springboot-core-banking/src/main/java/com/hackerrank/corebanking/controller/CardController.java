@@ -19,14 +19,14 @@ public class CardController {
     this.cardService = cardService;
   }
 
-  //create
+  //create new card
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Card createNewCard(@RequestBody Card card) {
     return cardService.createNewCard(card);
   }
 
-  //get
+  //get a card
   @GetMapping("/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
   public Card getCardByCardNumber(@PathVariable Long cardNumber) {
@@ -34,7 +34,7 @@ public class CardController {
   }
 
 
-  //get all
+  //get all cards of an account
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<Card> getAllCards(@RequestParam(name = "accountId") Long accountId) {
@@ -42,7 +42,7 @@ public class CardController {
   }
 
 
-  //delete
+  //delete card
   @DeleteMapping("/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
   public Card deleteCardByCardNumber(@PathVariable Long cardNumber) {
@@ -56,7 +56,7 @@ public class CardController {
     return cardService.updatePin(cardNumber, newPin);
   }
 
-  //block card pin
+  //block card
   @PutMapping("/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
   public Card blockCard(@PathVariable Long cardNumber) {

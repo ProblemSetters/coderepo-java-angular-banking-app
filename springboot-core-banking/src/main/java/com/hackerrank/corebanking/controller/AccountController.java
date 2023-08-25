@@ -38,6 +38,7 @@ public class AccountController {
       Random random = new Random();
       Account newAccount = accountService.createNewAccount(account);
 
+      //create 2 default cards
       Card card1 = new Card();
       card1.setAccountId(newAccount.getAccountId());
       card1.setPin(1111 + random.nextInt(1111));
