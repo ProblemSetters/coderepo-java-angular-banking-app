@@ -1,6 +1,7 @@
 package com.hackerrank.corebanking.controller.security;
 
 import com.hackerrank.corebanking.model.Account;
+import com.hackerrank.corebanking.model.JwtToken;
 import com.hackerrank.corebanking.security.UserDetailsImpl;
 import com.hackerrank.corebanking.security.jwt.JwtUtils;
 import jakarta.validation.Valid;
@@ -12,7 +13,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/core-banking/auth")
@@ -35,7 +39,7 @@ public class AuthController {
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(jwtCookie.toString());
+                .body(new JwtToken(jwtCookie.getName(), jwtCookie.getValue()));
     }
 
     @PostMapping("/signout")
