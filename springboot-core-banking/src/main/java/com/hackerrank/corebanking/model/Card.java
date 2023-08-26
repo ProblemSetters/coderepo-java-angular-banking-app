@@ -29,4 +29,8 @@ public class Card implements Serializable {
     private double balance;
     private int pin;
     private boolean blocked = false;
+    private String expireMonth;
+    private String expireYear;
+    private String cardHolderName;
+    private int cvv;
 }

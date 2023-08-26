@@ -4,6 +4,7 @@ import com.hackerrank.corebanking.model.Transaction;
 import com.hackerrank.corebanking.repository.TransactionRepository;
 import com.hackerrank.corebanking.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/core-banking/transaction")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class TransactionController {
   private final TransactionService transactionService;
   private final TransactionRepository transactionRepository;
@@ -33,7 +33,7 @@ public class TransactionController {
   //get
   @GetMapping("/transactionHistory")
   @ResponseStatus(HttpStatus.OK)
-  public List<Transaction> transactionHistory(@RequestParam(name = "accountId") String accountId, @RequestParam(name = "fromDate") Date fromDate, @RequestParam(name = "toDate") Date toDate) {
+  public List<Transaction> transactionHistory(@RequestParam(name = "accountId") String accountId, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "fromDate") Date fromDate, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "toDate") Date toDate) {
     return transactionRepository.findByDateCreatedBetweenAndFromAccountIdOrToAccountId(fromDate, toDate, accountId, accountId);
   }
 }
