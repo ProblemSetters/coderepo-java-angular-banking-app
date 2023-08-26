@@ -53,14 +53,13 @@ export class LoginComponent {
 			.subscribe(
 				(data: any) => {
 					console.log('login')
-					console.log(data)
-					// this.authenticationService.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaXZlbWlAZXhhbXBsZS5jb20iLCJpYXQiOjE2OTMwMjc1NjUsImV4cCI6MTY5MzExMzk2NX0 .03 ER-5 OXycT6rb-_y3-ThlloqNEpyJqsw8LzhQhURZQ");
+					console.log(data.value)
+					this.authenticationService.setToken(data.value);
 					// this.authenticationService.setAccount(data.account);
 					this.toastr.success('Successfully login account');
 				},
 				(error: any) => {
           			console.log(error)
-					this.authenticationService.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaXZlbWlAZXhhbXBsZS5jb20iLCJpYXQiOjE2OTMwMjc1NjUsImV4cCI6MTY5MzExMzk2NX0 .03 ER-5 OXycT6rb-_y3-ThlloqNEpyJqsw8LzhQhURZQ;");
 					this.toastr.error(error.message);
 				},
 			);

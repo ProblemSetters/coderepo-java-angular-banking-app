@@ -115,8 +115,8 @@ export class AccountComponent {
 			.subscribe(
 				(data: any) => {
 					console.log(data)
-					// this.router.navigate(["login"]);
 					this.authenticationService.setAccount(data);
+					this.router.navigate(["login"]);
 					this.toastr.success("successfully open account");
 				},
 				(error: any) => {

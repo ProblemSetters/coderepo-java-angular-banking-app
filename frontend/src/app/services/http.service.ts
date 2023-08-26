@@ -1,76 +1,42 @@
 import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "src/app/environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { Observable, of } from "rxjs";
-import { catchError, map, mergeMap } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
-	providedIn: "root",
+  providedIn: "root",
 })
 export class HttpService {
-	public token;
+  public token;
 
-	constructor(private http: HttpClient) {
-		this.token = localStorage.getItem("auth-token");
-	}
+  constructor(private http: HttpClient) {
+    this.token = localStorage.getItem("auth-token");
+  }
 
-	public get(url: string, options: any = {}): any {
-		return this.checkAndRefreshToken().pipe(
-			mergeMap((e) => {
-				return this.http.get(url, options);
-			}),
-		);
-	}
+  public get(url: string, options: any = {}): Observable<any> {
+    return this.http.get(url, this.getHeaders(options));
+  }
 
-	public post(url: string, data: any, options: any = {}): any {
-		return this.checkAndRefreshToken().pipe(
-			mergeMap(() => {
-				return this.http.post(url, data, options);
-			}),
-		);
-	}
+  public post(url: string, data: any, options: any = {}): Observable<any> {
+    return this.http.post(url, data, this.getHeaders(options));
+  }
 
-	public put(url: string, data: any, options: any = {}): any {
-		return this.checkAndRefreshToken().pipe(
-			mergeMap(() => {
-				return this.http.put(url, data, options);
-			}),
-		);
-	}
+  public put(url: string, data: any, options: any = {}): Observable<any> {
+    return this.http.put(url, data, this.getHeaders(options));
+  }
 
-	public delete(url: string, options: any = {}): any {
-		return this.checkAndRefreshToken().pipe(
-			mergeMap(() => {
-				return this.http.delete(url, options);
-			}),
-		);
-	}
+  public delete(url: string, options: any = {}): Observable<any> {
+    return this.http.delete(url, this.getHeaders(options));
+  }
 
-	public checkAndRefreshToken() {
-		if (this.token) {
-			if (this.tokenExpired()) {
-				return this.refreshToken();
-			}
-			return of(true);
-		}
-		return of(false);
+  private getHeaders(options: any): { headers: HttpHeaders } {
+	if(this.token) {
+		const headers = new HttpHeaders({
+			Authorization: `Bearer ${this.token}`,
+		  });
+	  
+		  return { headers, ...options };
 	}
-
-	private refreshToken(): Observable<boolean> {
-		return this.http
-			.get(environment.API_URL + "/auth/refresh-token")
-			.pipe(map(() => true))
-			.pipe(
-				catchError(() => {
-					this.token = null;
-					localStorage.clear();
-					window.location.href = "/login";
-					return of(false);
-				}),
-			);
-	}
-
-	private tokenExpired() {
-		return false;
-	}
+    return options
+  }
 }
