@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuList, User } from 'src/app/dto/types';
+import { MenuList, Account } from 'src/app/dto/types';
 import { menuList } from 'src/app/menu'
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,7 +17,7 @@ export class NavbarComponent {
   public menuList: MenuList[];
   public currentUrl?: string;
   public isAuth: boolean = false;
-  public user?: User;
+  public account?: Account;
 
   constructor(
     private router: Router,
@@ -32,8 +32,8 @@ export class NavbarComponent {
 				this.isAuth = status;
 			});
 
-		this.authenticationService.user().subscribe((user: User) => {
-			this.user = user;
+		this.authenticationService.account().subscribe((account: Account) => {
+			this.account = account;
 		});
 	}
 

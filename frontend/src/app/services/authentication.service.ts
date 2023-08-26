@@ -1,19 +1,20 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { Account } from "src/app/dto/types";
 
 @Injectable({
 	providedIn: "root",
 })
 export class AuthenticationService {
 	public loggedIn = new BehaviorSubject<boolean>(false);
-	public userDetail = new BehaviorSubject<any>(null);
+	public accountDetail = new BehaviorSubject<any>(null);
 
 	private AUTH_KEY = "auth-token";
-	private USER_KEY = "user";
+	private ACCOUNT_KEY = "account";
 
 	constructor() {
 		this.loggedIn.next(this.getToken() ? true : false);
-		this.userDetail.next(this.getUser());
+		this.accountDetail.next(this.getAccount());
 	}
 
 	public getToken() {
@@ -25,18 +26,18 @@ export class AuthenticationService {
 		this.loggedIn.next(true);
 	}
 
-	public setUser(user: any) {
-		localStorage.setItem(this.USER_KEY, JSON.stringify(user));
-		this.userDetail.next(user);
+	public setAccount(account: Account) {
+		localStorage.setItem(this.ACCOUNT_KEY, JSON.stringify(account));
+		this.accountDetail.next(account);
 	}
 
-	public getUser() {
-		let user = localStorage.getItem(this.USER_KEY);
-		return user ? JSON.parse(user) : null;
+	public getAccount() {
+		let account = localStorage.getItem(this.ACCOUNT_KEY);
+		return account ? JSON.parse(account) : null;
 	}
 
-	public user() {
-		return this.userDetail.asObservable();
+	public account() {
+		return this.accountDetail.asObservable();
 	}
 
 	public isAuthenticate() {
@@ -45,7 +46,7 @@ export class AuthenticationService {
 
 	public logout() {
 		localStorage.removeItem(this.AUTH_KEY);
-		localStorage.removeItem(this.USER_KEY);
+		localStorage.removeItem(this.ACCOUNT_KEY);
 		this.loggedIn.next(false);
 	}
 }

@@ -116,6 +116,7 @@ export class AccountComponent {
 				(data: any) => {
 					console.log(data)
 					// this.router.navigate(["login"]);
+					this.authenticationService.setAccount(data);
 					this.toastr.success("successfully open account");
 				},
 				(error: any) => {

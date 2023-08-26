@@ -56,7 +56,7 @@ export class LoginComponent {
 					console.log(data)
 					// this.toastr.success(data?.success);
 					// this.authenticationService.setToken(data.token);
-					// this.authenticationService.setUser(data.user);
+					// this.authenticationService.setAccount(data.account);
 				},
 				(error: any) => {
           console.log(error)

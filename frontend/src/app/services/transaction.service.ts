@@ -24,7 +24,7 @@ export class TransactionService {
 		});
 	}
 
-	public transactionHistory(accountId: string, fromDate: Date, toDate: Date) {
+	public transactionHistory(accountId: number, fromDate: string, toDate: string) {
 		return this.httpService.get(`${this.apiUrl}/api/core-banking/transaction/transactionHistory?accountId=${accountId}&fromDate=${fromDate}&toDate=${toDate}`);
 	}
 }

@@ -1,5 +1,5 @@
 
-<section class="transction mx-8 lg:mx-20 my-12">
+<section class="transaction mx-8 lg:mx-20 my-12">
     <p class="text-2xl font-bold text-left leading-6 text-primary-blue mb-8">Transaction History</p>
     <div class="relative overflow-x-auto sm:rounded-lg">
         <div class="flex items-center justify-between pb-4">
@@ -7,10 +7,12 @@
                 class="items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                 name="time_select"
                 id="time_select"
+                (change)="onDateSelectChange($event)"
             >
-                <option value="1">Last day</option>
                 <option value="7">Last 7 days</option>
                 <option value="30">Last 30 days</option>
+                <option value="183">Last 6 Month</option>
+                <option value="365">Last year</option>
             </select>
         </div>
         <table datatable class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -23,30 +25,33 @@
                         </div>
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Transction ID
+                        Transaction ID
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Transction Date Time
+                        Transaction Date Time
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        User ID
+                        User Name
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Account Id
+                        From Account Id
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        To Account Id
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Amount
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <!-- <th scope="col" class="px-6 py-3">
                         Account Balance
-                    </th>
+                    </th> -->
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let transction of transctions">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let transaction of transctionsList">
                     <td class="w-4 p-4">
                         <div class="flex items-center">
                             <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-cool-gray border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -54,23 +59,26 @@
                         </div>
                     </td>
                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{transction.transctionId}}
+                        {{transaction.transactionId}}
                     </td>
                     <td class="px-6 py-4">
-                        {{transction.transctionDateTime}}
+                        {{transaction.transctionDateTime}}
                     </td>
                     <td class="px-6 py-4">
-                        {{transction.userId}}
+                        {{account?.firstName}} {{account?.lastName}}
                     </td>
                     <td class="px-6 py-4">
-                        {{transction.accountId}}
+                        {{transaction.fromAccountId}}
                     </td>
                     <td class="px-6 py-4">
-                        ${{transction.amount}}
+                        {{transaction.toAccountId}}
                     </td>
                     <td class="px-6 py-4">
-                        ${{transction.accountBal}}
+                        ${{transaction.transferAmount}}
                     </td>
+                    <!-- <td class="px-6 py-4">
+                        ${{transaction.accountBal}}
+                    </td> -->
                     <td class="px-6 py-4">
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
@@ -79,4 +87,5 @@
         </table>
     </div>
 </section>
+
 
