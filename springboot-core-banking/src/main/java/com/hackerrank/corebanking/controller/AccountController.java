@@ -74,7 +74,7 @@ public class AccountController {
     return accountService.getAccountByAccountId(accountId);
   }
 
-  //get account of logged in user
+  //get account of logged-in user
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public Account getAccount() {
@@ -88,7 +88,6 @@ public class AccountController {
   public Account deleteAccountByAccountId(@PathVariable Long accountId) {
     return accountService.deleteAccountByAccountId(accountId);
   }
-
 
   //update
   @PutMapping("/{accountId}")
