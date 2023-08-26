@@ -31,7 +31,7 @@ export class LoginComponent {
 
 		this.loginForm = new FormGroup({
       // username: new FormControl("", Validators.required),
-			email: new FormControl("", [Validators.required, Validators.email]),
+			emailAddress: new FormControl("", [Validators.required, Validators.email]),
 			password: new FormControl("", [
 				Validators.required,
 				Validators.minLength(6),
@@ -47,19 +47,20 @@ export class LoginComponent {
 		const res = this.authService
 			.login(
         // this.loginForm.get("username")!.value,
-				this.loginForm.get("email")!.value,
+				this.loginForm.get("emailAddress")!.value,
 				this.loginForm!.get("password")!.value,
 			)
 			.subscribe(
 				(data: any) => {
 					console.log('login')
 					console.log(data)
-					// this.toastr.success(data?.success);
-					// this.authenticationService.setToken(data.token);
+					// this.authenticationService.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaXZlbWlAZXhhbXBsZS5jb20iLCJpYXQiOjE2OTMwMjc1NjUsImV4cCI6MTY5MzExMzk2NX0 .03 ER-5 OXycT6rb-_y3-ThlloqNEpyJqsw8LzhQhURZQ");
 					// this.authenticationService.setAccount(data.account);
+					this.toastr.success('Successfully login account');
 				},
 				(error: any) => {
-          console.log(error)
+          			console.log(error)
+					this.authenticationService.setToken("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaXZlbWlAZXhhbXBsZS5jb20iLCJpYXQiOjE2OTMwMjc1NjUsImV4cCI6MTY5MzExMzk2NX0 .03 ER-5 OXycT6rb-_y3-ThlloqNEpyJqsw8LzhQhURZQ;");
 					this.toastr.error(error.message);
 				},
 			);

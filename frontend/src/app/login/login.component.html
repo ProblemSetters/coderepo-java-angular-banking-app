@@ -38,13 +38,13 @@
                         aria-label="enter email adress"
                         role="input"
                         type="email"
-                        id="email"
-                        formControlName="email"
+                        id="emailAddress"
+                        formControlName="emailAddress"
                         required
                         autoFocus
                         class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                     />
-                    <div class="error-message" *ngIf="getFormControlError('email')">{{ getFormControlError('email') }}</div>
+                    <div class="error-message" *ngIf="getFormControlError('emailAddress')">{{ getFormControlError('emailAddress') }}</div>
                 </div>
                 <div class="mt-6 w-full">
                     <div class="text-sm font-medium leading-none text-gray-800"> Password </div>

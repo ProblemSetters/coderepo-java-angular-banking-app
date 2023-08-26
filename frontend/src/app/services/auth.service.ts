@@ -14,9 +14,9 @@ export class AuthService {
 		this.apiUrl = environment.API_URL;
 	}
 
-	public login(email: string, password: string) {
+	public login(emailAddress: string, password: string) {
 		return this.httpService.post(`${this.apiUrl}/api/core-banking/auth/signin`, {
-			email,
+			emailAddress,
 			password,
 		});
 	}

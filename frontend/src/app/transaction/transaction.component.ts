@@ -39,7 +39,7 @@ export class TransactionComponent {
       this.accountId = account.accountId;
       this.fromDate = dayjs().subtract(7, 'day').format('YYYY-MM-DD'); // Set default value to 7 days ago
       this.toDate = dayjs().format('YYYY-MM-DD'); // 
-      console.log(this.account)
+      // console.log(this.account)
 		});
   }
 
