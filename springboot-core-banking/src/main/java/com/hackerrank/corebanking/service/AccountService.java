@@ -29,6 +29,12 @@ public class AccountService {
             .orElseThrow(() -> new IllegalArgumentException("Account with given accountId not found."));
   }
 
+  public Account getAccountByEmailAddress(String emailAddress) {
+    return accountRepository
+            .findByEmailAddress(emailAddress)
+            .orElseThrow(() -> new IllegalArgumentException("Account with given emailAddress not found."));
+  }
+
   public Account updateAccountByEmailAddress(Long accountId, Account updatedAccount) {
     Account existing = accountRepository
             .findById(accountId)

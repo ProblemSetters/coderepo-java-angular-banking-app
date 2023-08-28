@@ -7,6 +7,8 @@ import com.hackerrank.corebanking.service.AccountService;
 import com.hackerrank.corebanking.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -72,6 +74,14 @@ public class AccountController {
     return accountService.getAccountByAccountId(accountId);
   }
 
+  //get account of logged-in user
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  public Account getAccount() {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    return accountService.getAccountByEmailAddress(userDetails.getUsername());
+  }
+
   //delete
   @DeleteMapping("/{accountId}")
   @ResponseStatus(HttpStatus.OK)
@@ -79,8 +89,7 @@ public class AccountController {
     return accountService.deleteAccountByAccountId(accountId);
   }
 
-
- //update
+  //update
   @PutMapping("/{accountId}")
   @ResponseStatus(HttpStatus.OK)
   public Account updateAccountByAccountId(@RequestBody Account account, @PathVariable Long accountId) {
