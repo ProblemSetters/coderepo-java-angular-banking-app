@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { CookieService } from "ngx-cookie-service";
 import { BehaviorSubject } from "rxjs";
 import { Account } from "src/app/dto/types";
 
@@ -9,30 +10,30 @@ export class AuthenticationService {
 	public loggedIn = new BehaviorSubject<boolean>(false);
 	public accountDetail = new BehaviorSubject<any>(null);
 
-	private AUTH_KEY = "auth-token";
+	private AUTH_COOKIE_KEY = "corebanking";
 	private ACCOUNT_KEY = "account";
 
-	constructor() {
+	constructor(private cookieService: CookieService) {
 		this.loggedIn.next(this.getToken() ? true : false);
 		this.accountDetail.next(this.getAccount());
 	}
 
 	public getToken() {
-		return localStorage.getItem(this.AUTH_KEY);
+		return this.cookieService.get(this.AUTH_COOKIE_KEY);
 	}
 
-	public setToken(token: string) {
-		localStorage.setItem(this.AUTH_KEY, token);
+	public setToken(name: string, token: string) {
+		this.cookieService.set(name, token);
 		this.loggedIn.next(true);
 	}
 
 	public setAccount(account: Account) {
-		localStorage.setItem(this.ACCOUNT_KEY, JSON.stringify(account));
+		this.cookieService.set(this.ACCOUNT_KEY, JSON.stringify(account));
 		this.accountDetail.next(account);
 	}
 
 	public getAccount() {
-		let account = localStorage.getItem(this.ACCOUNT_KEY);
+		let account = this.cookieService.get(this.ACCOUNT_KEY);
 		return account ? JSON.parse(account) : null;
 	}
 
@@ -45,8 +46,9 @@ export class AuthenticationService {
 	}
 
 	public logout() {
-		localStorage.removeItem(this.AUTH_KEY);
-		localStorage.removeItem(this.ACCOUNT_KEY);
+		// localStorage.removeItem(this.AUTH_KEY);
+		this.cookieService.delete(this.AUTH_COOKIE_KEY);
+		this.cookieService.delete(this.ACCOUNT_KEY);
 		this.loggedIn.next(false);
 	}
 }

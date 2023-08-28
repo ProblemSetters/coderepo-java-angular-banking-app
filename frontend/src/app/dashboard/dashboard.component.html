@@ -1,4 +1,61 @@
-<section class="bg-white dark:bg-gray-900 mb-10">
-    
-    <!-- <app-change-password /> -->
+<section class="bg-white dark:bg-gray-900 my-20">
+    <div class="flex flex-col items-center justify-center">
+        <div class="relative bg-white shadow rounded md:w-1/2 w-full p-10 border">
+            <div
+                class="absolute -top-12 inset-x-0 mx-auto w-28 h-28 border bg-white rounded-full grid items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-20 h-20">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+                </svg>
+            </div>
+            <div class="p-10 flex justify-between mt-5 border-b">
+                <div class="rounded-md border p-4">
+                    <div class="text-lg font-semibold">Total Balance</div>
+                    <div>{{ account?.balance}} $</div>
+                </div>
+                <div class="rounded-md border p-4">
+                    <div class="text-lg font-semibold">Total Transaction</div>
+                    <div>20</div>
+                </div>
+                <div class="rounded-md border p-4">
+                    <div class="text-lg font-semibold">Total Cards</div>
+                    <div>2</div>
+                </div>
+            </div>
+            <div class="p-10 flex justify-between">
+                <div class="relative rounded-md border w-full">
+                    <div class="absolute -top-6 inset-x-0 mx-auto w-32 h-12 border bg-white rounded-md grid items-center justify-center">
+                        <span class="font-semibold text-lg">User Detail</span>
+                    </div>
+                    <div class="p-10">
+                        <div class="flex">
+                            <div class="font-semibold">Name : </div>
+                            <div class="ml-3">{{ account?.firstName }} {{ account?.lastName }}</div>
+                        </div>
+                        <div class="flex">
+                            <div class="font-semibold">Email Address : </div>
+                            <div class="ml-3">{{ account?.emailAddress }}</div>
+                        </div>
+                        <div class="flex">
+                            <div class="font-semibold">BirthDate : </div>
+                            <div class="ml-3">{{ formatedDob }}</div>
+                        </div>
+                        <div class="flex">
+                            <div class="font-semibold">Gender : </div>
+                            <div class="ml-3">{{ account?.gender }}</div>
+                        </div>
+                        <div class="flex">
+                            <div class="font-semibold">Address : </div>
+                            <div class="ml-3">{{ account?.address }}</div>
+                        </div>
+                        <div class="flex">
+                            <div class="font-semibold">City : </div>
+                            <div class="ml-3">{{ account?.city }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>

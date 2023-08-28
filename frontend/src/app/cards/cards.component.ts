@@ -37,7 +37,7 @@ export class CardsComponent {
 
 		this.authenticationService.account().subscribe((account: Account) => {
 			this.account = account;
-      this.accountId = account.accountId
+      		this.accountId = account.accountId
 		});
   }
 
@@ -56,15 +56,17 @@ export class CardsComponent {
   }
 
 	getAllCard() {
-		this.cardService.getCards(this.accountId).subscribe(
-			(data: any) => {
-				console.log(data)
-				this.cardList = data
-        this.createAllCardForms()
-			},
-			(error: HttpErrorResponse) => {
-				this.toastr.error(error.message, "Error");
-			},
+		this.cardService.getCards(this.accountId).subscribe({
+				next: (data: any) => {
+					console.log(data)
+					this.cardList = data
+					this.createAllCardForms()
+				},
+				error: (e: HttpErrorResponse) => {
+					this.toastr.error(e.message);
+				},
+				complete: () => {}
+			}
 		);
 	}
 
@@ -104,12 +106,15 @@ export class CardsComponent {
 				this.cardUpdatePinForms[card.cardNumber].get("cardPin")!.value
 			)
 			.subscribe(
-				(data: any) => {
-					console.log(data)
-				},
-				(error: any) => {
-					this.toastr.error(error);
-				},
+				{
+					next: (data: any) => {
+						console.log(data)
+					},
+					error: (e: HttpErrorResponse) => {
+						this.toastr.error(e.message);
+					},
+					complete: () => {}
+				}
 			);
 
 		this.cardUpdatePinForms[card.cardNumber].reset();
@@ -124,12 +129,15 @@ export class CardsComponent {
 				card.blocked
 			)
 			.subscribe(
-				(data: any) => {
-					console.log(data)
-				},
-				(error: any) => {
-					this.toastr.error(error);
-				},
+				{
+					next: (data: any) => {
+						console.log(data)
+					},
+					error: (e: HttpErrorResponse) => {
+						this.toastr.error(e.message);
+					},
+					complete: () => {}
+				}
 			);
   }
 }

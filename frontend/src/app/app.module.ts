@@ -15,10 +15,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { CardsComponent } from './cards/cards.component';
-import { ReceivePaymentComponent } from './receive-payment/receive-payment.component';
-import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { AuthGuard } from "./guards/auth.guard";
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -30,9 +29,7 @@ import { AuthGuard } from "./guards/auth.guard";
     NavbarComponent,
     DashboardComponent,
     TransactionComponent,
-    CardsComponent,
-    ReceivePaymentComponent,
-    ChangePasswordComponent
+    CardsComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +47,7 @@ import { AuthGuard } from "./guards/auth.guard";
 			enableHtml: true,
 		}),
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, CookieService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

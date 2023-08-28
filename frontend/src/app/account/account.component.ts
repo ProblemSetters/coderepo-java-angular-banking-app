@@ -9,6 +9,7 @@ import { IDatePickerDirectiveConfig } from "ng2-date-picker";
 import { AccountService } from 'src/app/services/account.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from "@angular/router";
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-account',
@@ -88,18 +89,6 @@ export class AccountComponent {
 			return;
 		}
 
-		const openAccount = {
-			balance: this.openAccountForm.get("balance")!.value,
-			firstName: this.openAccountForm.get("firstName")!.value,
-			lastName: this.openAccountForm.get("lastName")!.value,
-			dob: this.openAccountForm.get("dob")!.value,
-			gender: this.openAccountForm.get("gender")!.value,
-			address: this.openAccountForm.get("address")!.value,
-			city: this.openAccountForm.get("city")!.value,
-			emailAddress: this.openAccountForm.get("emailAddress")!.value,
-			password: this.openAccountForm.get("password")!.value,
-		};
-
 		const res = this.accountService
 			.openAccount(
 				this.openAccountForm.get("balance")!.value,
@@ -113,22 +102,17 @@ export class AccountComponent {
 				this.openAccountForm.get("password")!.value,
 			)
 			.subscribe(
-				(data: any) => {
-					console.log(data)
-					this.authenticationService.setAccount(data);
-					this.router.navigate(["login"]);
-					this.toastr.success("successfully open account");
-				},
-				(error: any) => {
-					console.log(error)
-					this.toastr.error(error.error.text);
-				},
+				{
+					next: (data: any) => {
+						this.router.navigate(["login"]);
+						this.toastr.success("successfully open account");
+					},
+					error: (e: HttpErrorResponse) => {
+						this.toastr.error(e.message);
+					},
+					complete: () => {}
+				}
 			);
-
-		
-    	console.log(openAccount)
-    
-
 		this.openAccountForm.reset();
 	}
 }

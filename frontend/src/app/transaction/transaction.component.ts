@@ -44,36 +44,21 @@ export class TransactionComponent {
   }
 
   ngOnInit() {
-    this.transctionsList = [
-      {
-        id: 1,
-        transactionId: 1,
-        fromAccountId: 2,
-        toAccountId: 3,
-        transctionDateTime: dayjs().toDate(),
-        transferAmount: 3100.00
-      },
-      {
-        id: 1,
-        transactionId: 2,
-        fromAccountId: 2,
-        toAccountId: 4,
-        transctionDateTime: dayjs().toDate(),
-        transferAmount: 1000.00
-      }
-    ];
 		this.getTransactions()
 	}
 
   getTransactions() {
     this.transactionService.transactionHistory(this.accountId, this.fromDate, this.toDate).subscribe(
-			(data: any) => {
-        console.log(data)
-				this.transctionsList = data;
-			},
-			(error: HttpErrorResponse) => {
-				this.toastr.error(error.message, "Error");
-			},
+      {
+        next: (data: any) => {
+          console.log(data)
+				  this.transctionsList = data;
+        },
+        error: (e: HttpErrorResponse) => {
+          this.toastr.error(e.message);
+        },
+        complete: () => {}
+      }
 		);
   }
 
@@ -82,9 +67,6 @@ export class TransactionComponent {
     this.fromDate = dayjs().subtract(Number(this.selectedTransactionsDay), 'day').format('YYYY-MM-DD');
     this.toDate = dayjs().format('YYYY-MM-DD');
     this.getTransactions()
-    console.log('selected date')
-    console.log(this.fromDate)
-    console.log(this.toDate)
   }
 
 }

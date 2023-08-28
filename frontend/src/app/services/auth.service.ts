@@ -22,6 +22,6 @@ export class AuthService {
 	}
 
 	public logout() {
-		return this.httpService.post(`${this.apiUrl}/api/core-banking/auth/signout`, null);
+		return this.httpService.post(`${this.apiUrl}/api/core-banking/auth/signout`, {withCredentials: true});
 	}
 }

@@ -5,6 +5,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class NavbarComponent {
     private authenticationService: AuthenticationService,
   ) {
 		this.menuList = menuList;
-    this.authenticationService
+    	this.authenticationService
 			.isAuthenticate()
 			.subscribe((status: boolean) => {
 				this.isAuth = status;
@@ -54,15 +55,18 @@ export class NavbarComponent {
     const res = this.authService
 			.logout()
 			.subscribe(
-				(data: any) => {
-          console.log(data)
-					this.authenticationService.logout();
-		      this.toastr.success("Logout Successfully");
-				},
-				(error: any) => {
-          console.log(error)
-					this.toastr.error(error);
-				},
+				{
+					next: (data: any) => {
+						console.log(data)
+						this.authenticationService.logout();
+					},
+					error: (e: HttpErrorResponse) => {
+						this.toastr.error(e.message);
+					},
+					complete: () => {
+						this.toastr.success('Logout Successfully');
+					}
+				}
 			);
 		
 	}

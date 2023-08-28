@@ -7,6 +7,7 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { TransactionService } from 'src/app/services/transaction.service'
 import { Router } from "@angular/router";
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -61,12 +62,15 @@ export class SendMoneyComponent {
 				this.sendMoneyForm.get("transferAmount")!.value,
 			)
 			.subscribe(
-				(data: any) => {
-					console.log(data)
-				},
-				(error: any) => {
-					this.toastr.error(error);
-				},
+				{
+					next: (data: any) => {
+						console.log(data)
+					},
+					error: (e: HttpErrorResponse) => {
+						this.toastr.error(e.message);
+					},
+					complete: () => {}
+				}
 			);
 
 		this.sendMoneyForm.reset();

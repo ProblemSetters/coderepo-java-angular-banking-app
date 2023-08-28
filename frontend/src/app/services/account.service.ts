@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "./http.service";
 import { environment } from "src/app/environments/environment";
-import { HttpHeaders } from "@angular/common/http";
 
 @Injectable({
 	providedIn: "root",
@@ -35,5 +34,9 @@ export class AccountService {
 			emailAddress,
 			password,
 		});
+	}
+
+	public getUserAsAccount() {
+		return this.httpService.get(`${this.apiUrl}/api/core-banking/account`, { withCredentials: true });
 	}
 }

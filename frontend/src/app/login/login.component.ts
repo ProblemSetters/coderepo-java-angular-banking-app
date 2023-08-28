@@ -4,6 +4,8 @@ import { AuthService } from "src/app/services/auth.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { AuthenticationService } from "src/app/services/authentication.service";
+import { HttpErrorResponse } from '@angular/common/http';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +21,7 @@ export class LoginComponent {
 		private toastr: ToastrService,
 		private router: Router,
 		private authenticationService: AuthenticationService,
+		private accountService: AccountService,
 	) {}
 
 	ngOnInit() {
@@ -30,7 +33,6 @@ export class LoginComponent {
 		});
 
 		this.loginForm = new FormGroup({
-      // username: new FormControl("", Validators.required),
 			emailAddress: new FormControl("", [Validators.required, Validators.email]),
 			password: new FormControl("", [
 				Validators.required,
@@ -46,24 +48,28 @@ export class LoginComponent {
 		}
 		const res = this.authService
 			.login(
-        // this.loginForm.get("username")!.value,
 				this.loginForm.get("emailAddress")!.value,
 				this.loginForm!.get("password")!.value,
 			)
 			.subscribe(
-				(data: any) => {
-					console.log('login')
-					console.log(data)
-					this.authenticationService.setToken(data.value);
-					// this.authenticationService.setAccount(data.account);
-					this.toastr.success('Successfully login account');
-				},
-				(error: any) => {
-          			console.log(error)
-					this.toastr.error(error.message);
-				},
+				{
+					next: (data: any) => {
+						console.log('login')
+						console.log(data)
+						this.authenticationService.setToken(data.name,data.value);
+					},
+					error: (e: HttpErrorResponse) => {
+						console.error(e)
+					},
+					complete: () => {
+						console.log(this.authenticationService.getToken())
+						this.toastr.success('Successfully login account');
+						this.router.navigate([""]);
+					}
+				}
 			);
 		this.loginForm.reset();
+
 	}
 
 	getFormControlError(fieldName: string): string {

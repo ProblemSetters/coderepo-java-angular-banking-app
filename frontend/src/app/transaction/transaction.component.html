@@ -31,7 +31,7 @@
                         Transaction Date Time
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        User Name
+                        Current User Name
                     </th>
                     <th scope="col" class="px-6 py-3">
                         From Account Id
@@ -45,9 +45,9 @@
                     <!-- <th scope="col" class="px-6 py-3">
                         Account Balance
                     </th> -->
-                    <th scope="col" class="px-6 py-3">
+                    <!-- <th scope="col" class="px-6 py-3">
                         Action
-                    </th>
+                    </th> -->
                 </tr>
             </thead>
             <tbody>
@@ -62,7 +62,8 @@
                         {{transaction.transactionId}}
                     </td>
                     <td class="px-6 py-4">
-                        {{transaction.transctionDateTime}}
+                        test
+                        <!-- {{transaction.transctionDateTime}} -->
                     </td>
                     <td class="px-6 py-4">
                         {{account?.firstName}} {{account?.lastName}}
@@ -79,9 +80,9 @@
                     <!-- <td class="px-6 py-4">
                         ${{transaction.accountBal}}
                     </td> -->
-                    <td class="px-6 py-4">
+                    <!-- <td class="px-6 py-4">
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </td>
+                    </td> -->
                 </tr>
             </tbody>
         </table>
