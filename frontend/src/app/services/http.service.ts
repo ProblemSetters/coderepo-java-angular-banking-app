@@ -31,8 +31,11 @@ export class HttpService {
 
   private getHeaders(options: any): { headers: HttpHeaders } {
 	if(this.token) {
+		options.withCredentials = true;
 		const headers = new HttpHeaders({
-			Authorization: `Bearer ${this.token}`,
+			// Authorization: `Bearer ${this.token}`,
+			'Cookie': `corebanking=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaXZlbWlAZXhhbXBsZS5jb20iLCJpYXQiOjE2OTMwMjcyNDYsImV4cCI6MTY5MzExMzY0Nn0.SGVojVs4vUslDZbTd2MwogUG2WXuY8QS1VYB3hWhXVI`,
+			accountId: 1
 		  });
 	  
 		  return { headers, ...options };

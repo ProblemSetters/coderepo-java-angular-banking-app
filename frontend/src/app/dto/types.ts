@@ -34,6 +34,6 @@ export type Card = {
 	expireYear: string,
 	cardHolderName: string,
 	cvv: number,
-	isBlocked: boolean
+	blocked: boolean
 }
 

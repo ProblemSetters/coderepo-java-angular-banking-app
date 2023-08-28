@@ -53,7 +53,7 @@ export class LoginComponent {
 			.subscribe(
 				(data: any) => {
 					console.log('login')
-					console.log(data.value)
+					console.log(data)
 					this.authenticationService.setToken(data.value);
 					// this.authenticationService.setAccount(data.account);
 					this.toastr.success('Successfully login account');

@@ -37,54 +37,30 @@ export class CardsComponent {
 
 		this.authenticationService.account().subscribe((account: Account) => {
 			this.account = account;
-      		this.accountId = account.accountId
+      this.accountId = account.accountId
 		});
   }
 
   ngOnInit() {
-    this.cardList = [
-      {
-        id: 1,
-        accountId: 1,
-        cardNumber: 402912391239,
-        expireMonth: '01',
-        expireYear: '2023',
-        cardHolderName: 'test1',
-        cvv: 123,
-        isBlocked: true
-      },
-      {
-        id: 2,
-        accountId: 1,
-        cardNumber: 123456789101,
-        expireMonth: '06',
-        expireYear: '2032',
-        cardHolderName: 'test2',
-        cvv: 234,
-        isBlocked: false
-      },
-      {
-        id: 3,
-        accountId: 1,
-        cardNumber: 123456767896,
-        expireMonth: '08',
-        expireYear: '2035',
-        cardHolderName: 'test3',
-        cvv: 345,
-        isBlocked: false,
-      }
-    ];
+    this.getAllCard()
+	}
 
-    this.cardList.forEach(card => {
-      this.cardUpdatePinForms[card.cardNumber] = new FormGroup({
-        cardPin: new FormControl(null, [Validators.required, this.pinValidator.bind(this)])
+  createAllCardForms() {
+    if(this.cardList?.length > 0) {
+      this.cardList?.forEach(card => {
+        this.cardUpdatePinForms[card.cardNumber] = new FormGroup({
+          cardPin: new FormControl(null, [Validators.required, this.pinValidator.bind(this)])
+        });
       });
-    });
+    }
+  }
 
-    this.cardService.getCards(this.accountId).subscribe(
+	getAllCard() {
+		this.cardService.getCards(this.accountId).subscribe(
 			(data: any) => {
-        console.log(data)
-        this.cardList = data
+				console.log(data)
+				this.cardList = data
+        this.createAllCardForms()
 			},
 			(error: HttpErrorResponse) => {
 				this.toastr.error(error.message, "Error");
@@ -145,7 +121,7 @@ export class CardsComponent {
     const res = this.cardService
 			.cardBlockUnblock(
 				card.cardNumber,
-				card.isBlocked
+				card.blocked
 			)
 			.subscribe(
 				(data: any) => {

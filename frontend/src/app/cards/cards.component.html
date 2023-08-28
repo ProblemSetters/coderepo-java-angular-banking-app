@@ -6,7 +6,7 @@
             >
                 <div
                     class="w-full bg-gray-600 rounded-t-lg font-medium tracking-wide px-4"
-                    [class.blocked]="card.isBlocked"
+                    [class.blocked]="card.blocked"
                 >
                     <div class="card-bank-name text-lg text-end font-normal uppercase text-white px-3 py-4">
                         Bank Name
@@ -41,12 +41,11 @@
                     <div class="my-4">
                         Account Number :  {{ card.accountId }}
                     </div>
-                    <div class="card-pin  my-4" [class.blocked]="card.isBlocked">
+                    <div class="card-pin  my-4" [class.blocked]="card.blocked">
                         <form
-                            [formGroup]="cardUpdatePinForms[card.id]"
+                            [formGroup]="cardUpdatePinForms[card.cardNumber]"
                             (ngSubmit)="onSubmit(card)" 
                             class="card-update-pin-form flex"
-                            [id]="'cardUpdatePinForm-' + card.id"
                         >
                             <label
                                 for="cardPin"
@@ -63,24 +62,24 @@
         
                             <button
                                 type="submit"
-                                [disabled]="!cardUpdatePinForms[card.id].valid"
+                                [disabled]="!cardUpdatePinForms[card.cardNumber].valid"
                                 class="ml-6 focus:ring-2 focus:ring-offset-2 focus:ring-secondary-blue text-sm font-semibold uppercase leading-none text-white focus:outline-none bg-primary-blue border rounded hover:bg-secondary-blue p-2 disabled:opacity-25"
                                 
                             >Update</button>
                         </form>
-                        <div class="error-message" *ngIf="getFormControlError('cardPin', card.id)">{{ getFormControlError('cardPin', card.id) }}</div>
+                        <div class="error-message" *ngIf="getFormControlError('cardPin', card.cardNumber)">{{ getFormControlError('cardPin', card.cardNumber) }}</div>
                     </div>
                     <div class="card-block flex justify-end my-2">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input
                                 type="checkbox"
-                                [(ngModel)]="card.isBlocked"
+                                [(ngModel)]="card.blocked"
                                 class="sr-only peer"
                                 (ngModelChange)="cardBlockUnblock(card)"
                             >
                             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                             <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                {{ card.isBlocked ? 'Unblock' : 'Block' }}
+                                {{ card.blocked ? 'Unblock' : 'Block' }}
                             </span>
                         </label>
                     </div>
