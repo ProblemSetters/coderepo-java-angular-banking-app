@@ -35,7 +35,7 @@ export class DashboardComponent {
           console.log('get account')
           console.log(data)
           this.account = data
-          this.formatedDob = dayjs(this.account?.dob).format('YYYY-MM-DD HH:mm:ss');
+          this.formatedDob = dayjs(this.account?.dob).format('DD-MM-YYYY');
           this.authenticationService.setAccount(data);
         },
         error: (e: HttpErrorResponse) => {

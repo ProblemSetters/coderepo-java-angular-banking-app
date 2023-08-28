@@ -23,8 +23,10 @@ export class CardService {
             cardNumber: number,
             isBlocked: boolean
         ) {
-        // return this.httpService.post(`${this.apiUrl}/api/core-banking/card/block`, { cardNumber, isBlocked });
-		return this.httpService.post(`${this.apiUrl}/api/core-banking/card/${cardNumber}`, {}, {withCredentials: true});
+		if(isBlocked) {
+			return this.httpService.post(`${this.apiUrl}/api/core-banking/card/block/${cardNumber}`, {}, {withCredentials: true});
+		}	
+		return this.httpService.post(`${this.apiUrl}/api/core-banking/card/unblock/${cardNumber}`, {}, {withCredentials: true});
         }
 
 	public getCards(accountId: number) {

@@ -121,8 +121,6 @@ export class CardsComponent {
 	}
 
   cardBlockUnblock (card: Card) {
-    console.log('card')
-    console.log(card)
     const res = this.cardService
 			.cardBlockUnblock(
 				card.cardNumber,
