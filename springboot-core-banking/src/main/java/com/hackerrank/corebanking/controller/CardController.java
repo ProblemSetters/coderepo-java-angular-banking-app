@@ -56,9 +56,16 @@ public class CardController {
   }
 
   //block card
-  @PostMapping("/{cardNumber}")
+  @PostMapping("/block/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
   public Card blockCard(@PathVariable Long cardNumber) {
-    return cardService.blockCard(cardNumber);
+    return cardService.blockCard(cardNumber, true);
+  }
+
+  //unblock card
+  @PostMapping("/unblock/{cardNumber}")
+  @ResponseStatus(HttpStatus.OK)
+  public Card unblockCard(@PathVariable Long cardNumber) {
+    return cardService.blockCard(cardNumber, false);
   }
 }

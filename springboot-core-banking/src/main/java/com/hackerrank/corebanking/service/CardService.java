@@ -56,14 +56,13 @@ public class CardService {
     return existing;
   }
 
-  public Card blockCard(Long cardNumber) {
+  public Card blockCard(Long cardNumber, boolean block) {
     Card existing = cardRepository
             .findCardByCardNumber(cardNumber)
             .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
-    existing.setBlocked(true);
+    existing.setBlocked(block);
     cardRepository.save(existing);
 
     return existing;
   }
-
 }
