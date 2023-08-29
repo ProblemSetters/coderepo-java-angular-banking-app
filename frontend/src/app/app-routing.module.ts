@@ -7,12 +7,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { CardsComponent } from './cards/cards.component';
 import { AuthGuard } from './guards/auth.guard';
+import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 
 const routes: Routes = [
   { path: 'open-account', component: AccountComponent },
   { path: 'login', component: LoginComponent },
   { path: 'send-money', component: SendMoneyComponent, canActivate: [AuthGuard] },
   { path: 'transaction', component: TransactionComponent, canActivate: [AuthGuard] },
+  { path: 'beneficiary', component: BeneficiaryComponent, canActivate: [AuthGuard] },
   { path: 'cards', component: CardsComponent, canActivate: [AuthGuard] },
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
 ];

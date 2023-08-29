@@ -14,6 +14,7 @@ import { SendMoneyComponent } from './send-money/send-money.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 import { CardsComponent } from './cards/cards.component';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { AuthGuard } from "./guards/auth.guard";
@@ -29,7 +30,8 @@ import { CookieService } from 'ngx-cookie-service';
     NavbarComponent,
     DashboardComponent,
     TransactionComponent,
-    CardsComponent
+    CardsComponent,
+    BeneficiaryComponent
   ],
   imports: [
     BrowserModule,

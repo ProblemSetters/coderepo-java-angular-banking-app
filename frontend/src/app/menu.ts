@@ -7,10 +7,6 @@ export const menuList = [
 		name: "Send Money",
 		url: "send-money",
 	},
-    // {
-	// 	name: "Receive Payment",
-	// 	url: "receive-payment",
-	// },
     {
 		name: "Transaction",
 		url: "transaction",
@@ -18,5 +14,9 @@ export const menuList = [
     {
 		name: "Cards",
 		url: "cards",
-	}
+	},
+	{
+		name: "Beneficiary",
+		url: "beneficiary",
+	},
 ];
