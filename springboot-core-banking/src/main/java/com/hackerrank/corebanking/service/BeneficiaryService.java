@@ -33,7 +33,7 @@ public class BeneficiaryService {
   public List<Beneficiary> getAllBeneficiaries() {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     Account account = accountService.getAccountByEmailAddress(userDetails.getUsername());
-    return beneficiaryRepository.findBeneficiariesByPayerId(account.getAccountId());
+    return beneficiaryRepository.findBeneficiariesByPayerAccountId(account.getAccountId());
 
   }
 
