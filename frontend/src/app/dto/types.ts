@@ -3,16 +3,9 @@ export type MenuList = {
 	url: string;
 };
 
-export type User = {
-	id: number;
-	username: string;
-	email: string;
-	role: string;
-};
-
-
 export type Account = {
-	accountId: string,
+	id: number,
+	accountId: number,
 	firstName: string,
 	lastName: string,
 	dob: Date,
@@ -20,24 +13,27 @@ export type Account = {
 	address: string,
 	city: string,
 	emailAddress: string,
-	balance: string
+	balance: string,
+	password: string
 };
 
 export type Transaction = {
-	transactionId: string,
-	fromAccountId: string,
-	toAccountId: string,
-	transferAmount: number
+	id: number,
+	transactionId: number,
+	fromAccountId: number,
+	toAccountId: number,
+	transferAmount: number,
+	transctionDateTime: Date
 }
 
 export type Card = {
-	id: string,
+	id: number,
 	accountId: number,
 	cardNumber: number,
 	expireMonth: string,
 	expireYear: string,
 	cardHolderName: string,
 	cvv: number,
-	isBlocked: boolean
+	blocked: boolean
 }
 

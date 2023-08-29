@@ -14,30 +14,14 @@ export class AuthService {
 		this.apiUrl = environment.API_URL;
 	}
 
-	public login(email: string, password: string) {
+	public login(emailAddress: string, password: string) {
 		return this.httpService.post(`${this.apiUrl}/api/core-banking/auth/signin`, {
-			email,
+			emailAddress,
 			password,
 		});
 	}
 
 	public logout() {
-		return this.httpService.post(`${this.apiUrl}/api/core-banking/auth/signout`, null);
+		return this.httpService.post(`${this.apiUrl}/api/core-banking/auth/signout`, {withCredentials: true});
 	}
-
-	// public profile(
-	// 	username: string,
-	// 	email: string,
-	// 	password: string,
-	// 	phone: string,
-	// 	address: string,
-	// ) {
-	// 	return this.httpService.put(`${this.apiUrl}/api/auth/profile`, {
-	// 		username,
-	// 		email,
-	// 		password,
-	// 		phone,
-	// 		address,
-	// 	});
-	// }
 }

@@ -13,20 +13,23 @@ export class CardService {
 	}
 
 	public updateCardPin(
-                cardId: string,
+                cardNumber: number,
 				cardPin: number,
 			) {
-		return this.httpService.put(`${this.apiUrl}/api/core-banking/card/${cardId}`, { cardPin });
+		return this.httpService.put(`${this.apiUrl}/api/core-banking/card/${cardNumber}?newPin=${cardPin}`, {}, {withCredentials: true});
 	}
 
     public cardBlockUnblock(
-            cardId: string,
+            cardNumber: number,
             isBlocked: boolean
         ) {
-        return this.httpService.post(`${this.apiUrl}/api/core-banking/card/block`, { cardId, isBlocked });
+		if(isBlocked) {
+			return this.httpService.post(`${this.apiUrl}/api/core-banking/card/block/${cardNumber}`, {}, {withCredentials: true});
+		}	
+		return this.httpService.post(`${this.apiUrl}/api/core-banking/card/unblock/${cardNumber}`, {}, {withCredentials: true});
         }
 
-	public getCards(accountId: string) {
-		return this.httpService.get(`${this.apiUrl}/api/core-banking/card/list/${accountId}`);
+	public getCards(accountId: number) {
+		return this.httpService.get(`${this.apiUrl}/api/core-banking/card?accountId=${accountId}`, {withCredentials: true});
 	}
 }

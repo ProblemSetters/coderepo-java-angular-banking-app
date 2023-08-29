@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import * as _ from "lodash";
-import { Card, User } from 'src/app/dto/types';
+import { Card, Account } from 'src/app/dto/types';
 import {
   AbstractControl,
 	FormControl,
@@ -19,15 +19,15 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class CardsComponent {
   public isAuth: boolean = false;
-	public user?: User;
-  public accountId!: string
-  public cardList!: Array<Card>;
-  public cardUpdatePinForms: { [key: string]: FormGroup } = {};
+	public account?: Account;
+	public accountId!: number
+	public cardList!: Array<Card>;
+	public cardUpdatePinForms: { [key: number]: FormGroup } = {};
   
   constructor(
     private authenticationService: AuthenticationService,
 		private toastr: ToastrService,
-    private cardService: CardService
+    	private cardService: CardService
 	) {
     this.authenticationService
 			.isAuthenticate()
@@ -35,60 +35,38 @@ export class CardsComponent {
 				this.isAuth = status;
 			});
 
-		this.authenticationService.user().subscribe((user: User) => {
-			this.user = user;
-      // this.accountId = user.account.id
+		this.authenticationService.account().subscribe((account: Account) => {
+			this.account = account;
+      		this.accountId = account.accountId
 		});
   }
 
   ngOnInit() {
-    this.cardList = [
-      {
-        id: '1',
-        accountId: 23213454654,
-        cardNumber: 402912391239,
-        expireMonth: '01',
-        expireYear: '2023',
-        cardHolderName: 'test1',
-        cvv: 123,
-        isBlocked: true
-      },
-      {
-        id: '2',
-        accountId: 23213454655,
-        cardNumber: 123456789101,
-        expireMonth: '06',
-        expireYear: '2032',
-        cardHolderName: 'test2',
-        cvv: 234,
-        isBlocked: false
-      },
-      {
-        id: '3',
-        accountId: 23213454656,
-        cardNumber: 123456767896,
-        expireMonth: '08',
-        expireYear: '2035',
-        cardHolderName: 'test3',
-        cvv: 345,
-        isBlocked: false
-      }
-    ];
+    this.getAllCard()
+	}
 
-    this.cardList.forEach(card => {
-      this.cardUpdatePinForms[card.id] = new FormGroup({
-        cardPin: new FormControl(null, [Validators.required, this.pinValidator.bind(this)])
+  createAllCardForms() {
+    if(this.cardList?.length > 0) {
+      this.cardList?.forEach(card => {
+        this.cardUpdatePinForms[card.cardNumber] = new FormGroup({
+          cardPin: new FormControl(null, [Validators.required, this.pinValidator.bind(this)])
+        });
       });
-    });
+    }
+  }
 
-    this.cardService.getCards(this.accountId).subscribe(
-			(data: any) => {
-        console.log(data)
-        this.cardList = data
-			},
-			(error: HttpErrorResponse) => {
-				this.toastr.error(error.message, "Error");
-			},
+	getAllCard() {
+		this.cardService.getCards(this.accountId).subscribe({
+				next: (data: any) => {
+					console.log(data)
+					this.cardList = data
+					this.createAllCardForms()
+				},
+				error: (e: HttpErrorResponse) => {
+					this.toastr.error(e.message);
+				},
+				complete: () => {}
+			}
 		);
 	}
 
@@ -101,8 +79,8 @@ export class CardsComponent {
 	}
 
   
-  getFormControlError(fieldName: string, cardId:string): string {
-		const field = this.cardUpdatePinForms[cardId].get(fieldName);
+  getFormControlError(fieldName: string, cardNumber:number): string {
+		const field = this.cardUpdatePinForms[cardNumber].get(fieldName);
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
 				return `${fieldName} is required.`;
@@ -115,45 +93,49 @@ export class CardsComponent {
 	}
 
   onSubmit(card: Card) {
-		if (this.cardUpdatePinForms[card.id].invalid) {
+		if (this.cardUpdatePinForms[card.cardNumber].invalid) {
 			this.toastr.error("Please fill in all the required fields.");
 			return;
 		}
 		
     console.log(card)
-    console.log(this.cardUpdatePinForms[card.id].get("cardPin")!.value)
+    console.log(this.cardUpdatePinForms[card.cardNumber].get("cardPin")!.value)
 		const res = this.cardService
 			.updateCardPin(
-				card.id,
-				this.cardUpdatePinForms[card.id].get("cardPin")!.value
+				card.cardNumber,
+				this.cardUpdatePinForms[card.cardNumber].get("cardPin")!.value
 			)
 			.subscribe(
-				(data: any) => {
-					console.log(data)
-				},
-				(error: any) => {
-					this.toastr.error(error);
-				},
+				{
+					next: (data: any) => {
+						console.log(data)
+					},
+					error: (e: HttpErrorResponse) => {
+						this.toastr.error(e.message);
+					},
+					complete: () => {}
+				}
 			);
 
-		this.cardUpdatePinForms[card.id].reset();
+		this.cardUpdatePinForms[card.cardNumber].reset();
 	}
 
   cardBlockUnblock (card: Card) {
-    console.log('card')
-    console.log(card)
     const res = this.cardService
 			.cardBlockUnblock(
-				card.id,
-				card.isBlocked
+				card.cardNumber,
+				card.blocked
 			)
 			.subscribe(
-				(data: any) => {
-					console.log(data)
-				},
-				(error: any) => {
-					this.toastr.error(error);
-				},
+				{
+					next: (data: any) => {
+						console.log(data)
+					},
+					error: (e: HttpErrorResponse) => {
+						this.toastr.error(e.message);
+					},
+					complete: () => {}
+				}
 			);
   }
 }
