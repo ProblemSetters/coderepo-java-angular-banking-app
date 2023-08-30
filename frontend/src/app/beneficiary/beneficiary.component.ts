@@ -5,11 +5,10 @@ import {
 	Validators
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { IDatePickerDirectiveConfig } from "ng2-date-picker";
-// import { BeneficiaryService } from 'src/app/services/beneficiary.service';
+import { BeneficiaryService } from 'src/app/services/beneficiary.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { Router } from "@angular/router";
 import { HttpErrorResponse } from '@angular/common/http';
+import { Account } from '../dto/types';
 
 @Component({
   selector: 'app-beneficiary',
@@ -17,24 +16,32 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./beneficiary.component.scss']
 })
 export class BeneficiaryComponent {
-  public beneficiaryForm!: FormGroup;
-  public datePickerConfig = <IDatePickerDirectiveConfig>{
-    format: "YYYY-MM-DD",
-  };
-  public isAuth: boolean = false;
+	public isAuth: boolean = false;
+	public account?: Account;
+	public accountId!: number
+  	public beneficiaryForm!: FormGroup;
 
   constructor(
 		private toastr: ToastrService,
-		// private beneficiaryService: BeneficiaryService,
-		// private authenticationService: AuthenticationService,
-		// private router: Router,
+		private beneficiaryService: BeneficiaryService,
+		private authenticationService: AuthenticationService,
 	) {
+		this.authenticationService
+			.isAuthenticate()
+			.subscribe((status: boolean) => {
+				this.isAuth = status;
+			});
+
+		this.authenticationService.account().subscribe((account: Account) => {
+			this.account = account;
+      		this.accountId = account.accountId;
+		});
   }
 
   ngOnInit() {
 	this.beneficiaryForm = new FormGroup({
-	  
-		});
+		beneficiaryAccountId: new FormControl(null, Validators.required),
+	});
   }
 
   getFormControlError(fieldName: string): string {
@@ -42,20 +49,6 @@ export class BeneficiaryComponent {
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
 				return `${fieldName} is required.`;
-			}
-      if (field.errors?.["minlength"]) {
-				return `This field must be at least ${field.errors["minlength"].requiredLength} characters long.`;
-			}
-			if (field.errors?.["maxlength"]) {
-				return `This field cannot exceed ${field.errors["maxlength"].requiredLength} characters.`;
-			}
-      if (field.errors?.["pattern"]) {
-				if (fieldName === "accountId") {
-					return "Invalid beneficiary number format. Please enter a valid 12-digit numeric beneficiary number.";
-				}
-        if (fieldName === "balance") {
-					return "Please enter a valid balance.";
-				}
 			}
 		}
 		return "";
@@ -67,6 +60,22 @@ export class BeneficiaryComponent {
 			return;
 		}
 
+		const res = this.beneficiaryService
+			.storeBeneficiary(
+				this.accountId,
+				this.beneficiaryForm.get("beneficiaryAccountId")!.value,
+			)
+			.subscribe(
+				{
+					next: (data: any) => {
+						console.log(data)
+					},
+					error: (e: HttpErrorResponse) => {
+						this.toastr.error(e.message);
+					},
+					complete: () => {}
+				}
+			);
 		
 		this.beneficiaryForm.reset();
 	}

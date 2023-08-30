@@ -6,8 +6,10 @@ import {
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { TransactionService } from 'src/app/services/transaction.service'
-import { Router } from "@angular/router";
 import { HttpErrorResponse } from '@angular/common/http';
+import { Account } from '../dto/types';
+import { AuthenticationService } from '../services/authentication.service';
+import { BeneficiaryService } from 'src/app/services/beneficiary.service';
 
 
 @Component({
@@ -16,23 +18,61 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./send-money.component.scss']
 })
 export class SendMoneyComponent {
-  public sendMoneyForm!: FormGroup;
+	public isAuth: boolean = false;
+	public account?: Account;
+	public accountId!: number
+  	public sendMoneyForm!: FormGroup;
+	public beneficiaryList!: Array<any>;
 
   constructor(
-		private router: Router,
 		private toastr: ToastrService,
 		private transactionService: TransactionService,
-	) {}
+		private authenticationService: AuthenticationService,
+		private beneficiaryService: BeneficiaryService,
 
-  ngOnInit() {
-		this.sendMoneyForm = new FormGroup({
-			fromAccountId: new FormControl(null, Validators.required),
-			toAccountId: new FormControl(null, Validators.required),
-			transferAmount: new FormControl(null, Validators.required),
+	) {
+		this.authenticationService
+			.isAuthenticate()
+			.subscribe((status: boolean) => {
+				this.isAuth = status;
+			});
+
+		this.authenticationService.account().subscribe((account: Account) => {
+			this.account = account;
+      		this.accountId = account.accountId;
 		});
 	}
 
-  getFormControlError(fieldName: string): string {
+    ngOnInit() {
+		this.sendMoneyForm = new FormGroup({
+			toAccountId: new FormControl(null, Validators.required),
+			transferAmount: new FormControl(null, Validators.required),
+		});
+		this.getAllBeneficiaries()
+	}
+
+    getAllBeneficiaries() {
+		this.beneficiaryService.getAllBeneficiaries().subscribe(
+		{
+			next: (data: any) => {
+				console.log(data)
+				this.beneficiaryList = data;
+			},
+			error: (e: HttpErrorResponse) => {
+				console.log(e)
+				this.toastr.error(e.message);
+			},
+			complete: () => {}
+		});
+    }
+
+	onBeneficiarySelectChange(event: Event) {
+		const selectedBeneficiaryAccount = (event.target as HTMLSelectElement).value;
+		console.log(selectedBeneficiaryAccount);
+		this.sendMoneyForm.get('toAccountId')?.setValue(selectedBeneficiaryAccount);
+	}
+
+  	getFormControlError(fieldName: string): string {
 		const field = this.sendMoneyForm.get(fieldName);
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
@@ -42,22 +82,15 @@ export class SendMoneyComponent {
 		return "";
 	}
 
-  onSubmit() {
+  	onSubmit() {
 		if (this.sendMoneyForm.invalid) {
 			this.toastr.error("Please fill in all the required fields.");
 			return;
 		}
 
-		const sendMoney = {
-			fromAccountId: this.sendMoneyForm.get("fromAccountId")!.value,
-			toAccountId: this.sendMoneyForm.get("toAccountId")!.value,
-			transferAmount: this.sendMoneyForm.get("transferAmount")!.value,
-		};
-		
-		console.log(sendMoney)
 		const res = this.transactionService
 			.sendMoney(
-				this.sendMoneyForm.get("fromAccountId")!.value,
+				this.accountId,
 				this.sendMoneyForm.get("toAccountId")!.value,
 				this.sendMoneyForm.get("transferAmount")!.value,
 			)
@@ -67,6 +100,7 @@ export class SendMoneyComponent {
 						console.log(data)
 					},
 					error: (e: HttpErrorResponse) => {
+						console.log(e)
 						this.toastr.error(e.message);
 					},
 					complete: () => {}

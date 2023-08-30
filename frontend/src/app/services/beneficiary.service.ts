@@ -13,8 +13,8 @@ export class BeneficiaryService {
 	}
 
 	public storeBeneficiary(
-				payerAccountId: string,
-				beneficiaryAccountId: string,
+				payerAccountId: number,
+				beneficiaryAccountId: number,
 			) {
 		return this.httpService.post(`${this.apiUrl}/api/core-banking/beneficiary`, {
 			payerAccountId,
@@ -22,7 +22,7 @@ export class BeneficiaryService {
 		}, {withCredentials: true});
 	}
 
-	public getAllBeneficiary() { 
+	public getAllBeneficiaries() { 
 		return this.httpService.get(`${this.apiUrl}/api/core-banking/beneficiary`, {withCredentials: true});
 	}
 }

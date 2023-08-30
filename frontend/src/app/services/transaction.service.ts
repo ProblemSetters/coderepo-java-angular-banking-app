@@ -13,8 +13,8 @@ export class TransactionService {
 	}
 
 	public sendMoney(
-				fromAccountId: string,
-				toAccountId: string,
+				fromAccountId: number,
+				toAccountId: number,
 				transferAmount: number,
 			) {
 		return this.httpService.post(`${this.apiUrl}/api/core-banking/transaction`, {

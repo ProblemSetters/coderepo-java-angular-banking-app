@@ -10,11 +10,31 @@
                 >
                     Add Beneficiary
                 </p>
-                <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2 mt-6">
-                    
+                
+                <div class="mt-8">
+                    <label htmlFor="beneficiaryAccountId" class="text-sm font-medium leading-none text-gray-800">
+                        Beneficiary Account Number
+                    </label>
+                    <input
+                        aria-label="enter from account number"
+                        role="input"
+                        type="text"
+                        class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+                        id="beneficiaryAccountId"
+                        name="beneficiaryAccountId"
+                        formControlName="beneficiaryAccountId"
+                    />
+                    <div class="error-message" *ngIf="getFormControlError('beneficiaryAccountId')">{{ getFormControlError('beneficiaryAccountId') }}</div>
                 </div>
+                
                 <div class="mt-10 mx-8 md:mx-0">
-                   
+                    <button
+                        type="submit"
+                        class="block w-full disabled:opacity-25 rounded-md bg-primary-blue px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-secondary-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue"
+                        [disabled]="!beneficiaryForm.valid"
+                    >
+                        Add Beneficiary
+                    </button>
                 </div>
             </form>
         </div>

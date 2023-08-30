@@ -10,21 +10,21 @@
                     >
                         Send Money
                     </p>
-
                     <div class="mt-8">
-                        <label htmlFor="fromAccountId" class="text-sm font-medium leading-none text-gray-800">
-                            From Account Number
+                        <label htmlFor="toAccountId" class="text-sm font-medium leading-none text-gray-800">
+                            Select From Beneficiary : 
                         </label>
-                        <input
-                            aria-label="enter from account number"
-                            role="input"
-                            type="text"
-                            class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
-                            id="fromAccountId"
-                            name="fromAccountId"
-                            formControlName="fromAccountId"
-                        />
-                        <div class="error-message" *ngIf="getFormControlError('fromAccountId')">{{ getFormControlError('fromAccountId') }}</div>
+                        <select
+                            class="items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            name="beneficiary_select"
+                            id="beneficiary_select"
+                            (change)="onBeneficiarySelectChange($event)"
+                        >
+                            <option value="">Select Beneficiary Account</option>
+                            <option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary.beneficiaryAccountId">
+                                {{ beneficiary.beneficiaryAccountId }}
+                              </option>
+                        </select>
                     </div>
                     <div class="mt-8">
                         <label htmlFor="toAccountId" class="text-sm font-medium leading-none text-gray-800">
@@ -33,7 +33,7 @@
                         <input
                             aria-label="enter to account number"
                             role="input"
-                            type="text"
+                            type="number"
                             class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                             id="toAccountId"
                             name="toAccountId"
@@ -55,7 +55,6 @@
                                 name="transferAmount"
                                 formControlName="transferAmount"
                             />
-                            <div class="error-message" *ngIf="getFormControlError('transferAmount')">{{ getFormControlError('transferAmount') }}</div>
                             <div class="absolute right-0 mt-2 mr-3 cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-6 h-6">
@@ -64,6 +63,8 @@
                                 </svg>
                             </div>
                         </div>
+                        <div class="error-message" *ngIf="getFormControlError('transferAmount')">{{ getFormControlError('transferAmount') }}</div>
+
                     </div>
                     <div class="mt-6">
                         <button
