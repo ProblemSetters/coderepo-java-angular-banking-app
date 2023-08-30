@@ -27,6 +27,6 @@ public class Account implements Serializable {
   private String city;
   @Column(unique = true)
   private String emailAddress;
-  private Double balance;
+  private Double balance = 2434.76;
   private String password;
 }

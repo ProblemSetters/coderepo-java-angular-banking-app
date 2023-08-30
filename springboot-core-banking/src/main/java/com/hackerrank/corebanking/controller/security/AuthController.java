@@ -46,6 +46,6 @@ public class AuthController {
     public ResponseEntity<?> logoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body("Signed out!");
+                .body(new JwtToken("", ""));
     }
 }
