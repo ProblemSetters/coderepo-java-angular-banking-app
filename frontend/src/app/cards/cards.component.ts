@@ -98,8 +98,6 @@ export class CardsComponent {
 			return;
 		}
 		
-    console.log(card)
-    console.log(this.cardUpdatePinForms[card.cardNumber].get("cardPin")!.value)
 		const res = this.cardService
 			.updateCardPin(
 				card.cardNumber,
@@ -113,7 +111,9 @@ export class CardsComponent {
 					error: (e: HttpErrorResponse) => {
 						this.toastr.error(e.message);
 					},
-					complete: () => {}
+					complete: () => {
+						this.toastr.success("successfully update card pin");
+					}
 				}
 			);
 
@@ -134,7 +134,9 @@ export class CardsComponent {
 					error: (e: HttpErrorResponse) => {
 						this.toastr.error(e.message);
 					},
-					complete: () => {}
+					complete: () => {
+						this.toastr.success("successfully update card");
+					}
 				}
 			);
   }

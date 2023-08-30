@@ -1,45 +1,44 @@
 <section class="bg-white dark:bg-gray-900 mb-10">
     <div class="px-6 py-10 mx-4 md:mx-8 xl:mx-20">
-        <div class="lg:-mx-6 lg:flex lg:items-center">
-            <div class="lg:w-1/2 lg:px-6">
-            <form [formGroup]="beneficiaryForm" (ngSubmit)="onSubmit()" class="beneficiary-form">
-                <p
-                    tabindex="0"
-                    role="heading"
-                    class="text-xl font-bold text-left leading-6 text-primary-blue uppercase"
-                >
-                    Add Beneficiary
-                </p>
-                
-                <div class="mt-8">
-                    <label htmlFor="beneficiaryAccountId" class="text-sm font-medium leading-none text-gray-800">
-                        Beneficiary Account Number
-                    </label>
-                    <input
-                        aria-label="enter from account number"
-                        role="input"
-                        type="text"
-                        class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
-                        id="beneficiaryAccountId"
-                        name="beneficiaryAccountId"
-                        formControlName="beneficiaryAccountId"
-                    />
-                    <div class="error-message" *ngIf="getFormControlError('beneficiaryAccountId')">{{ getFormControlError('beneficiaryAccountId') }}</div>
-                </div>
-                
-                <div class="mt-10 mx-8 md:mx-0">
-                    <button
-                        type="submit"
-                        class="block w-full disabled:opacity-25 rounded-md bg-primary-blue px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-secondary-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue"
-                        [disabled]="!beneficiaryForm.valid"
-                    >
-                        Add Beneficiary
-                    </button>
-                </div>
-            </form>
+        <div
+            tabindex="0"
+            role="heading"
+            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase"
+        >
+            Add Beneficiary
         </div>
-        <img class="object-cover object-center lg:w-1/2 lg:mx-6 w-full mt-8 lg:mt-0 h-96 rounded-lg lg:h-[20rem]"
-            src="../../assets/send-money-bg2.jpg" alt="">
+        <div class="lg:flex mt-12">
+            <div class="lg:w-1/2 lg:px-6">
+                <form [formGroup]="beneficiaryForm" (ngSubmit)="onSubmit()" class="beneficiary-form">
+                    <div class="">
+                        <label htmlFor="beneficiaryAccountId" class="text-sm font-medium leading-none text-gray-800">
+                            Beneficiary Account Number
+                        </label>
+                        <input
+                            aria-label="enter from account number"
+                            role="input"
+                            type="text"
+                            class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+                            id="beneficiaryAccountId"
+                            name="beneficiaryAccountId"
+                            formControlName="beneficiaryAccountId"
+                        />
+                        <div class="error-message" *ngIf="getFormControlError('beneficiaryAccountId')">{{ getFormControlError('beneficiaryAccountId') }}</div>
+                    </div>
+                    
+                    <div class="mt-10 mx-8 md:mx-0">
+                        <button
+                            type="submit"
+                            class="block w-full disabled:opacity-25 rounded-md bg-primary-blue px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-secondary-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue"
+                            [disabled]="!beneficiaryForm.valid"
+                        >
+                            Add Beneficiary
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <img class="object-cover object-center lg:w-1/2 lg:mx-6 w-full mt-8 lg:mt-0 h-96 rounded-lg lg:h-[20rem]"
+                src="../../assets/send-money-bg2.jpg" alt="">
+        </div>
     </div>
-</div>
 </section>

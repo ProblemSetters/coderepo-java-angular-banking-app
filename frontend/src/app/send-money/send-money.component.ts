@@ -100,10 +100,11 @@ export class SendMoneyComponent {
 						console.log(data)
 					},
 					error: (e: HttpErrorResponse) => {
-						console.log(e)
 						this.toastr.error(e.message);
 					},
-					complete: () => {}
+					complete: () => {
+						this.toastr.success("successfully send money");
+					}
 				}
 			);
 

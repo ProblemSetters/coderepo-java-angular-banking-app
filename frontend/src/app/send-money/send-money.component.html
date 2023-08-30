@@ -1,21 +1,21 @@
 <section class="bg-white dark:bg-gray-900 mb-10">
     <div class="px-6 py-10 mx-4 md:mx-8 xl:mx-20">
-        <div class="lg:-mx-6 lg:flex lg:items-center">
+        <div
+            tabindex="0"
+            role="heading"
+            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase"
+        >
+            Send Money
+        </div>
+        <div class="lg:flex mt-12">
             <div class="lg:w-1/2 lg:px-6">
                 <form [formGroup]="sendMoneyForm" (ngSubmit)="onSubmit()"  class="send-money-form">
-                    <p
-                        tabindex="0"
-                        role="heading"
-                        class="text-xl font-bold text-left leading-6 text-primary-blue uppercase"
-                    >
-                        Send Money
-                    </p>
-                    <div class="mt-8">
-                        <label htmlFor="toAccountId" class="text-sm font-medium leading-none text-gray-800">
-                            Select From Beneficiary : 
+                    <div class="">
+                        <label htmlFor="beneficiary_select" class="text-sm font-medium leading-none text-gray-800">
+                            Select From Beneficiary
                         </label>
                         <select
-                            class="items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                             name="beneficiary_select"
                             id="beneficiary_select"
                             (change)="onBeneficiarySelectChange($event)"

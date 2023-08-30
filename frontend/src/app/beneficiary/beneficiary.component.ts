@@ -73,7 +73,9 @@ export class BeneficiaryComponent {
 					error: (e: HttpErrorResponse) => {
 						this.toastr.error(e.message);
 					},
-					complete: () => {}
+					complete: () => {
+						this.toastr.success("successfully add beneficiary");
+					}
 				}
 			);
 		

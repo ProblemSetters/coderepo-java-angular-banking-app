@@ -1,8 +1,15 @@
-<div class="relative">
-    <div class="relative overflow-x-auto sm:rounded-lg mx-8 lg:mx-20 my-20">
-        <div class="grid grid-cols-1 lg:grid-cols-3">
+<section class="bg-white dark:bg-gray-900 mb-10">
+    <div class="px-6 py-10 mx-4 md:mx-8 xl:mx-20">
+        <div
+            tabindex="0"
+            role="heading"
+            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase"
+        >
+            All Cards
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 mt-12">
             <div *ngFor="let card of cardList"
-                class="card my-8 mx-0 md:mx-16 rounded-lg border border-gray-200"
+                class="card mb-8 mx-0 md:mr-16 rounded-lg border border-gray-200"
             >
                 <div
                     class="w-full bg-gray-600 rounded-t-lg font-medium tracking-wide px-4"
@@ -87,4 +94,4 @@
             </div>
         </div>
     </div>
-</div>
+    </section>
