@@ -54,15 +54,16 @@ export class LoginComponent {
 			.subscribe(
 				{
 					next: (data: any) => {
-						console.log('login')
-						console.log(data)
 						this.authenticationService.setToken(data.name,data.value);
 					},
 					error: (e: HttpErrorResponse) => {
-						console.error(e)
+						if(e.status === 401)
+						{
+							this.toastr.error('Invalid credential. Please enter valid email address or password.');
+						}
+						
 					},
 					complete: () => {
-						console.log(this.authenticationService.getToken())
 						this.toastr.success('Successfully login account');
 						this.router.navigate([""]);
 					}
@@ -76,14 +77,19 @@ export class LoginComponent {
 		const field = this.loginForm.get(fieldName);
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
-				return `${fieldName} is required.`;
+				if(fieldName === 'emailAddress'){
+					return 'Please enter a email address. It is required.';
+				}
+				if(fieldName === 'password'){
+					return 'Please enter a password. It is required.';
+				}
 			}
 			if (field.errors?.["minlength"]) {
-				return `This field must be at least ${field.errors["minlength"].requiredLength} characters long.`;
+				if(fieldName === 'password') {
+					return `Password must be at least ${field.errors["minlength"].requiredLength} characters long.`;
+				}
 			}
-			if (field.errors?.["maxlength"]) {
-				return `This field cannot exceed ${field.errors["maxlength"].requiredLength} characters.`;
-			}
+
 			if (field.errors?.["email"]) {
 				return `Please enter a valid email address.`;
 			}

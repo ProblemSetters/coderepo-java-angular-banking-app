@@ -22,7 +22,7 @@
                         >
                             <option value="">Select Beneficiary Account</option>
                             <option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary.beneficiaryAccountId">
-                                {{ beneficiary.beneficiaryAccountId }}
+                                Account Number : {{ beneficiary.beneficiaryAccountId }}
                               </option>
                         </select>
                     </div>

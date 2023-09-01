@@ -68,7 +68,6 @@ export class SendMoneyComponent {
 
 	onBeneficiarySelectChange(event: Event) {
 		const selectedBeneficiaryAccount = (event.target as HTMLSelectElement).value;
-		console.log(selectedBeneficiaryAccount);
 		this.sendMoneyForm.get('toAccountId')?.setValue(selectedBeneficiaryAccount);
 	}
 
@@ -76,7 +75,13 @@ export class SendMoneyComponent {
 		const field = this.sendMoneyForm.get(fieldName);
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
-				return `${fieldName} is required.`;
+				if(fieldName === 'toAccountId')
+				{
+					return 'Please add account number. it is required.';
+				}
+				if(fieldName === 'transferAmount'){
+					return 'Please add transfer amount. It is required.';
+				}
 			}
 		}
 		return "";
@@ -100,7 +105,10 @@ export class SendMoneyComponent {
 						console.log(data)
 					},
 					error: (e: HttpErrorResponse) => {
-						this.toastr.error(e.message);
+						if(e.status === 401)
+						{
+							this.toastr.error('Invalid account number. Please enter valid account number.');
+						}
 					},
 					complete: () => {
 						this.toastr.success("successfully send money");

@@ -83,7 +83,10 @@ export class CardsComponent {
 		const field = this.cardUpdatePinForms[cardNumber].get(fieldName);
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
-				return `${fieldName} is required.`;
+				if(fieldName === 'cardPin'){
+					return 'Please enter card pin. It is required.';
+				}
+				
 			}
       if (field.errors?.["pinInvalid"]) {
 				return "Invalid PIN format. Please enter a 4-digit number.";

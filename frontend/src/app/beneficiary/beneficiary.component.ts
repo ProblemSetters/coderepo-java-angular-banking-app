@@ -48,7 +48,9 @@ export class BeneficiaryComponent {
 		const field = this.beneficiaryForm.get(fieldName);
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
-				return `${fieldName} is required.`;
+				if(fieldName === 'beneficiaryAccountId'){
+					return `please add beneficiary account number. It is required.`;
+				}
 			}
 		}
 		return "";
