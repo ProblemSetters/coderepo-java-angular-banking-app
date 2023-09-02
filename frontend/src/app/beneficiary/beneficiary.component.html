@@ -1,14 +1,14 @@
-<section class="bg-white dark:bg-gray-900 mb-10">
-    <div class="px-6 py-10 mx-4 md:mx-8 xl:mx-20">
+<section class="container mx-auto bg-white dark:bg-gray-900 mb-10">
+    <div class="py-10">
         <div
             tabindex="0"
             role="heading"
-            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase"
+            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase lg:px-0 px-6"
         >
             Add Beneficiary
         </div>
         <div class="lg:flex mt-12">
-            <div class="lg:w-1/2 lg:px-6">
+            <div class="lg:w-1/2">
                 <form [formGroup]="beneficiaryForm" (ngSubmit)="onSubmit()" class="beneficiary-form">
                     <div class="">
                         <label htmlFor="beneficiaryAccountId" class="text-sm font-medium leading-none text-gray-800">

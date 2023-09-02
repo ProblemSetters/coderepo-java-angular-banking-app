@@ -1,59 +1,67 @@
 
-<section class="bg-white dark:bg-gray-900 mb-10">
-    <div class="px-6 py-10 mx-4 md:mx-8 xl:mx-20">
-        <div class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase">
+<section class="container mx-auto bg-white dark:bg-gray-900 mb-10">
+    <div class="py-10">
+        <div class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase lg:px-0 px-6">
             Transaction History
         </div>
-        <div class="relative overflow-x-auto sm:rounded-lg mt-12">
-            <div class="flex items-center justify-between mb-8">
-                <div class="flex">
-                    <select
-                        class="items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                        name="time_select"
-                        id="time_select"
-                        (change)="onDateSelectChange($event)"
-                    >
-                        <option value="7">Last 7 days</option>
-                        <option value="30">Last 30 days</option>
-                        <option value="183">Last 6 Month</option>
-                        <option value="365">Last year</option>
-                    </select>
+        <div class="relative overflow-x-auto sm:rounded-lg mt-12 lg:px-0 px-6">
+            <div class="lg:flex items-center justify-between mb-8">
+                <div class="lg:flex">
+                    <div class="flex justify-between lg:flex-none">
+                        <select
+                            class="items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            name="time_select"
+                            id="time_select"
+                            (change)="onDateSelectChange($event)"
+                        >
+                            <option value="7">Last 7 days</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="183">Last 6 Month</option>
+                            <option value="365">Last year</option>
+                        </select>
+                    
+                        <button class="lg:hidden block items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" id="export" (click)="exportToCsv()">Export To Csv</button>
+                    </div>
+                    
                     <label
                         for="fromDate"
-                        class="ml-12 pt-1 block text-sm font-semibold leading-6 text-gray-900"
+                        class="lg:ml-12 lg:mt-0 mt-4 pt-1 block text-sm font-semibold leading-6 text-gray-900"
                     >
                         From Date
                     </label>
                     <input
                         id="fromDate"
                         autocomplete="off"
-                        class="ml-2 border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-1 pl-3"
+                        class="lg:ml-2 border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-1 pl-3"
                         [dpDayPicker]="datePickerConfig"
                         name="fromDate"
                         [(ngModel)]="fromDate"
                     />
                     <label
                         for="toDate"
-                        class="ml-6 pt-1 block text-sm font-semibold leading-6 text-gray-900"
+                        class="lg:ml-6 lg:mt-0 mt-4 pt-1 block text-sm font-semibold leading-6 text-gray-900"
                     >
                         To Date
                     </label>
                     <input
                         id="toDate"
                         autocomplete="off"
-                        class="ml-2 border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-1 pl-3"
+                        class="lg:ml-2 border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-1 pl-3"
                         [dpDayPicker]="datePickerConfig"
                         name="toDate"
                         [(ngModel)]="toDate"
                     />
-                    <button
-                        class="ml-2 items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                        (click)="searchDateFilter()"
-                    >
-                        Search
-                    </button>
+                    <div>
+                        <button
+                            class="lg:ml-2 lg:mt-0 mt-4 items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                            (click)="searchDateFilter()"
+                        >
+                            Search
+                        </button>
+                    </div>
+                    
                 </div>
-                <button class="items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" id="export" (click)="exportToCsv()">Export To Csv</button>
+                <button class="lg:block hidden lg:mt-0 mt-4 items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" id="export" (click)="exportToCsv()">Export To Csv</button>
             </div>
 
             <table datatable class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
