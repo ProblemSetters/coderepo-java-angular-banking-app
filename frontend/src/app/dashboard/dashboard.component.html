@@ -36,17 +36,32 @@
             <div class="ml-6">
                 <div class="font-bold border-b py-4">User Account Info</div>
                 <div class="md:flex mt-5">
-                    <div class="rounded-md  w-52 p-4 mr-12 h-20 bg-red-100 text-red-400 border-red-400 mb-5 lg:mb-0">
-                        <div class="text-lg font-semibold">Total Balance</div>
-                        <div>{{ account?.balance}} $</div>
+                    <div class="rounded-md flex w-52 p-4 mr-12 h-20 bg-red-100 text-red-400 border-red-400 mb-5 lg:mb-0">
+                        <div class="border mr-4 border-red-400 px-2">
+                            <img src="../../assets/money.svg" class="h-12 w-10" />
+                        </div>
+                        <div>
+                            <div class="font-bold text-xl">{{ account?.balance}} $</div>
+                            <div class="text-base">Balance</div>
+                        </div>
                     </div>
-                    <div class="rounded-md w-52 p-4 mr-12 h-20 bg-blue-50 text-blue-400 border-blue-400 mb-5 lg:mb-0">
-                        <div class="text-lg font-semibold">Total Transaction</div>
-                        <div>20</div>
+                    <div class="rounded-md flex w-52 p-4 mr-12 h-20 bg-blue-50 text-blue-400 border-blue-400 mb-5 lg:mb-0">
+                        <div class="border mr-4 border-blue-400 px-2">
+                            <img src="../../assets/transaction.svg" class="h-12 w-10" />
+                        </div>
+                        <div>
+                            <div class="font-bold text-xl">20</div>
+                            <div class="text-base">Transaction</div>
+                        </div>
                     </div>
-                    <div class="rounded-md w-52 p-4 mr-12 h-20 bg-green-50 text-green-400 border-green-400">
-                        <div class="text-lg font-semibold">Total Cards</div>
-                        <div>2</div>
+                    <div class="rounded-md flex w-52 p-4 mr-12 h-20 bg-green-50 text-green-400 border-green-400">
+                        <div class="border mr-4 border-green-400 px-2">
+                            <img src="../../assets/card.svg" class="h-12 w-10" />
+                        </div>
+                        <div>
+                            <div class="font-bold text-xl">2</div>
+                            <div class="text-base">Cards</div>
+                        </div>
                     </div>
                 </div>
             </div>
