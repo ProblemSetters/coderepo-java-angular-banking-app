@@ -1,10 +1,13 @@
 package com.hackerrank.corebanking.controller;
 
 import com.hackerrank.corebanking.model.Account;
+import com.hackerrank.corebanking.model.AccountDTO;
 import com.hackerrank.corebanking.model.Card;
 import com.hackerrank.corebanking.repository.AccountRepository;
 import com.hackerrank.corebanking.service.AccountService;
 import com.hackerrank.corebanking.service.CardService;
+import com.hackerrank.corebanking.service.TransactionService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,12 +23,16 @@ public class AccountController {
   private final AccountService accountService;
   private final CardService cardService;
   private final AccountRepository accountRepository;
+  private final TransactionService transactionService;
+  private final ModelMapper mapper;
 
   @Autowired
-  public AccountController(AccountService accountService, CardService cardService, AccountRepository accountRepository) {
+  public AccountController(AccountService accountService, CardService cardService, AccountRepository accountRepository, TransactionService transactionService, ModelMapper mapper) {
     this.accountService = accountService;
     this.cardService = cardService;
     this.accountRepository = accountRepository;
+    this.transactionService = transactionService;
+    this.mapper = mapper;
   }
 
   //create
@@ -77,9 +84,18 @@ public class AccountController {
   //get account of logged-in user
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public Account getAccount() {
+  public AccountDTO getAccount() {
     UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    return accountService.getAccountByEmailAddress(userDetails.getUsername());
+    Account account = accountService.getAccountByEmailAddress(userDetails.getUsername());
+    AccountDTO accountDTO = mapper.map(account, AccountDTO.class);
+
+    int totalCards = (int) cardService.getAllCards(account.getAccountId()).stream().count();
+    accountDTO.setTotalCards(totalCards);
+
+    int totalTrans = (int) transactionService.totalTransactions(account.getAccountId()).stream().count();
+    accountDTO.setTotalTransactions(totalTrans);
+
+    return accountDTO;
   }
 
   //delete

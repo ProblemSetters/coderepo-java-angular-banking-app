@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +21,9 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Card implements Serializable {
+    @CreatedDate
     Date dateCreated;
+    @LastModifiedDate
     Date lastCreated;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

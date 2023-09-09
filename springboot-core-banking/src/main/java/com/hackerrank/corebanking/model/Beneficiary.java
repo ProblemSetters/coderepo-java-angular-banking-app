@@ -1,11 +1,11 @@
 package com.hackerrank.corebanking.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,7 +19,9 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Beneficiary implements Serializable {
+    @CreatedDate
     Date dateCreated;
+    @LastModifiedDate
     Date lastCreated;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

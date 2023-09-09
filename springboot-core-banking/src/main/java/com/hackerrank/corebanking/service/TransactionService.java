@@ -7,6 +7,8 @@ import com.hackerrank.corebanking.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TransactionService {
   private final TransactionRepository transactionRepository;
@@ -32,4 +34,7 @@ public class TransactionService {
     return transactionRepository.save(transaction);
   }
 
+  public List<Transaction> totalTransactions(Long accountId) {
+    return transactionRepository.findTransactionByFromAccountId(accountId);
+  }
 }
