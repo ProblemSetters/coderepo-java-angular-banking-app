@@ -27,12 +27,12 @@ public class AccountController {
   private final ModelMapper mapper;
 
   @Autowired
-  public AccountController(AccountService accountService, CardService cardService, AccountRepository accountRepository, TransactionService transactionService, ModelMapper mapper) {
+  public AccountController(AccountService accountService, CardService cardService, AccountRepository accountRepository, TransactionService transactionService) {
     this.accountService = accountService;
     this.cardService = cardService;
     this.accountRepository = accountRepository;
     this.transactionService = transactionService;
-    this.mapper = mapper;
+    this.mapper = new ModelMapper();
   }
 
   //create
