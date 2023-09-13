@@ -14,7 +14,9 @@ export type Account = {
 	city: string,
 	emailAddress: string,
 	balance: string,
-	password: string
+	password: string,
+	totalTransactions: number,
+	totalCards: number
 };
 
 export type Transaction = {
@@ -23,7 +25,7 @@ export type Transaction = {
 	fromAccountId: number,
 	toAccountId: number,
 	transferAmount: number,
-	transctionDateTime: Date
+	dateCreated: Date
 }
 
 export type Card = {

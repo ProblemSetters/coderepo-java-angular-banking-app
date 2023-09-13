@@ -65,7 +65,7 @@ export class NavbarComponent {
 					},
 					complete: () => {
 						this.toastr.success('Logout Successfully');
-						this.router.navigate(["/login"]);
+						this.router.navigate(["login"]);
 					}
 				}
 			);

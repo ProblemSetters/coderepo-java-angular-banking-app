@@ -63,72 +63,66 @@
                 </div>
                 <button class="lg:block hidden lg:mt-0 mt-4 items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" id="export" (click)="exportToCsv()">Export To Csv</button>
             </div>
-
-            <table datatable class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-cool-gray border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                            </div>
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Transaction ID
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Transaction Date Time
-                        </th>
-                        <!-- <th scope="col" class="px-6 py-3">
-                            Current User Name
-                        </th> -->
-                        <th scope="col" class="px-6 py-3">
-                            From Account Id
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            To Account Id
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Amount
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let transaction of transctionsList">
-                        <td class="w-4 p-4">
-                            <div class="flex items-center">
-                                <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-cool-gray border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
-                            </div>
-                        </td>
-                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{transaction.transactionId}}
-                        </td>
-                        <td class="px-6 py-4">
-                            
-                            <!-- {{transaction.transctionDateTime}} -->
-                        </td>
-                        <!-- <td class="px-6 py-4">
-                            {{account?.firstName}} {{account?.lastName}}
-                        </td> -->
-                        <td class="px-6 py-4">
-                            {{transaction.fromAccountId}}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{transaction.toAccountId}}
-                        </td>
-                        <td class="px-6 py-4">
-                            ${{transaction.transferAmount}}
-                        </td>
-                        <!-- <td class="px-6 py-4">
-                            ${{transaction.accountBal}}
-                        </td> -->
-                        <!-- <td class="px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        </td> -->
-                    </tr>
-                </tbody>
-            </table>
+            <div *ngIf="transctionsList && transctionsList.length > 0; else elseBlock">
+                <table datatable class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="p-4">
+                                <div class="flex items-center">
+                                    <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-cool-gray border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                                </div>
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Transaction ID
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Transaction Date Time
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                From Account Id
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                To Account Id
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Amount
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            *ngFor="let transaction of transctionsList">
+                            <td class="w-4 p-4">
+                                <div class="flex items-center">
+                                    <input id="checkbox-table-search-3" type="checkbox" class="w-4 h-4 text-blue-600 bg-cool-gray border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
+                                </div>
+                            </td>
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{transaction.transactionId}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{transaction.dateCreated}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{transaction.fromAccountId}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{transaction.toAccountId}}
+                            </td>
+                            <td class="px-6 py-4">
+                                ${{transaction.transferAmount}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ng-template #elseBlock>
+                <div class="font-bold text-center text-lg">
+                  No any transactions
+                </div>
+              </ng-template>
         </div>
     </div>
 </section>
