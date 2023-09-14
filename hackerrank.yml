@@ -2,9 +2,15 @@ version: 1.0
 configuration:
   has_webserver: true
   readonly_paths:
-    - src/app/App.test.js
+    - backend/test/*
+  scoring:
+    command: cd backend && mvn clean test
+    files:
+      - backend/target/surefire-reports/TEST-com.hackerrank.corebanking.controller.AccountControllerTest.xml
   ide_config:
+    default_open_files:
+      - backend/src/main/java/com/hackerrank/corebanking/Application.java
     project_menu:
-      run: npm start
-      install: npm install
-      test: npm test
+      run: cd backend && mvn clean package -DskipTests
+      install: cd backend && mvn clean install
+      test: cd backend && mvn clean test
