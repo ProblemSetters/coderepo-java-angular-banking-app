@@ -2,10 +2,7 @@ package com.hackerrank.corebanking.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,8 +25,9 @@ public class Card implements Serializable {
     @UpdateTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date lastCreated;
+    @TableGenerator(name = "ac_id_gen", table = "ac_id_gen", pkColumnName = "gen_name", valueColumnName = "gen_val", pkColumnValue = "ac_gen", initialValue = 2131111231, allocationSize = 9)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ac_id_gen")
     private Long cardNumber;
     private Long accountId;
     private String name;

@@ -41,11 +41,19 @@ Here the base API endpoint is `/api/core-banking` for the following 4 operations
 ```bash
 mvn clean spring-boot:run
 ```
-- install: 
+
+- install:
+
 ```bash
 mvn clean install
 ```
-- test: 
+
+- test:
+
 ```bash
 mvn clean test
 ```
+
+1. change account Id to start from some bigger number
+2. chnage card number to be string with 16 charcater long
+3. populate default data 
