@@ -58,77 +58,77 @@ insert into beneficiary(id, payer_account_id, beneficiary_account_id)
 values (10, 1010113169, 1010213161);
 
 /*add transactions*/
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-01', '2023-09-01', 1001, 1010213161, 1010113163, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-02', '2023-09-02', 1002, 1010213161, 1010113163, 545);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-01', '2023-09-01', 1003, 1010213161, 1010113163, 7);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-02', '2023-09-02', 1004, 1010213161, 1010113163, 434);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 10055, 1010213161, 1010113163, 6576);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1005, 1010213161, 1010113163, 6576);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-01', '2023-09-01', 1006, 1010213161, 1010113163, 55);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-04', '2023-09-04', 1007, 1010213161, 1010113163, 34);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-01', '2023-09-01', 1008, 1010213161, 1010113163, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-01', '2023-09-01', 1009, 1010213161, 1010113163, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-05', '2023-09-05', 1011, 1010213161, 1010113163, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-05', '2023-09-05', 1010, 1010213161, 1010113163, 374);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-01', '2023-09-01', 1012, 1010213161, 1010113163, 434);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values ('2023-09-09', '2023-09-09', 1013, 1010213161, 1010113163, 34);
 
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1001, 1010213161, 1010213162, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-02', '2023-09-02', 1002, 1010213161, 1010213162, 545);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1003, 1010213161, 1010213162, 7);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-02', '2023-09-02', 1004, 1010213161, 1010213162, 434);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 10055, 1010213161, 1010213162, 6576);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1006, 1010213161, 1010213162, 55);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-04', '2023-09-04', 1007, 1010213161, 1010213162, 34);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1008, 1010213161, 1010213162, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1009, 1010213161, 1010213162, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-05', '2023-09-05', 1011, 1010213161, 1010213162, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1012, 1010213161, 1010213162, 434);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-09', '2023-09-09', 1013, 1010213161, 1010213162, 34);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1014, 1010213161, 1010213162, 374);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-02', '2023-09-02', 1015, 1010213161, 1010213162, 545);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1016, 1010213161, 1010213162, 7);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-02', '2023-09-02', 1017, 1010213161, 1010213162, 434);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1018, 1010213161, 1010213162, 6576);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1019, 1010213161, 1010213162, 55);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-04', '2023-09-04', 1020, 1010213161, 1010213162, 34);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1021, 1010213161, 1010213162, 374);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1022, 1010213161, 1010213162, 374);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-05', '2023-09-05', 1023, 1010213161, 1010213162, 374);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1024, 1010213161, 1010213162, 434);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-09', '2023-09-09', 1025, 1010213161, 1010213162, 34);
 
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1001, 1010113169, 1010213162, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-02', '2023-09-02', 1002, 1010113169, 1010213162, 545);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1003, 1010113169, 1010213162, 7);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-02', '2023-09-02', 1004, 1010113169, 1010213162, 434);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 10055, 1010113169, 1010213162, 6576);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1006, 1010113169, 1010213162, 55);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-04', '2023-09-04', 1007, 1010113169, 1010213162, 34);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1008, 1010113169, 1010213162, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1009, 1010113169, 1010213162, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-05', '2023-09-05', 1011, 1010113169, 1010213162, 374);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-01', '2023-09-01', 1012, 1010113169, 1010213162, 434);
-insert into transaction(dateCreated, lastCreated, transactionId, fromAccountId, toAccountId, transferAmount)
-values ('2023-09-09', '2023-09-09', 1013, 1010113169, 1010213162, 34);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1026, 1010113169, 1010213162, 374);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-02', '2023-09-02', 1027, 1010113169, 1010213162, 545);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1028, 1010113169, 1010213162, 7);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-02', '2023-09-02', 1029, 1010113169, 1010213162, 434);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1030, 1010113169, 1010213162, 6576);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1031, 1010113169, 1010213162, 55);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-04', '2023-09-04', 1032, 1010113169, 1010213162, 34);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1033, 1010113169, 1010213162, 374);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1034, 1010113169, 1010213162, 374);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-05', '2023-09-05', 1035, 1010113169, 1010213162, 374);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-01', '2023-09-01', 1036, 1010113169, 1010213162, 434);
+insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
+values ('2023-09-09', '2023-09-09', 1037, 1010113169, 1010213162, 34);
