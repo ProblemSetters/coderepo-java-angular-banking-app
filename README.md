@@ -7,13 +7,19 @@
 Example of a Account data JSON object:
 ```json
 {
-    "accountId": 1,
+    "accountId": 1364685691,
     
     "emailAddress": "test@gmail.com",
     
-    "balance": 574.0,
+    "balance": 574.0
 }
 ```
+
+## Sample Accounts(emailAddress, password)
+'david@gmail.com', 'david'
+'yalen@gmail.com', 'yalen'
+'rome@gmail.com', 'rome'
+'ravi@gmail.com', 'ravi'
 
 ## Requirements
 In this project, we provide APIs to create,delete,update,retrieve the bank accounts.
@@ -53,7 +59,3 @@ mvn clean install
 ```bash
 mvn clean test
 ```
-
-1. change account Id to start from some bigger number
-2. chnage card number to be string with 16 charcater long
-3. populate default data 
