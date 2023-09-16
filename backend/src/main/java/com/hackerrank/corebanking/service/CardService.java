@@ -2,6 +2,7 @@ package com.hackerrank.corebanking.service;
 
 import com.hackerrank.corebanking.model.Card;
 import com.hackerrank.corebanking.repository.CardRepository;
+import com.hackerrank.corebanking.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,11 @@ public class CardService {
     if (card.getCardNumber() != null) {
       throw new IllegalArgumentException("The cardID must not be provided when creating a new card.");
     }
-
+    card.setCardNumber(CommonUtils.generate(16));
     return cardRepository.save(card);
   }
 
-  public Card getCardByCardNumber(Long cardNumber) {
+  public Card getCardByCardNumber(String cardNumber) {
     return cardRepository
             .findCardByCardNumber(cardNumber)
             .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
@@ -37,7 +38,7 @@ public class CardService {
             .orElseThrow(() -> new IllegalArgumentException("Card with given accountId not found."));
   }
 
-  public Card deleteCardByCardNumber(Long cardNumber) {
+  public Card deleteCardByCardNumber(String cardNumber) {
     Card existing = cardRepository
             .findCardByCardNumber(cardNumber)
             .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
@@ -46,7 +47,7 @@ public class CardService {
     return existing;
   }
 
-  public Card updatePin(Long cardNumber, int newPin) {
+  public Card updatePin(String cardNumber, int newPin) {
     Card existing = cardRepository
             .findCardByCardNumber(cardNumber)
             .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
@@ -56,7 +57,7 @@ public class CardService {
     return existing;
   }
 
-  public Card blockCard(Long cardNumber, boolean block) {
+  public Card blockCard(String cardNumber, boolean block) {
     Card existing = cardRepository
             .findCardByCardNumber(cardNumber)
             .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));

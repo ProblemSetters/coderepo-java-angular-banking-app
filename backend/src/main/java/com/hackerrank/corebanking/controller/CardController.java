@@ -28,7 +28,7 @@ public class CardController {
   //get a card
   @GetMapping("/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
-  public Card getCardByCardNumber(@PathVariable Long cardNumber) {
+  public Card getCardByCardNumber(@PathVariable String cardNumber) {
     return cardService.getCardByCardNumber(cardNumber);
   }
 
@@ -44,28 +44,28 @@ public class CardController {
   //delete card
   @DeleteMapping("/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
-  public Card deleteCardByCardNumber(@PathVariable Long cardNumber) {
+  public Card deleteCardByCardNumber(@PathVariable String cardNumber) {
     return cardService.deleteCardByCardNumber(cardNumber);
   }
 
   //update pin
   @PutMapping("/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
-  public Card updatePin(@PathVariable Long cardNumber, @RequestParam(name = "newPin") int newPin) {
+  public Card updatePin(@PathVariable String cardNumber, @RequestParam(name = "newPin") int newPin) {
     return cardService.updatePin(cardNumber, newPin);
   }
 
   //block card
   @PostMapping("/block/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
-  public Card blockCard(@PathVariable Long cardNumber) {
+  public Card blockCard(@PathVariable String cardNumber) {
     return cardService.blockCard(cardNumber, true);
   }
 
   //unblock card
   @PostMapping("/unblock/{cardNumber}")
   @ResponseStatus(HttpStatus.OK)
-  public Card unblockCard(@PathVariable Long cardNumber) {
+  public Card unblockCard(@PathVariable String cardNumber) {
     return cardService.blockCard(cardNumber, false);
   }
 }

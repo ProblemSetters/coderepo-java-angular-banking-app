@@ -13,24 +13,24 @@ values (1010113169, 'ravi@gmail.com', 'ravi', 'Ravi', 'Mahale', '1991-09-23', 'M
 
 /*Add cards to accounts*/
 insert into card(card_number, account_id, name, balance, pin, blocked, expire_month, expire_year, card_holder_name, cvv)
-values (2131610011, 1010213161, 'Visa', 3837474.3, '234', false, '03/23', '2024', 'David Edel', '234');
+values (2111460214118071, 1010213161, 'Visa', 3837474.3, '234', false, '03/23', '2024', 'David Edel', '234');
 insert into card(card_number, account_id, name, balance, pin, blocked, expire_month, expire_year, card_holder_name, cvv)
-values (2131610012, 1010213161, 'Master Card', 383743.3, '234', false, '03/24', '2024', 'David Edel', '234');
+values (2111460214118072, 1010213161, 'Master Card', 383743.3, '234', false, '03/24', '2024', 'David Edel', '234');
 
 insert into card(card_number, account_id, name, balance, pin, blocked, expire_month, expire_year, card_holder_name, cvv)
-values (2131610013, 1010113163, 'Visa', 3837474.3, '234', false, '03/23', '2024', 'Yalen Brother', '234');
+values (2111460214118073, 1010113163, 'Visa', 3837474.3, '234', false, '03/23', '2024', 'Yalen Brother', '234');
 insert into card(card_number, account_id, name, balance, pin, blocked, expire_month, expire_year, card_holder_name, cvv)
-values (2131610014, 1010113163, 'Master Card', 383743.3, '234', false, '03/24', '2024', 'Yalen Brother', '234');
+values (2111460214118074, 1010113163, 'Master Card', 383743.3, '234', false, '03/24', '2024', 'Yalen Brother', '234');
 
 insert into card(card_number, account_id, name, balance, pin, blocked, expire_month, expire_year, card_holder_name, cvv)
-values (2131610015, 1010213162, 'Visa', 3837474.3, '234', false, '03/23', '2024', 'Rome Wool', '234');
+values (2111460214118075, 1010213162, 'Visa', 3837474.3, '234', false, '03/23', '2024', 'Rome Wool', '234');
 insert into card(card_number, account_id, name, balance, pin, blocked, expire_month, expire_year, card_holder_name, cvv)
-values (2131610016, 1010213162, 'Master Card', 383743.3, '234', false, '03/24', '2024', 'Rome Wool', '234');
+values (2111460214118076, 1010213162, 'Master Card', 383743.3, '234', false, '03/24', '2024', 'Rome Wool', '234');
 
 insert into card(card_number, account_id, name, balance, pin, blocked, expire_month, expire_year, card_holder_name, cvv)
-values (2131610017, 1010113169, 'Visa', 3837474.3, '234', false, '03/23', '2024', 'Ravi Mahale', '234');
+values (2111460214118077, 1010113169, 'Visa', 3837474.3, '234', false, '03/23', '2024', 'Ravi Mahale', '234');
 insert into card(card_number, account_id, name, balance, pin, blocked, expire_month, expire_year, card_holder_name, cvv)
-values (2131610018, 1010113169, 'Master Card', 383743.3, '234', false, '03/24', '2024', 'Ravi Mahale', '234');
+values (2111460214118078, 1010113169, 'Master Card', 383743.3, '234', false, '03/24', '2024', 'Ravi Mahale', '234');
 
 /*Add beneficiaries*/
 insert into beneficiary(id, payer_account_id, beneficiary_account_id)
