@@ -13,7 +13,6 @@ export class AccountService {
 	}
 	
 	public openAccount(
-						balance: number,
 						firstName: string,
 						lastName: string,
 						dob: Date,
@@ -24,7 +23,6 @@ export class AccountService {
 						password: string,
 					) {
 		return this.httpService.post(`${this.apiUrl}/api/core-banking/account`, {
-			balance,
 			firstName,
 			lastName,
 			dob,

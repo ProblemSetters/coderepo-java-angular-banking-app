@@ -98,24 +98,6 @@
                             <div class="error-message" *ngIf="getFormControlError('password')">{{ getFormControlError('password') }}</div>
                         </div>
                     </div>
-                    <div class="sm:col-span-2">
-                        <label
-                            for="balance" 
-                            class="block text-sm font-semibold leading-6 text-gray-900"
-                        >
-                            Balance
-                        </label>
-                        <div class="mt-2.5">
-                            <input
-                                type="number"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                id="balance"
-                                name="balance"
-                                formControlName="balance"
-                            />
-                            <div class="error-message" *ngIf="getFormControlError('balance')">{{ getFormControlError('balance') }}</div>
-                        </div>
-                    </div>
                     <div class="sm:col-span-2">  
                         <label
                             for="date"
@@ -236,6 +218,13 @@
                     </button>
                 </div>
             </form>
+            <p class="text-sm mt-6 font-medium leading-none text-gray-500 text-center">Do you have account?
+                <a
+                    routerLink="/login"
+                    tabindex="0" role="link" aria-label="Sign up here"
+                    class="text-sm font-medium leading-none underline text-gray-800 cursor-pointer"
+                > Login</a>
+            </p>
         </div>
     </div>
 </div>

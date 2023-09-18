@@ -20,6 +20,7 @@ export class BeneficiaryComponent {
 	public account?: Account;
 	public accountId!: number
   	public beneficiaryForm!: FormGroup;
+	public beneficiaryList!: Array<any>;
 
   constructor(
 		private toastr: ToastrService,
@@ -42,9 +43,25 @@ export class BeneficiaryComponent {
 	this.beneficiaryForm = new FormGroup({
 		beneficiaryAccountId: new FormControl(null, Validators.required),
 	});
+	this.getAllBeneficiaries()
   }
 
-  getFormControlError(fieldName: string): string {
+	getAllBeneficiaries() {
+		this.beneficiaryService.getAllBeneficiaries().subscribe(
+		{
+			next: (data: any) => {
+				console.log(data)
+				this.beneficiaryList = data;
+			},
+			error: (e: HttpErrorResponse) => {
+				console.log(e)
+				this.toastr.error(e.message);
+			},
+			complete: () => {}
+		});
+	}
+
+    getFormControlError(fieldName: string): string {
 		const field = this.beneficiaryForm.get(fieldName);
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
@@ -56,7 +73,7 @@ export class BeneficiaryComponent {
 		return "";
 	}
 
-  onSubmit() {
+    onSubmit() {
 		if (this.beneficiaryForm.invalid) {
 			this.toastr.error("Please fill in all the required fields.");
 			return;
@@ -76,6 +93,7 @@ export class BeneficiaryComponent {
 						this.toastr.error(e.message);
 					},
 					complete: () => {
+						this.getAllBeneficiaries()
 						this.toastr.success("successfully add beneficiary");
 					}
 				}
