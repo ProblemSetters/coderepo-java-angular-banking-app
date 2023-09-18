@@ -7,7 +7,6 @@ import com.hackerrank.corebanking.repository.AccountRepository;
 import com.hackerrank.corebanking.service.AccountService;
 import com.hackerrank.corebanking.service.CardService;
 import com.hackerrank.corebanking.service.TransactionService;
-import com.hackerrank.corebanking.util.CommonUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +49,6 @@ public class AccountController {
       Random random = new Random();
 
       Card card1 = new Card();
-      card1.setCardNumber(CommonUtils.generate(16));
       card1.setAccountId(newAccount.getAccountId());
       card1.setPin(1111 + random.nextInt(1111));
       card1.setBlocked(false);
@@ -62,7 +60,6 @@ public class AccountController {
       cardService.createNewCard(card1);
 
       Card card2 = new Card();
-      card1.setCardNumber(CommonUtils.generate(16));
       card2.setAccountId(newAccount.getAccountId());
       card2.setPin(1111 + random.nextInt(1111));
       card2.setBlocked(false);
