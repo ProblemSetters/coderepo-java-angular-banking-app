@@ -16,8 +16,9 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Account implements Serializable {
+  @TableGenerator(name = "ac_id_gen", table = "ac_id_gen", pkColumnName = "gen_name", valueColumnName = "gen_val", pkColumnValue = "gen_val", initialValue = 1111213169, allocationSize = 999)
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.TABLE, generator = "ac_id_gen")
   private Long accountId;
   private String firstName;
   private String lastName;

@@ -7,13 +7,19 @@
 Example of a Account data JSON object:
 ```json
 {
-    "accountId": 1,
+    "accountId": 1364685691,
     
     "emailAddress": "test@gmail.com",
     
-    "balance": 574.0,
+    "balance": 574.0
 }
 ```
+
+## Sample Accounts(emailAddress, password)
+'david@gmail.com', 'david'
+'yalen@gmail.com', 'yalen'
+'rome@gmail.com', 'rome'
+'ravi@gmail.com', 'ravi'
 
 ## Requirements
 In this project, we provide APIs to create,delete,update,retrieve the bank accounts.
@@ -41,11 +47,15 @@ Here the base API endpoint is `/api/core-banking` for the following 4 operations
 ```bash
 mvn clean spring-boot:run
 ```
-- install: 
+
+- install:
+
 ```bash
 mvn clean install
 ```
-- test: 
+
+- test:
+
 ```bash
 mvn clean test
 ```
