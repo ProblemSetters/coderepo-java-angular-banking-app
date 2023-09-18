@@ -32,14 +32,12 @@ export class DashboardComponent {
 		this.accountService.getUserAsAccount().subscribe(
       {
         next: (data: any) => {
-          console.log('get account')
-          console.log(data)
           this.account = data
           this.formatedDob = dayjs(this.account?.dob).format('DD-MM-YYYY');
           this.authenticationService.setAccount(data);
         },
         error: (e: HttpErrorResponse) => {
-          this.toastr.error(e.message);
+          this.toastr.error('Oops! Something went wrong while geting user account info.');
         },
         complete: () => {}
       }

@@ -63,7 +63,7 @@ export class CardsComponent {
 					this.createAllCardForms()
 				},
 				error: (e: HttpErrorResponse) => {
-					this.toastr.error(e.message);
+					this.toastr.error('Oops! Something went wrong while fetching all cards.');
 				},
 				complete: () => {}
 			}
@@ -112,7 +112,7 @@ export class CardsComponent {
 						console.log(data)
 					},
 					error: (e: HttpErrorResponse) => {
-						this.toastr.error(e.message);
+						this.toastr.error('Oops! Something went wrong while updating card pin.');
 					},
 					complete: () => {
 						this.toastr.success("successfully update card pin");
@@ -135,7 +135,7 @@ export class CardsComponent {
 						console.log(data)
 					},
 					error: (e: HttpErrorResponse) => {
-						this.toastr.error(e.message);
+						this.toastr.error('Oops! Something went wrong while blocking and unblocking card.');
 					},
 					complete: () => {
 						this.toastr.success("successfully update card");

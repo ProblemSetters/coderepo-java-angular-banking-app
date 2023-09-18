@@ -16,9 +16,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 import { CardsComponent } from './cards/cards.component';
-import { DpDatePickerModule } from 'ng2-date-picker';
 import { AuthGuard } from "./guards/auth.guard";
 import { CookieService } from 'ngx-cookie-service';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap'
+import { NgbModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -36,18 +37,20 @@ import { CookieService } from 'ngx-cookie-service';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgbModule,
+		NgbCollapseModule,
     DataTablesModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
 		BrowserAnimationsModule,
-    DpDatePickerModule,
 		ToastrModule.forRoot({
 			timeOut: 10000,
 			positionClass: "toast-top-right",
 			preventDuplicates: true,
 			enableHtml: true,
 		}),
+    NgbDatepickerModule
   ],
   providers: [AuthGuard, CookieService],
   bootstrap: [AppComponent],

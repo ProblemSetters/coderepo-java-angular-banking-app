@@ -6,7 +6,7 @@ import { Transaction, Account } from "src/app/dto/types"
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import * as dayjs from 'dayjs';
-import { IDatePickerDirectiveConfig } from 'ng2-date-picker';
+
 
 @Component({
   selector: 'app-transaction',
@@ -21,9 +21,8 @@ export class TransactionComponent {
   public fromDate!: string
   public toDate!: string
   public selectedTransactionsDay: string = '7';
-  public datePickerConfig = <IDatePickerDirectiveConfig>{
-    format: "YYYY-MM-DD",
-  };
+  public fromDateSearch!: {year: number, month: number, day: number}
+  public toDateSearch!: {year: number, month: number, day: number}
   
   constructor(
     private authenticationService: AuthenticationService,
@@ -43,6 +42,9 @@ export class TransactionComponent {
       this.accountId = account.accountId;
       this.fromDate = dayjs().subtract(7, 'day').format('YYYY-MM-DD'); // Set default value to 7 days ago
       this.toDate = dayjs().format('YYYY-MM-DD'); // 
+      
+      this.fromDateSearch = {year: dayjs().subtract(7, 'day').get('year'), month: dayjs().subtract(7, 'day').get('month') + 1, day: dayjs().subtract(7, 'day').get('date')};
+      this.toDateSearch = {year: dayjs().get('year'), month: dayjs().get('month') + 1, day: dayjs().get('date')};
 		});
   }
 
@@ -57,7 +59,7 @@ export class TransactionComponent {
 				  this.transctionsList = data;
         },
         error: (e: HttpErrorResponse) => {
-          this.toastr.error(e.message);
+          this.toastr.error('Oops! Something went wrong while fetching all transactions.');
         },
         complete: () => {
           this.toastr.success("successfully get transactions");
@@ -70,13 +72,14 @@ export class TransactionComponent {
     this.selectedTransactionsDay = (event.target as HTMLSelectElement).value;
     this.fromDate = dayjs().subtract(Number(this.selectedTransactionsDay), 'day').format('YYYY-MM-DD');
     this.toDate = dayjs().format('YYYY-MM-DD');
+    this.fromDateSearch = {year: dayjs().subtract(Number(this.selectedTransactionsDay), 'day').get('year'), month: dayjs().subtract(Number(this.selectedTransactionsDay), 'day').get('month') + 1, day: dayjs().subtract(Number(this.selectedTransactionsDay), 'day').get('date')};
+    this.toDateSearch = {year: dayjs().get('year'), month: dayjs().get('month') + 1, day: dayjs().get('date')};
     this.getTransactions()
   }
 
   searchDateFilter() {
-    console.log('search filter')
-    console.log(this.fromDate)
-    console.log(this.toDate)
+    this.fromDate = dayjs().set('year', this.fromDateSearch.year).set('month', this.fromDateSearch.month - 1).set('date', this.fromDateSearch.day).format('YYYY-MM-DD');
+    this.toDate = dayjs().set('year', this.toDateSearch.year).set('month', this.toDateSearch.month - 1).set('date', this.toDateSearch.day).format('YYYY-MM-DD');
     this.getTransactions()
   }
 

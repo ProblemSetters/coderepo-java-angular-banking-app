@@ -54,8 +54,7 @@ export class BeneficiaryComponent {
 				this.beneficiaryList = data;
 			},
 			error: (e: HttpErrorResponse) => {
-				console.log(e)
-				this.toastr.error(e.message);
+				this.toastr.error('Oops! Something went wrong while fetching all beneficiaries.');
 			},
 			complete: () => {}
 		});
@@ -90,7 +89,7 @@ export class BeneficiaryComponent {
 						console.log(data)
 					},
 					error: (e: HttpErrorResponse) => {
-						this.toastr.error(e.message);
+						this.toastr.error('Oops! Something went wrong while adding beneficiary');
 					},
 					complete: () => {
 						this.getAllBeneficiaries()

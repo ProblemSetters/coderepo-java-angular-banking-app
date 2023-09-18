@@ -59,8 +59,7 @@ export class SendMoneyComponent {
 				this.beneficiaryList = data;
 			},
 			error: (e: HttpErrorResponse) => {
-				console.log(e)
-				this.toastr.error(e.message);
+				this.toastr.error('Oops! Something went wrong while fetching all beneficiaries.');
 			},
 			complete: () => {}
 		});
