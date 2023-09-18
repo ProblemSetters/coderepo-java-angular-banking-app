@@ -40,10 +40,6 @@ export class AccountComponent {
 		this.router.navigate([""]);
 	}
 	this.openAccountForm = new FormGroup({
-	  balance: new FormControl(null, [
-				Validators.required,
-				Validators.pattern(/^\d+(\.\d{1,2})?$/),
-			]),
       firstName: new FormControl(null, Validators.required),
       lastName: new FormControl(null, Validators.required),
       dob: new FormControl(null, Validators.required),
@@ -63,9 +59,6 @@ export class AccountComponent {
 		const field = this.openAccountForm.get(fieldName);
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
-				if(fieldName === 'balance'){
-					return 'Please enter a balance. It is required.';
-				}
 				if(fieldName === 'firstName'){
 					return 'Please enter a first name. It is required.';
 				}
@@ -104,9 +97,6 @@ export class AccountComponent {
 				if (fieldName === "accountId") {
 					return "Invalid account number format. Please enter a valid 12-digit numeric account number.";
 				}
-				if (fieldName === "balance") {
-					return "Please enter a valid balance.";
-				}
 			}
 		}
 		return "";
@@ -120,7 +110,6 @@ export class AccountComponent {
 
 		const res = this.accountService
 			.openAccount(
-				this.openAccountForm.get("balance")!.value,
 				this.openAccountForm.get("firstName")!.value,
 				this.openAccountForm.get("lastName")!.value,
 				this.openAccountForm.get("dob")!.value,

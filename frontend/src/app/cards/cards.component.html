@@ -38,7 +38,10 @@
                             {{ card.cardHolderName }}
                         </div>
                         <div class="card-cvv text-lg text-start font-normal uppercase">
-                            <span class="text-white leading-3">
+                            <button (click)="showCvv(card)" class="text-white leading-3 border px-2 py-1 rounded" [id]="'btnCvv'+card.cardNumber">
+                                show cvv
+                            </button>
+                            <span class="text-white leading-3 hidden" [id]="'cvv'+card.cardNumber">
                                 {{ card.cvv }}
                             </span>                   
                         </div>

@@ -143,4 +143,11 @@ export class CardsComponent {
 				}
 			);
   }
+
+  showCvv (card: Card) {
+	const cvvElement = document.getElementById('cvv' + card.cardNumber);
+	cvvElement?.classList.remove('hidden');
+	const btnCvvElement = document.getElementById('btnCvv' + card.cardNumber);
+	btnCvvElement?.classList.add('hidden');
+  }
 }
