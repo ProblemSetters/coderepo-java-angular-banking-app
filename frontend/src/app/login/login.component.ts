@@ -43,7 +43,7 @@ export class LoginComponent {
 
 	onSubmit() {
 		if (this.loginForm.invalid) {
-			this.toastr.error("Please fill in all the fields properly.");
+			this.toastr.error("Invalid credential. Please enter valid email address or password.");
 			return;
 		}
 		const res = this.authService

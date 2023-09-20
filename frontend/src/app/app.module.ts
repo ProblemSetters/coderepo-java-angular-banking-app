@@ -20,6 +20,7 @@ import { AuthGuard } from "./guards/auth.guard";
 import { CookieService } from 'ngx-cookie-service';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap'
 import { NgbModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { NgbModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
     DashboardComponent,
     TransactionComponent,
     CardsComponent,
-    BeneficiaryComponent
+    BeneficiaryComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

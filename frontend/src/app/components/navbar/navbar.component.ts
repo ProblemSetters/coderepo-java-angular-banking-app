@@ -64,7 +64,7 @@ export class NavbarComponent {
 						this.toastr.error('Oops! Something went wrong while logout user');
 					},
 					complete: () => {
-						this.toastr.success('Logout Successfully');
+						this.toastr.success('Logout Successful');
 						this.router.navigate(["login"]);
 					}
 				}

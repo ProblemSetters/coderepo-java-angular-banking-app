@@ -15,6 +15,7 @@ import * as dayjs from 'dayjs';
 export class DashboardComponent {
   public account?: Account;
   public formatedDob?: string;
+  public formatedAccountId?: string;
 
   constructor(
 		private router: Router,
@@ -35,6 +36,7 @@ export class DashboardComponent {
           this.account = data
           this.formatedDob = dayjs(this.account?.dob).format('DD-MM-YYYY');
           this.authenticationService.setAccount(data);
+          this.formatedAccountId = "xxxxxxxx" + this.account?.accountId.toString().slice(-2)
         },
         error: (e: HttpErrorResponse) => {
           this.toastr.error('Oops! Something went wrong while geting user account info.');

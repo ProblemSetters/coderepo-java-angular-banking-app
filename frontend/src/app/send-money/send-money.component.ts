@@ -67,7 +67,7 @@ export class SendMoneyComponent {
 
 	onBeneficiarySelectChange(event: Event) {
 		const selectedBeneficiaryAccount = (event.target as HTMLSelectElement).value;
-		this.sendMoneyForm.get('toAccountId')?.setValue(selectedBeneficiaryAccount);
+		this.sendMoneyForm.get('toAccountId')?.setValue(Number(selectedBeneficiaryAccount));
 	}
 
   	getFormControlError(fieldName: string): string {
@@ -88,7 +88,7 @@ export class SendMoneyComponent {
 
   	onSubmit() {
 		if (this.sendMoneyForm.invalid) {
-			this.toastr.error("Please fill in all the required fields.");
+			this.toastr.error("Oops! Something went wrong while adding account number.");
 			return;
 		}
 
@@ -110,7 +110,7 @@ export class SendMoneyComponent {
 						}
 					},
 					complete: () => {
-						this.toastr.success("successfully send money");
+						this.toastr.success("successfully sended money");
 					}
 				}
 			);

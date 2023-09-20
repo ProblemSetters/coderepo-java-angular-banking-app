@@ -74,7 +74,7 @@ export class BeneficiaryComponent {
 
     onSubmit() {
 		if (this.beneficiaryForm.invalid) {
-			this.toastr.error("Please fill in all the required fields.");
+			this.toastr.error("Oops! Something went wrong while adding beneficiary.");
 			return;
 		}
 
@@ -93,7 +93,7 @@ export class BeneficiaryComponent {
 					},
 					complete: () => {
 						this.getAllBeneficiaries()
-						this.toastr.success("successfully add beneficiary");
+						this.toastr.success("successfully added beneficiary");
 					}
 				}
 			);

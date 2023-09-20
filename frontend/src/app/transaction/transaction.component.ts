@@ -62,7 +62,7 @@ export class TransactionComponent {
           this.toastr.error('Oops! Something went wrong while fetching all transactions.');
         },
         complete: () => {
-          this.toastr.success("successfully get transactions");
+          
         }
       }
 		);

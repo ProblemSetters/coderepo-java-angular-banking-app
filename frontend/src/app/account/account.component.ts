@@ -100,7 +100,7 @@ export class AccountComponent {
 
   onSubmit() {
 		if (this.openAccountForm.invalid) {
-			this.toastr.error("Please fill in all the required fields.");
+			this.toastr.error("Oops! Something went wrong while creating account.");
 			return;
 		}
 		const dateOfBirth = new Date(this.openAccountForm.get("dob")!.value.year, this.openAccountForm.get("dob")!.value.month - 1, this.openAccountForm.get("dob")!.value.day);
@@ -119,10 +119,10 @@ export class AccountComponent {
 				{
 					next: (data: any) => {
 						this.router.navigate(["login"]);
-						this.toastr.success("successfully open account");
+						this.toastr.success("successfully opened account");
 					},
 					error: (e: HttpErrorResponse) => {
-						this.toastr.error(e.message);
+						this.toastr.error('Oops! Something went wrong while creating account.');
 					},
 					complete: () => {}
 				}

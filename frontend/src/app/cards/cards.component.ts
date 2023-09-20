@@ -97,7 +97,7 @@ export class CardsComponent {
 
   onSubmit(card: Card) {
 		if (this.cardUpdatePinForms[card.cardNumber].invalid) {
-			this.toastr.error("Please fill in all the required fields.");
+			this.toastr.error("Oops! Something went wrong while updating card pin.");
 			return;
 		}
 		
@@ -115,7 +115,7 @@ export class CardsComponent {
 						this.toastr.error('Oops! Something went wrong while updating card pin.');
 					},
 					complete: () => {
-						this.toastr.success("successfully update card pin");
+						this.toastr.success("successfully updated card pin");
 					}
 				}
 			);
@@ -138,7 +138,7 @@ export class CardsComponent {
 						this.toastr.error('Oops! Something went wrong while blocking and unblocking card.');
 					},
 					complete: () => {
-						this.toastr.success("successfully update card");
+						this.toastr.success("successfully updated card");
 					}
 				}
 			);
@@ -149,5 +149,9 @@ export class CardsComponent {
 	cvvElement?.classList.remove('hidden');
 	const btnCvvElement = document.getElementById('btnCvv' + card.cardNumber);
 	btnCvvElement?.classList.add('hidden');
+  }
+
+  formatCardNumber(cardNumber: string): string {
+	return "xxxx xxxx xxxx " + cardNumber.slice(-4);
   }
 }
