@@ -154,4 +154,8 @@ export class CardsComponent {
   formatCardNumber(cardNumber: string): string {
 	return "xxxx xxxx xxxx " + cardNumber.slice(-4);
   }
+
+  formatAccountNumber(accountNumber: string): string {
+  	return "xxxxxxxx" + accountNumber.toString().slice(-2);
+  }
 }
