@@ -8,6 +8,7 @@ import { TransactionComponent } from './transaction/transaction.component';
 import { CardsComponent } from './cards/cards.component';
 import { AuthGuard } from './guards/auth.guard';
 import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { path: 'open-account', component: AccountComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'transaction', component: TransactionComponent, canActivate: [AuthGuard] },
   { path: 'beneficiary', component: BeneficiaryComponent, canActivate: [AuthGuard] },
   { path: 'cards', component: CardsComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
 ];
 

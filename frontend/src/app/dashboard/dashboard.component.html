@@ -3,69 +3,40 @@
         <div
             tabindex="0"
             role="heading"
-            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase lg:px-0 px-6"
+            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase "
         >
             Dashboard
         </div>
         <div class="lg:flex mt-12">
-            <div class="lg:w-1/5 lg:px-6 px-2 bg-gray-100 py-4 lg:mr-4 lg:ml-0 m-6">
-                <div class="font-bold text-left border-b py-2">User Info</div>
-                <div class="mt-5 text-left">
-                    <div class="font-semibold flex">
-                        <img src="../../assets/user.svg" class="h-5 w-5 mr-1" />
-                        {{ account?.firstName }} {{ account?.lastName }}
-                    </div>
-                    <div class="mt-2 flex">
-                        <img src="../../assets/email.svg" class="h-5 w-5 mr-1" />
-                        {{ account?.emailAddress }}
-                    </div>
-                    <div class="mt-2 flex">
-                        <img src="../../assets/calendar.svg" class="h-5 w-5 mr-1" />
-                        {{ formatedDob }}
-                    </div>
-                    <div class="mt-2 flex">
-                        <img src="../../assets/location.svg" class="h-5 w-5 mr-1" />
-                        {{ account?.address }}
-                    </div>
-                    <div class="mt-2 flex">
-                        <img src="../../assets/city.svg" class="h-5 w-5 mr-1" />
-                        {{ account?.city }}
-                    </div>
-                </div>
-            </div>
-            <div class="ml-6">
-                <div class="font-bold border-b py-4">User Account Info</div>
-                <div class="md:flex mt-5">
-                    <div class="rounded-md flex w-52 p-4 mr-12 h-20 bg-red-100 text-red-400 border-red-400 mb-5 lg:mb-0">
-                        <div class="border mr-4 border-red-400 px-2">
-                            <img src="../../assets/money.svg" class="h-12 w-10" />
-                        </div>
+            <div class="">
+                <div class="font-bold text-2xl text-primary-blue">Hello, {{ account?.firstName }}</div>
+                <div class="lg:flex mt-4">
+                    <div class="rounded-md shadow-md flex w-72 py-6 px-4 mr-12 mb-5 lg:mb-0 border">
                         <div>
-                            <div class="font-bold text-xl">{{ account?.balance}} $</div>
-                            <div class="text-base">Balance</div>
+                            <div class="text-lg text-gray-400 mb-3">Account</div>
+                            <div class="font-bold text-4xl">{{ formatedAccountId }}</div>
                         </div>
                     </div>
-                    <div class="rounded-md flex w-52 p-4 mr-12 h-20 bg-blue-50 text-blue-400 border-blue-400 mb-5 lg:mb-0">
-                        <div class="border mr-4 border-blue-400 px-2">
-                            <img src="../../assets/transaction.svg" class="h-12 w-10" />
-                        </div>
+                    <div class="rounded-md shadow-md flex w-72 py-6 px-4 mr-12 mb-5 lg:mb-0 border">
                         <div>
-                            <div class="font-bold text-xl">{{ account?.totalTransactions}}</div>
-                            <div class="text-base">Transaction</div>
+                            <div class="text-lg text-gray-400 mb-3">Balance</div>
+                            <div class="font-bold text-4xl">$ {{ account?.balance}}</div>
                         </div>
                     </div>
-                    <div class="rounded-md flex w-52 p-4 mr-12 h-20 bg-green-50 text-green-400 border-green-400">
-                        <div class="border mr-4 border-green-400 px-2">
-                            <img src="../../assets/card.svg" class="h-12 w-10" />
-                        </div>
+                    <div class="rounded-md shadow-md flex w-72 py-6 px-4 mr-12 mb-5 lg:mb-0 border">
                         <div>
-                            <div class="font-bold text-xl">{{ account?.totalCards}}</div>
-                            <div class="text-base">Cards</div>
+                            <div class="text-lg text-gray-400 mb-3">Transaction</div>
+                            <div class="font-bold text-4xl">{{ account?.totalTransactions}}</div>
+                        </div>
+                    </div>
+                    <div class="rounded-md shadow-md flex w-72 py-6 px-4 mr-12 mb-5 lg:mb-0 border">
+                        <div>
+                            <div class="text-lg text-gray-400 mb-3">Cards</div>
+                            <div class="font-bold text-4xl">{{ account?.totalCards}}</div>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </section>

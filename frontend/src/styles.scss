@@ -1,9 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '~@angular/cdk/overlay-prebuilt.css';
 @import 'ngx-toastr/toastr';
+
 
 :root {
     --duet-color-primary: #005fcc;
@@ -59,7 +61,7 @@
       }
     }
 
-    dp-config-form {
+    .dp-config-form {
       display: block;
       flex: 1;
       overflow: auto;
@@ -67,4 +69,8 @@
       padding: 0 20px;
       margin-bottom: 120px;
     }
+  }
+
+  .dropdown-menu {
+    min-width: 0px;
   }

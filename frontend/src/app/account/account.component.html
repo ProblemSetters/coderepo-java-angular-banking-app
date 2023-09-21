@@ -35,7 +35,7 @@
                                 formControlName="firstName"
                                 id="firstName"
                                 autocomplete="given-name"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
                             <div class="error-message" *ngIf="getFormControlError('firstName')">{{ getFormControlError('firstName') }}</div>
                         </div>
@@ -54,7 +54,7 @@
                                 formControlName="lastName"
                                 id="lastName"
                                 autocomplete="family-name"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
                             <div class="error-message" *ngIf="getFormControlError('lastName')">{{ getFormControlError('lastName') }}</div>
                         </div>
@@ -73,7 +73,7 @@
                                 formControlName="emailAddress"
                                 id="emailAddress" 
                                 autocomplete="email"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
                             <div class="error-message" *ngIf="getFormControlError('emailAddress')">{{ getFormControlError('emailAddress') }}</div>
                         </div>
@@ -93,7 +93,7 @@
                                 id="password"
                                 autocomplete="password"
                                 formControlName="password"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
                             <div class="error-message" *ngIf="getFormControlError('password')">{{ getFormControlError('password') }}</div>
                         </div>
@@ -105,13 +105,18 @@
                         >
                             DOB
                         </label>
-                        <input
-                            autocomplete="off"
-                            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            placeholder="Select a date"
-                            name="dob"
-                            formControlName="dob"
-                            [dpDayPicker]="datePickerConfig" /> 
+                        <div class="input-group">
+                            <input
+                                autocomplete="off"
+                                class="form-control block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="yyyy-mm-dd"
+                                name="dob"
+                                formControlName="dob"
+                                ngbDatepicker
+                                #d="ngbDatepicker"
+                                (click)="d.toggle()"
+                            />
+                        </div>  
                         <div class="error-message" *ngIf="getFormControlError('dob')">{{ getFormControlError('dob') }}</div>
                     </div>
                     <div>
@@ -169,7 +174,7 @@
                                 formControlName="city"
                                 id="city"
                                 autocomplete="city"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
                             <div class="error-message" *ngIf="getFormControlError('city')">{{ getFormControlError('city') }}</div>
                         </div>
@@ -187,7 +192,7 @@
                                 name="address"
                                 id="address"
                                 rows="4"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             ></textarea>
                             <div class="error-message" *ngIf="getFormControlError('address')">{{ getFormControlError('address') }}</div>
                         </div>
@@ -202,8 +207,8 @@
                             class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 mt-1"
                         >
                         <label for="privacyPolicy" class="text-sm leading-6 text-gray-600">
-                            By selecting this, you agree to our
-                            <a href="#" class="font-semibold text-indigo-600">privacy&nbsp;policy</a>.
+                            By selecting this, you agree to our privacy policy
+                            <!-- <a href="#" class="font-semibold text-indigo-600">privacy&nbsp;policy</a>. -->
                         </label>
                     </div>
                     <div class="error-message" *ngIf="getFormControlError('privacyPolicy')">{{ getFormControlError('privacyPolicy') }}</div>

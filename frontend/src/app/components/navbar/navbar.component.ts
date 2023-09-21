@@ -61,10 +61,10 @@ export class NavbarComponent {
 						this.authenticationService.logout();
 					},
 					error: (e: HttpErrorResponse) => {
-						this.toastr.error(e.message);
+						this.toastr.error('Oops! Something went wrong while logout user');
 					},
 					complete: () => {
-						this.toastr.success('Logout Successfully');
+						this.toastr.success('Logout Successful');
 						this.router.navigate(["login"]);
 					}
 				}

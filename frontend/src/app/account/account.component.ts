@@ -5,7 +5,6 @@ import {
 	Validators
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { IDatePickerDirectiveConfig } from "ng2-date-picker";
 import { AccountService } from 'src/app/services/account.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from "@angular/router";
@@ -18,9 +17,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AccountComponent {
   public openAccountForm!: FormGroup;
-  public datePickerConfig = <IDatePickerDirectiveConfig>{
-    format: "YYYY-MM-DD",
-  };
   public isAuth: boolean = false;
 
   constructor(
@@ -104,15 +100,15 @@ export class AccountComponent {
 
   onSubmit() {
 		if (this.openAccountForm.invalid) {
-			this.toastr.error("Please fill in all the required fields.");
+			this.toastr.error("Oops! Something went wrong while creating account.");
 			return;
 		}
-
+		const dateOfBirth = new Date(this.openAccountForm.get("dob")!.value.year, this.openAccountForm.get("dob")!.value.month - 1, this.openAccountForm.get("dob")!.value.day);
 		const res = this.accountService
 			.openAccount(
 				this.openAccountForm.get("firstName")!.value,
 				this.openAccountForm.get("lastName")!.value,
-				this.openAccountForm.get("dob")!.value,
+				dateOfBirth,
 				this.openAccountForm.get("gender")!.value,
 				this.openAccountForm.get("address")!.value,
 				this.openAccountForm.get("city")!.value,
@@ -123,10 +119,10 @@ export class AccountComponent {
 				{
 					next: (data: any) => {
 						this.router.navigate(["login"]);
-						this.toastr.success("successfully open account");
+						this.toastr.success("successfully opened account");
 					},
 					error: (e: HttpErrorResponse) => {
-						this.toastr.error(e.message);
+						this.toastr.error('Oops! Something went wrong while creating account.');
 					},
 					complete: () => {}
 				}
