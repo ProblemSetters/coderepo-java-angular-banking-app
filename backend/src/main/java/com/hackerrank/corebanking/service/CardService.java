@@ -51,13 +51,6 @@ public class CardService {
     Card existing = cardRepository
             .findCardByCardNumber(cardNumber)
             .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
-    //TODO: pin validation before saving
-    /**
-     * 1. pin must be of length 4.
-     * 2. pin must be integer.
-     * 3. pin must not be a sequence of same digits like 1111, 0000, 3333, etc.
-     * 4. pin must be positive number
-     */
     existing.setPin(newPin);
     cardRepository.save(existing);
 

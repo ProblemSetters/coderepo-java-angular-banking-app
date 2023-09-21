@@ -25,6 +25,12 @@ public class TransactionService {
     Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
     Account toAccount = accountRepository.findById(transaction.getToAccountId()).get();
 
+    //TODO: Balance validation
+    /**
+     * 1. sending account must have balance greater then or equal to send amount.
+     * 2. if balance is insufficient, transaction must be rejected and appropriate message to be returned.
+     * 2. return message should be "Insufficient fund, transaction canceled".
+     */
     fromAccount.setBalance(fromAccount.getBalance() - transaction.getTransferAmount());
     toAccount.setBalance(toAccount.getBalance() + transaction.getTransferAmount());
 
