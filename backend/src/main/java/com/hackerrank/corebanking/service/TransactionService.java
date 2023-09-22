@@ -25,11 +25,12 @@ public class TransactionService {
     Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
     Account toAccount = accountRepository.findById(transaction.getToAccountId()).get();
 
-    //validate that the sender(fromAccount) and beneficiary(toAccount) is not exceeding maximum amount limit
+    //Identify fraudulent transactions in a list of transactions (populate the fraudulent transactions),
     /**
-     * 1. sender cannot send more than 5000 at once to newly added beneficiary.
-     * 2. to send more than 5000 to a beneficiary, beneficiary add date should be at least 5 days back.
-     * 3. if the receiver is not in beneficiary list of sender, then no restriction on send amount.
+     * Mark a transaction fraudulent if:
+     *    - the sender is sending same amount 5 times to same receiver within a day.
+     *    - and the receiver is not in beneficiary list and has not sent any mount before.
+     *    - if the receiver is in beneficiary list, then check if it was added just today.
      */
     fromAccount.setBalance(fromAccount.getBalance() - transaction.getTransferAmount());
     toAccount.setBalance(toAccount.getBalance() + transaction.getTransferAmount());
