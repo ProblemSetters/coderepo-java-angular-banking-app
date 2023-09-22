@@ -1,61 +1,86 @@
-## Environment
-- Java version: 17
-- Maven version: 3.*
-- Spring Boot version: 3.0.6
+# Springboot Angular Banking App
 
-## Data
-Example of a Account data JSON object:
-```json
-{
-    "accountId": 1364685691,
-    
-    "emailAddress": "test@gmail.com",
-    
-    "balance": 574.0
-}
+This is a full-stack banking application built using the springboot in backend and angular in the frontend. It provides
+the following features:
+
+- Account Creation: Customers can create accounts and securely store their information.
+- Customer Login: Registered customers can log into their accounts and access banking features.
+- Fund Transfer: Customers can transfer money from one account to another account.
+- Add Beneficiary: Customers can add beneficiary to their account and use later on to transfer funds quickly.
+- View Transactions: Customers can view transactions history based on selected date range.
+- Add Cards: Customers and add, remove cards to their account.
+- Block/Unblock Cards: Customers can block and unblock cards.
+- Update Pin: Customers can change card pin.
+
+## Folder Structure
+
+### Frontend:
+
+This project uses `Angular`
+The folder structure for the frontend of the application is as follows:
+
+```
+├── src
+│ ├── app
+│ ├── assets
+│ │ ├── money.svg
+│ │ ├── card.svg
+│ │ └── chip.svg
+│ └── account
+│ ├── beneficiary
+│ ├── cards
+│ ├── components
+│ └── dashboard
+│ └── dto
+│ └── login
+│ └── environments
+│ └── guards
+│ └── login
+├── package.json
+└── angular.json
+└── testconfig.json
 ```
 
-## Sample Accounts(emailAddress, password)
-'david@gmail.com', 'david'
-'yalen@gmail.com', 'yalen'
-'rome@gmail.com', 'rome'
-'ravi@gmail.com', 'ravi'
+- `src`: Contains the source code for the frontend.
+    - `assets`: Holds static assets such as images, stylesheets, or fonts.
+    - `app`: Contains reusable angular components used throughout the application.
+        - `cards`: Card related UI components.
+        - `dashboard`: Contains the UI for dashboard.
+        - `login`: All the login related views and logics.
+    - `package.json`: Package information.
+    - `angular.json`: Angular related information.
 
-## Requirements
-In this project, we provide APIs to create,delete,update,retrieve the bank accounts.
+## Flow
 
-Here the base API endpoint is `/api/core-banking` for the following 4 operations.
+- Starts with `app.component.html` at `/`.
 
+## Technologies Used
 
-`GET` request to `/account/{accountId}`:
-* returns the account entry with given id and status code 200
-* if the requested account entry doesn't exist, then status code 404 should be returned
+- H2 In-Memory DB: Database for storing customer information, transactions data, and card details.
+- Springboot Java: Backend framework for handling API routes and business logic.
+- Angular JS: Frontend library for building user interfaces and components.
 
-`POST` request `/account`:
-* adds new account and status code 200.
+## Local Development Setup Guide:
 
-`DELETE` request to `/account/{accountId}`:
-* deletes the account with given accountId and returns status code 200
-* if the requested account entry doesn't exist, then status code 404 should be returned
+This section is not applicable if you are taking the assessment on the online HackerRank IDE. Follow these steps only if
+you need to set up this project for local development on your system.
 
-`PUT` request to `/account/{accountId}`:
-* updates the given account with given accountID and returns status code 200
-* if the requested account entry doesn't exist, then status code 404 should be returned
+### Prerequisites
 
-## Commands
-- run: 
-```bash
-mvn clean spring-boot:run
-```
+Before you begin, make sure you have the following installed on your system:
 
-- install:
+- Java (version 17)
+- Maven
+- node
 
-```bash
-mvn clean install
-```
+### Getting Started
 
-- test:
+Backend start:
 
-```bash
-mvn clean test
-```
+1. `cd backend`
+2. `mvn clean package -DskipTests`
+3. `mvn springboot-run`
+
+Frontend start:
+
+1. Start the frontend after starting backend: `ng serve`
