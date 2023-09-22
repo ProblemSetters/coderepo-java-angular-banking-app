@@ -9,7 +9,7 @@ configuration:
       - backend/target/surefire-reports/TEST-com.hackerrank.corebanking.controller.AccountControllerTest.xml
   ide_config:
     default_open_files:
-      - backend/src/main/java/com/hackerrank/corebanking/Application.java
+      - backend/src/main/java/com/hackerrank/corebanking/service/TransactionService.java
     project_menu:
       run: cd backend && mvn clean package -DskipTests
       install: cd backend && mvn clean install
