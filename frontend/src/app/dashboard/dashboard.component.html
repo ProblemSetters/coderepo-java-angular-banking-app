@@ -5,37 +5,89 @@
             role="heading"
             class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase "
         >
-            Dashboard
+            Personal Dashboard
         </div>
         <div class="lg:flex mt-12">
             <div class="">
                 <div class="font-bold text-2xl text-primary-blue">Hello, {{ account?.firstName }}</div>
                 <div class="lg:flex mt-4">
-                    <div class="rounded-md shadow-md flex w-72 py-6 px-4 mr-12 mb-5 lg:mb-0 border">
+                    <div class="rounded-3xl shadow-md flex w-80 py-6 px-4 mr-20 mb-5 lg:mb-0 bg-green-100">
                         <div>
                             <div class="text-lg text-gray-400 mb-3">Account</div>
                             <div class="font-bold text-4xl">{{ formatedAccountId }}</div>
                         </div>
                     </div>
-                    <div class="rounded-md shadow-md flex w-72 py-6 px-4 mr-12 mb-5 lg:mb-0 border">
+                    <div class="rounded-3xl shadow-md flex w-80 py-6 px-4 mr-20 mb-5 lg:mb-0 bg-red-100">
                         <div>
                             <div class="text-lg text-gray-400 mb-3">Balance</div>
                             <div class="font-bold text-4xl">$ {{ account?.balance}}</div>
                         </div>
                     </div>
-                    <div class="rounded-md shadow-md flex w-72 py-6 px-4 mr-12 mb-5 lg:mb-0 border">
+                    <div class="rounded-3xl shadow-md flex w-80 py-6 px-4 mr-20 mb-5 lg:mb-0 bg-blue-100">
                         <div>
-                            <div class="text-lg text-gray-400 mb-3">Transaction</div>
+                            <div class="text-lg text-gray-400 mb-3">Latest Transaction</div>
                             <div class="font-bold text-4xl">{{ account?.totalTransactions}}</div>
                         </div>
                     </div>
-                    <div class="rounded-md shadow-md flex w-72 py-6 px-4 mr-12 mb-5 lg:mb-0 border">
+                    <div class="rounded-3xl shadow-md flex w-80 py-6 px-3 mr-20 mb-5 lg:mb-0 bg-orange-100">
                         <div>
                             <div class="text-lg text-gray-400 mb-3">Cards</div>
                             <div class="font-bold text-4xl">{{ account?.totalCards}}</div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div *ngIf="transctionsList && transctionsList.length > 0;"> 
+            <div
+                tabindex="0"
+                role="heading"
+                class="pb-6 my-6 border-b text-lg font-bold text-left leading-6 text-primary-blue"
+            >
+                Latest Transaction
+            </div>
+            <div>
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Transaction ID
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Transaction Date Time
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                From Account Id
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                To Account Id
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Amount
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            *ngFor="let transaction of transctionsList">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{transaction.transactionId}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{transaction.dateCreated}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{transaction.fromAccountId}}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{transaction.toAccountId}}
+                            </td>
+                            <td class="px-6 py-4">
+                                ${{transaction.transferAmount}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

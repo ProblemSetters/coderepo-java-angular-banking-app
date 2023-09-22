@@ -23,6 +23,7 @@ export class SendMoneyComponent {
 	public accountId!: number
   	public sendMoneyForm!: FormGroup;
 	public beneficiaryList!: Array<any>;
+	public loader: boolean = false;
 
   constructor(
 		private toastr: ToastrService,
@@ -45,7 +46,7 @@ export class SendMoneyComponent {
 
     ngOnInit() {
 		this.sendMoneyForm = new FormGroup({
-			toAccountId: new FormControl(null, Validators.required),
+			toAccountId: new FormControl('', Validators.required),
 			transferAmount: new FormControl(null, Validators.required),
 		});
 		this.getAllBeneficiaries()
@@ -55,7 +56,6 @@ export class SendMoneyComponent {
 		this.beneficiaryService.getAllBeneficiaries().subscribe(
 		{
 			next: (data: any) => {
-				console.log(data)
 				this.beneficiaryList = data;
 			},
 			error: (e: HttpErrorResponse) => {
@@ -91,31 +91,39 @@ export class SendMoneyComponent {
 			this.toastr.error("Oops! Something went wrong while adding account number.");
 			return;
 		}
+		this.loader = true;
 
-		const res = this.transactionService
-			.sendMoney(
-				this.accountId,
-				this.sendMoneyForm.get("toAccountId")!.value,
-				this.sendMoneyForm.get("transferAmount")!.value,
-			)
-			.subscribe(
-				{
-					next: (data: any) => {
-						console.log(data)
-					},
-					error: (e: HttpErrorResponse) => {
-						if(e.status === 401)
-						{
-							this.toastr.error('Invalid account number. Please enter valid account number.');
+		const delayInMilliseconds = 2000;
+
+		setTimeout(() => {
+			this.transactionService
+				.sendMoney(
+					this.accountId,
+					this.sendMoneyForm.get("toAccountId")!.value,
+					this.sendMoneyForm.get("transferAmount")!.value,
+				)
+				.subscribe(
+					{
+						next: (data: any) => {
+							console.log(data)
+						},
+						error: (e: HttpErrorResponse) => {
+							if(e.status === 401)
+							{
+								this.toastr.error('Invalid account number. Please enter valid account number.');
+							}
+						},
+						complete: () => {
+							this.loader = false;
+							this.toastr.success("successfully sended money");
 						}
-					},
-					complete: () => {
-						this.toastr.success("successfully sended money");
 					}
-				}
-			);
+				);
 
-		this.sendMoneyForm.reset();
+			this.sendMoneyForm.reset();
+		}, delayInMilliseconds);
+
+		
 	}
 
 }

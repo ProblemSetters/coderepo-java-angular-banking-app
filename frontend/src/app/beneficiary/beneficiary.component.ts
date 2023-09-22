@@ -65,7 +65,7 @@ export class BeneficiaryComponent {
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
 				if(fieldName === 'beneficiaryAccountId'){
-					return `please add beneficiary account number. It is required.`;
+					return `Please add beneficiary account number. It is required.`;
 				}
 			}
 		}

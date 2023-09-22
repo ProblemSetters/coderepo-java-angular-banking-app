@@ -47,7 +47,7 @@ import { ProfileComponent } from './profile/profile.component';
     HttpClientModule,
 		BrowserAnimationsModule,
 		ToastrModule.forRoot({
-			timeOut: 10000,
+			timeOut: 4000,
 			positionClass: "toast-top-right",
 			preventDuplicates: true,
 			enableHtml: true,

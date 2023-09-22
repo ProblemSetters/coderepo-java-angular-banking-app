@@ -1,9 +1,9 @@
 <nav *ngIf="isAuth" class="relative flex flex-wrap items-center justify-between px-2 py-3 bg-cool-gray shadow-md">
-    <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
+    <div class="container mx-auto flex flex-wrap items-center justify-between">
       <div class="w-full relative flex justify-between lg:w-auto  lg:static lg:block lg:justify-start">
         <a routerLink="/" class="flex items-center">
           <img src="../assets/download.png" class="w-11 h-11 mr-3" alt="Banking Logo" />
-          <span class="self-center lg:text-2xl text-lg font-semibold whitespace-nowrap text-primary-blue">HackerBank Banking</span>
+          <span class="self-center lg:text-2xl text-lg font-semibold whitespace-nowrap text-primary-blue">Hackerbank system</span>
         </a>
         <button class="text-primary-blue cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" (click)="toggleNavbar()">
           <span class="sr-only">Open main menu</span>
@@ -35,7 +35,7 @@
             </a>
           </li>
           <li *ngIf="isAuth" class="nav-item">
-            <div ngbDropdown class="d-inline-block px-3">
+            <div ngbDropdown class="d-inline-block px-3 top-bar">
                 <button type="button" class="" id="dropdownBasic1" ngbDropdownToggle>
                     <i class="bi bi-person-workspace text-primary-blue text-3xl"></i>
                 </button>
