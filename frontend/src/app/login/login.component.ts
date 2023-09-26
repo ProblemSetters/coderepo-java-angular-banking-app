@@ -64,7 +64,7 @@ export class LoginComponent {
 						
 					},
 					complete: () => {
-						this.toastr.success('Successfully login account');
+						this.toastr.success('Login Successful');
 						this.router.navigate([""]);
 					}
 				}

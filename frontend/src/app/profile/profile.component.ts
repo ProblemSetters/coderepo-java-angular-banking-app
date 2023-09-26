@@ -29,7 +29,7 @@ export class ProfileComponent {
     this.authenticationService.account().subscribe((account: Account) => {
       this.account = account;
       this.formatedDob = dayjs(this.account?.dob).format('DD-MM-YYYY');
-      this.formatedAccountId = "xxxxxxxx" + this.account?.accountId.toString().slice(-2)
+      this.formatedAccountId = "xxxxxx" + this.account?.accountId.toString().slice(-4)
     });
   }
 }

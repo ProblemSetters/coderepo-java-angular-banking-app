@@ -71,6 +71,8 @@
     }
   }
 
-  .dropdown-menu {
+  .top-bar .dropdown-menu {
     min-width: 0px;
+    width: 150px;
+    inset: 0px auto auto -50px !important;
   }

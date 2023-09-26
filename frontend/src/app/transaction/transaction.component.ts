@@ -16,7 +16,7 @@ import * as dayjs from 'dayjs';
 export class TransactionComponent {
   public isAuth: boolean = false;
 	public account?: Account;
-  public transctionsList!: Array<Transaction>
+  public transactionsList!: Array<Transaction>
   public accountId!: number
   public fromDate!: string
   public toDate!: string
@@ -56,7 +56,7 @@ export class TransactionComponent {
     this.transactionService.transactionHistory(this.accountId, this.fromDate, this.toDate).subscribe(
       {
         next: (data: any) => {
-				  this.transctionsList = data;
+				  this.transactionsList = data;
         },
         error: (e: HttpErrorResponse) => {
           this.toastr.error('Oops! Something went wrong while fetching all transactions.');
@@ -116,7 +116,7 @@ export class TransactionComponent {
   }
   
   exportToCsv() {
-    let csvContent = this.saveDataInCSV(this.transctionsList);
+    let csvContent = this.saveDataInCSV(this.transactionsList);
     let name = 'transactions';
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
