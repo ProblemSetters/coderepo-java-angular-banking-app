@@ -6,6 +6,7 @@ import { Transaction, Account } from "src/app/dto/types"
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import * as dayjs from 'dayjs';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -23,6 +24,16 @@ export class TransactionComponent {
   public selectedTransactionsDay: string = '7';
   public fromDateSearch!: {year: number, month: number, day: number}
   public toDateSearch!: {year: number, month: number, day: number}
+  public todayDate: NgbDateStruct = this.getCurrentDate()
+  
+  getCurrentDate(): NgbDateStruct {
+    const today = new Date();
+    return {
+      year: today.getFullYear(),
+      month: today.getMonth() + 1, // NgbDatepicker months are 1-based
+      day: today.getDate(),
+    };
+  }
   
   constructor(
     private authenticationService: AuthenticationService,
@@ -56,6 +67,7 @@ export class TransactionComponent {
     this.transactionService.transactionHistory(this.accountId, this.fromDate, this.toDate).subscribe(
       {
         next: (data: any) => {
+          console.log(data)
 				  this.transactionsList = data;
         },
         error: (e: HttpErrorResponse) => {

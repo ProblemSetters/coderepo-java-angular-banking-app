@@ -21,7 +21,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap'
 import { NgbModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 import { ProfileComponent } from './profile/profile.component';
-
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,8 @@ import { ProfileComponent } from './profile/profile.component';
 			preventDuplicates: true,
 			enableHtml: true,
 		}),
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    ClipboardModule
   ],
   providers: [AuthGuard, CookieService],
   bootstrap: [AppComponent],

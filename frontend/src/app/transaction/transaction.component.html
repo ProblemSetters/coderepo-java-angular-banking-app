@@ -38,6 +38,7 @@
                         name="fromDateSearch"
                         [(ngModel)]="fromDateSearch"
                         (click)="df.toggle()"
+                        [maxDate]="todayDate"
                     />
                     <label
                         for="toDate"
@@ -54,6 +55,7 @@
                         name="toDateSearch"
                         [(ngModel)]="toDateSearch"
                         (click)="dt.toggle()"
+                        [maxDate]="todayDate"
                     />
                     <div>
                         <button

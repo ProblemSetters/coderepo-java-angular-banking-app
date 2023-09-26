@@ -88,7 +88,7 @@ export class SendMoneyComponent {
 
   	onSubmit() {
 		if (this.sendMoneyForm.invalid) {
-			this.toastr.error("Oops! Something went wrong while adding account number.");
+			this.toastr.error("Please fill in all the required fields.");
 			return;
 		}
 		this.loader = true;
@@ -112,15 +112,18 @@ export class SendMoneyComponent {
 							{
 								this.toastr.error('Invalid account number. Please enter valid account number.');
 							}
+							else {
+								this.toastr.error("Oops! Something went wrong while sending money.");
+							}
+							this.loader = false;
 						},
 						complete: () => {
 							this.loader = false;
-							this.toastr.success("successfully sended money");
+							this.toastr.success("Money Sent Successfully");
+							this.sendMoneyForm.reset();
 						}
 					}
 				);
-
-			this.sendMoneyForm.reset();
 		}, delayInMilliseconds);
 
 		

@@ -9,6 +9,7 @@ import { AccountService } from 'src/app/services/account.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from "@angular/router";
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-account',
@@ -18,8 +19,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AccountComponent {
   public openAccountForm!: FormGroup;
   public isAuth: boolean = false;
-
-  constructor(
+  public todayDate: NgbDateStruct = this.getCurrentDate()
+  
+  getCurrentDate(): NgbDateStruct {
+    const today = new Date();
+    return {
+      year: today.getFullYear(),
+      month: today.getMonth() + 1, // NgbDatepicker months are 1-based
+      day: today.getDate(),
+    };
+  }
+   constructor(
 		private toastr: ToastrService,
 		private accountService: AccountService,
 		private authenticationService: AuthenticationService,
@@ -100,7 +110,7 @@ export class AccountComponent {
 
   onSubmit() {
 		if (this.openAccountForm.invalid) {
-			this.toastr.error("Oops! Something went wrong while creating account.");
+			this.toastr.error("Please fill in all the required fields.");
 			return;
 		}
 		const dateOfBirth = new Date(this.openAccountForm.get("dob")!.value.year, this.openAccountForm.get("dob")!.value.month - 1, this.openAccountForm.get("dob")!.value.day);
@@ -119,14 +129,13 @@ export class AccountComponent {
 				{
 					next: (data: any) => {
 						this.router.navigate(["login"]);
-						this.toastr.success("successfully opened account");
+						this.toastr.success("Account Opened Successfully");
 					},
 					error: (e: HttpErrorResponse) => {
 						this.toastr.error('Oops! Something went wrong while creating account.');
 					},
-					complete: () => {}
+					complete: () => { this.openAccountForm.reset(); }
 				}
 			);
-		this.openAccountForm.reset();
 	}
 }
