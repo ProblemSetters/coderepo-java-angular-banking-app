@@ -13,9 +13,8 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**") // Specify the API endpoints you want to allow CORS for
                 .allowedOriginPatterns("*") // List your allowed origins here
                 .allowCredentials(true)
-                .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
-                        "Access-Control-Request-Headers", "Authorization")
-                .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
-                .allowedMethods("GET", "POST", "PUT", "DELETE");
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .exposedHeaders("*");
     }
 }
