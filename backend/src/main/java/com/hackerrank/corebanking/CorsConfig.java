@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Specify the API endpoints you want to allow CORS for
+        registry.addMapping("/**") // Specify the API endpoints you want to allow CORS for
                 .allowedOrigins("*") // List your allowed origins here
                 .allowCredentials(true)
             .allowedMethods("GET", "POST", "PUT", "DELETE")
