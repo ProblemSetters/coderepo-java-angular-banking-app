@@ -1,6 +1,7 @@
 package com.hackerrank.corebanking.controller;
 
 import com.hackerrank.corebanking.model.Beneficiary;
+import com.hackerrank.corebanking.service.AccountService;
 import com.hackerrank.corebanking.service.BeneficiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ public class BeneficiaryController {
   private final BeneficiaryService beneficiaryService;
 
   @Autowired
-  public BeneficiaryController(BeneficiaryService beneficiaryService) {
+  public BeneficiaryController(BeneficiaryService beneficiaryService, AccountService accountService) {
     this.beneficiaryService = beneficiaryService;
   }
 

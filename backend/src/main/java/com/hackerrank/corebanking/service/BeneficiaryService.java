@@ -27,6 +27,16 @@ public class BeneficiaryService {
       throw new IllegalArgumentException("The beneficiaryId must not be provided when creating a new beneficiary.");
     }
 
+    Account beneficiaryAccountId = accountService.getAccountByAccountId(beneficiary.getBeneficiaryAccountId());
+    if (beneficiaryAccountId == null) {
+      throw new IllegalArgumentException("Cannot add non existing account as a beneficiary.");
+    }
+
+    Account payerAccountIdAccountId = accountService.getAccountByAccountId(beneficiary.getPayerAccountId());
+    if (payerAccountIdAccountId == null) {
+      throw new IllegalArgumentException("Cannot add non existing account as a payer.");
+    }
+
     return beneficiaryRepository.save(beneficiary);
   }
 
