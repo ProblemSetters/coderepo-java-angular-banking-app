@@ -37,12 +37,15 @@
                             {{ card.cardHolderName }}
                         </div>
                         <div class="card-cvv text-lg text-start font-normal uppercase">
-                            <button (click)="showCvv(card)" class="text-white leading-3 border px-2 py-1 rounded" [id]="'btnCvv'+card.cardNumber">
+                            <button (click)="showCvv(card)" class="text-white leading-3 border px-2 py-1 rounded" [id]="'btnShowCvv'+card.cardNumber">
                                 show cvv
                             </button>
                             <span class="text-white leading-3 hidden" [id]="'cvv'+card.cardNumber">
                                 {{ card.cvv }}
-                            </span>                   
+                            </span>
+                            <button (click)="hideCvv(card)" class="text-white leading-3 border px-2 py-1 rounded hidden" [id]="'btnHideCvv'+card.cardNumber">
+                                hide cvv
+                            </button>                
                         </div>
                     </div>
                 </div>

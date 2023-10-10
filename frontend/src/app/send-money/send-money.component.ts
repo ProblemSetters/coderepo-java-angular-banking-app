@@ -10,6 +10,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Account } from '../dto/types';
 import { AuthenticationService } from '../services/authentication.service';
 import { BeneficiaryService } from 'src/app/services/beneficiary.service';
+import { Store } from '@ngrx/store';
+import { updateBalance } from 'src/app/state/balance.actions';
 
 
 @Component({
@@ -30,7 +32,7 @@ export class SendMoneyComponent {
 		private transactionService: TransactionService,
 		private authenticationService: AuthenticationService,
 		private beneficiaryService: BeneficiaryService,
-
+		private store: Store<any>
 	) {
 		this.authenticationService
 			.isAuthenticate()
@@ -41,6 +43,7 @@ export class SendMoneyComponent {
 		this.authenticationService.account().subscribe((account: Account) => {
 			this.account = account;
       		this.accountId = account.accountId;
+			this.store.dispatch(updateBalance({ balance: Number(account.balance) }));
 		});
 	}
 
@@ -118,6 +121,9 @@ export class SendMoneyComponent {
 							this.loader = false;
 						},
 						complete: () => {
+							const balance = Number(this.account?.balance) - this.sendMoneyForm.get("transferAmount")!.value
+							this.store.dispatch(updateBalance({ balance: balance }));
+
 							this.loader = false;
 							this.toastr.success("Money Sent Successfully");
 							this.sendMoneyForm.reset();
@@ -125,8 +131,5 @@ export class SendMoneyComponent {
 					}
 				);
 		}, delayInMilliseconds);
-
-		
 	}
-
 }
