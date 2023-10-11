@@ -19,16 +19,6 @@ export class CardService {
 		return this.httpService.put(`${this.apiUrl}/api/core-banking/card/${cardNumber}?newPin=${cardPin}`, {}, {withCredentials: true});
 	}
 
-    public cardBlockUnblock(
-            cardNumber: number,
-            isBlocked: boolean
-        ) {
-		if(isBlocked) {
-			return this.httpService.post(`${this.apiUrl}/api/core-banking/card/block/${cardNumber}`, {}, {withCredentials: true});
-		}	
-		return this.httpService.post(`${this.apiUrl}/api/core-banking/card/unblock/${cardNumber}`, {}, {withCredentials: true});
-        }
-
 	public getCards(accountId: number) {
 		return this.httpService.get(`${this.apiUrl}/api/core-banking/card?accountId=${accountId}`, {withCredentials: true});
 	}
