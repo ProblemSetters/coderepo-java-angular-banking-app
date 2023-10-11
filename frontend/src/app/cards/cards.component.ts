@@ -125,42 +125,14 @@ export class CardsComponent {
 	}
 
   cardBlockUnblock (card: Card) {
-    const res = this.cardService
-			.cardBlockUnblock(
-				card.cardNumber,
-				card.blocked
-			)
-			.subscribe(
-				{
-					next: (data: any) => {
-						console.log(data)
-					},
-					error: (e: HttpErrorResponse) => {
-						this.toastr.error('Oops! Something went wrong while blocking and unblocking card.');
-					},
-					complete: () => {
-						this.toastr.success("Card Updated Successfully");
-					}
-				}
-			);
+	// write code for card block unblock
   }
 
   showCvv (card: Card) {
 	const cvvElement = document.getElementById('cvv' + card.cardNumber);
 	cvvElement?.classList.remove('hidden');
-	const btnHideCvvElement = document.getElementById('btnHideCvv' + card.cardNumber);
-	btnHideCvvElement?.classList.remove('hidden');
 	const btnShowCvvElement = document.getElementById('btnShowCvv' + card.cardNumber);
 	btnShowCvvElement?.classList.add('hidden');
-  }
-
-  hideCvv (card: Card) {
-	const btnShowCvvElement = document.getElementById('btnShowCvv' + card.cardNumber);
-	btnShowCvvElement?.classList.remove('hidden');
-	const btnHideCvvElement = document.getElementById('btnHideCvv' + card.cardNumber);
-	btnHideCvvElement?.classList.add('hidden');
-	const cvvElement = document.getElementById('cvv' + card.cardNumber);
-	cvvElement?.classList.add('hidden');
   }
 
   formatCardNumber(cardNumber: string): string {

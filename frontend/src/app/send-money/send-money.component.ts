@@ -121,9 +121,6 @@ export class SendMoneyComponent {
 							this.loader = false;
 						},
 						complete: () => {
-							const balance = Number(this.account?.balance) - this.sendMoneyForm.get("transferAmount")!.value
-							this.store.dispatch(updateBalance({ balance: balance }));
-
 							this.loader = false;
 							this.toastr.success("Money Sent Successfully");
 							this.sendMoneyForm.reset();
