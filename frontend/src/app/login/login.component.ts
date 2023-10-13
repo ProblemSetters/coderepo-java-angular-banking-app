@@ -55,6 +55,7 @@ export class LoginComponent {
 				{
 					next: (data: any) => {
 						this.authenticationService.setToken(data.name,data.value);
+						this.getUserAccount()
 					},
 					error: (e: HttpErrorResponse) => {
 						if(e.status === 401)
@@ -77,6 +78,19 @@ export class LoginComponent {
 
 	}
 
+	getUserAccount() {
+		this.accountService.getUserAsAccount().subscribe(
+      {
+        next: (data: any) => {
+          this.authenticationService.setAccount(data);
+        },
+        error: (e: HttpErrorResponse) => {
+          this.toastr.error('Oops! Something went wrong while geting user account info.');
+        },
+        complete: () => {}
+      }
+		)
+	}
 	getFormControlError(fieldName: string): string {
 		const field = this.loginForm.get(fieldName);
 		if (field && field.touched && field.invalid) {
