@@ -33,6 +33,7 @@
                                 type="text"
                                 name="firstName"
                                 id="firstName"
+                                [(ngModel)]="openAccount.firstName"
                                 autocomplete="given-name"
                                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
@@ -50,6 +51,7 @@
                                 type="text"
                                 name="lastName"
                                 id="lastName"
+                                [(ngModel)]="openAccount.lastName"
                                 autocomplete="family-name"
                                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
@@ -67,6 +69,7 @@
                                 type="email"
                                 name="emailAddress"
                                 id="emailAddress" 
+                                [(ngModel)]="openAccount.emailAddress"
                                 autocomplete="email"
                                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
@@ -85,6 +88,7 @@
                                 type="password"
                                 name="password"
                                 id="password"
+                                [(ngModel)]="openAccount.password"
                                 autocomplete="password"
                                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
@@ -107,6 +111,7 @@
                                 #d="ngbDatepicker"
                                 (click)="d.toggle()"
                                 [maxDate]="todayDate"
+                                [(ngModel)]="openAccount.dob"
                             />
                         </div>  
                     </div>
@@ -121,6 +126,7 @@
                                     name="gender"
                                     type="radio"
                                     value="female"
+                                    [(ngModel)]="openAccount.gender"
                                     class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                 >
                                 <label
@@ -137,6 +143,7 @@
                                     name="gender"
                                     type="radio"
                                     value="male"
+                                    [(ngModel)]="openAccount.gender"
                                     class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                 >
                                 <label
@@ -161,6 +168,7 @@
                                 name="city"
                                 id="city"
                                 autocomplete="city"
+                                [(ngModel)]="openAccount.city"
                                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
                         </div>
@@ -177,6 +185,7 @@
                                 name="address"
                                 id="address"
                                 rows="4"
+                                [(ngModel)]="openAccount.address"
                                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             ></textarea>
                         </div>

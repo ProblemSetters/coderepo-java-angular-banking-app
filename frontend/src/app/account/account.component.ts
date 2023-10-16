@@ -6,6 +6,17 @@ import { Router } from "@angular/router";
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
+interface OpenAccount {
+	firstName: string,
+	lastName: string,
+	dob: object,
+	gender: string,
+	address: string,
+	city: string,
+	emailAddress: string,
+	password: string
+
+}
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
@@ -14,6 +25,16 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 export class AccountComponent {
   public isAuth: boolean = false;
   public todayDate: NgbDateStruct = this.getCurrentDate()
+  public openAccount: OpenAccount = {
+	  firstName: '',
+	  lastName: '',
+	  dob: this.todayDate,
+	  gender: 'male',
+	  address: '',
+	  city: '',
+	  emailAddress: '',
+	  password: ''
+  }
   
   getCurrentDate(): NgbDateStruct {
     const today = new Date();
@@ -44,29 +65,17 @@ export class AccountComponent {
 
 
   onSubmit() {
-		const openAccount = {
-			firstName: '',
-			lastName: '',
-			dob: this.todayDate,
-			gender: 'male',
-			address: '',
-			city: '',
-			emailAddress: '',
-			password: ''
-
-		}
-		
-		const dateOfBirth = new Date(openAccount.dob.year, openAccount.dob.month - 1, openAccount.dob.day);
+		const dateOfBirth = new Date(this.todayDate.year, this.todayDate.month - 1, this.todayDate.day);
 		const res = this.accountService
 			.openAccount(
-				openAccount.firstName,
-				openAccount.lastName,
+				this.openAccount.firstName,
+				this.openAccount.lastName,
 				dateOfBirth,
-				openAccount.gender,
-				openAccount.address,
-				openAccount.city,
-				openAccount.emailAddress,
-				openAccount.password,
+				this.openAccount.gender,
+				this.openAccount.address,
+				this.openAccount.city,
+				this.openAccount.emailAddress,
+				this.openAccount.password,
 			)
 			.subscribe(
 				{
