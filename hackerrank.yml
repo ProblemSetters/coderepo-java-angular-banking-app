@@ -10,6 +10,9 @@ configuration:
   ide_config:
     default_open_files:
       - backend/src/main/java/com/hackerrank/corebanking/Application.java
+      - fronted/src/cards/cards.component.ts
+      - fronted/src/cards/cards.component.html
+      - fronted/src/services/card.service.ts
     project_menu:
       run: cd backend && mvn clean package -DskipTests
       install: cd backend && mvn clean install
