@@ -56,7 +56,7 @@ The folder structure for the frontend of the application is as follows:
 
 - Starts with `app.component.html` at `/`. Then customer create account with `account.component.html` at `/open-account`.
   customer can send money with `send-money.component.html` at `/send-money`. Customer can add beneficiary with `beneficiary.component.html` at `/beneficiary`.
-  customer can see all transactions history with `transaction.component.html` at `/transaction`.
+  customer can see all transactions history with `transaction.component.html` at `/transaction`. customer can see all card with `cards.component.html` at `/cards`.
 
 ## Technologies Used
 
