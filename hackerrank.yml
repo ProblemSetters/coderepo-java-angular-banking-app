@@ -10,7 +10,16 @@ configuration:
   ide_config:
     default_open_files:
       - backend/src/main/java/com/hackerrank/corebanking/Application.java
+      - fronted/src/components/navbar/navbar.component.ts
+      - fronted/src/components/navbar/navbar.component.html
+      - fronted/src/dashboard/dashboard.component.ts
+      - fronted/src/dashboard/dashboard.component.html
+      - fronted/src/send-money/send-money.component.html
+      - fronted/src/send-money/send-money.component.ts
     project_menu:
       run: cd backend && mvn clean package -DskipTests
       install: cd backend && mvn clean install
       test: cd backend && mvn clean test
+      frontend:
+        run: cd frontend && npm start
+        install: cd frontend && npm install

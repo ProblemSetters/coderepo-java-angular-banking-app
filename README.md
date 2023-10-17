@@ -5,10 +5,10 @@ the following features:
 
 - Account Creation: Customers can create accounts and securely store their information.
 - Customer Login: Registered customers can log into their accounts and access banking features.
+- Customer Profile: Display customer profile information.
 - Fund Transfer: Customers can transfer money from one account to another account.
 - Add Beneficiary: Customers can add beneficiary to their account and use later on to transfer funds quickly.
 - View Transactions: Customers can view transactions history based on selected date range.
-- Add Cards: Customers and add, remove cards to their account.
 - Block/Unblock Cards: Customers can block and unblock cards.
 - Update Pin: Customers can change card pin.
 
@@ -23,36 +23,40 @@ The folder structure for the frontend of the application is as follows:
 ├── src
 │ ├── app
 │ ├── assets
-│ │ ├── money.svg
-│ │ ├── card.svg
-│ │ └── chip.svg
-│ └── account
+│ ├── account
 │ ├── beneficiary
 │ ├── cards
 │ ├── components
-│ └── dashboard
-│ └── dto
-│ └── login
-│ └── environments
-│ └── guards
-│ └── login
+│ │     └── navbar
+│ ├── dashboard
+│ ├── login
+│ ├── profile
+│ ├── send-money
+│ └── transaction
 ├── package.json
-└── angular.json
+├── angular.json
 └── testconfig.json
 ```
 
 - `src`: Contains the source code for the frontend.
     - `assets`: Holds static assets such as images, stylesheets, or fonts.
     - `app`: Contains reusable angular components used throughout the application.
+        - `account`: Customers can create accounts related UI components.
+        - `beneficiary`: Beneficiary releted UI components
         - `cards`: Card related UI components.
         - `dashboard`: Contains the UI for dashboard.
         - `login`: All the login related views and logics.
+        - `profile`: Profile releted views and logic are there.
+        - `send-money`: It contain the UI for Send money.
+        - `transaction`: Transaction releted UI and logic are there.
     - `package.json`: Package information.
     - `angular.json`: Angular related information.
 
 ## Flow
 
-- Starts with `app.component.html` at `/`.
+- Starts with `app.component.html` at `/`. Then customer create account with `account.component.html` at `/open-account`.
+  customer can send money with `send-money.component.html` at `/send-money`. Customer can add beneficiary with `beneficiary.component.html` at `/beneficiary`.
+  customer can see all transactions history with `transaction.component.html` at `/transaction`. customer can see all card with `cards.component.html` at `/cards`.
 
 ## Technologies Used
 
@@ -83,4 +87,5 @@ Backend start:
 
 Frontend start:
 
-1. Start the frontend after starting backend: `ng serve`
+1. `cd frontend` 
+2. `npm start`
