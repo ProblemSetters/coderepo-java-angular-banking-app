@@ -6,7 +6,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { Store } from '@ngrx/store';
+import { updateBalance } from 'src/app/state/balance.actions';
 
 @Component({
   selector: 'app-navbar',
@@ -19,12 +20,14 @@ export class NavbarComponent {
   public currentUrl?: string;
   public isAuth: boolean = false;
   public account?: Account;
+  public balance: Number = 0;
 
   constructor(
     private router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
     private authenticationService: AuthenticationService,
+	private store: Store<any>
   ) {
 		this.menuList = menuList;
     	this.authenticationService
@@ -35,6 +38,8 @@ export class NavbarComponent {
 
 		this.authenticationService.account().subscribe((account: Account) => {
 			this.account = account;
+			this.store.dispatch(updateBalance({ balance: Number(account.balance) }));
+			this.getBalance()
 		});
 	}
 
@@ -46,6 +51,12 @@ export class NavbarComponent {
 		});
 		this.currentUrl = this.router.url;
 	}
+
+  getBalance() {
+	this.store.select(state => state.balance).subscribe(balance => {
+		this.balance = balance.balance
+	});
+  }
 
   toggleNavbar(){
     this.showMenu = !this.showMenu;

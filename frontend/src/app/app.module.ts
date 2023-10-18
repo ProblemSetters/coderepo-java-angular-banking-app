@@ -22,6 +22,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap'
 import { NgbModule, NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 import { ProfileComponent } from './profile/profile.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { StoreModule } from '@ngrx/store';
+import { balanceReducer } from './state/balance.reducer';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { ClipboardModule } from 'ngx-clipboard';
 			enableHtml: true,
 		}),
     NgbDatepickerModule,
-    ClipboardModule
+    ClipboardModule,
+    StoreModule.forRoot({balance: balanceReducer}, {}),
   ],
   providers: [AuthGuard, CookieService],
   bootstrap: [AppComponent],
