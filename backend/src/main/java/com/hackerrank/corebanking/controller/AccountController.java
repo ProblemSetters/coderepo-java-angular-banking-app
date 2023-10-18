@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/core-banking/account")
@@ -35,10 +36,51 @@ public class AccountController {
     this.mapper = new ModelMapper();
   }
 
+  public static boolean isValidEmail(String emailAddress) {
+    return Pattern.compile("^(.+)@(\\S+)$")
+            .matcher(emailAddress)
+            .matches();
+  }
+
+  //get
+  @GetMapping("/{accountId}")
+  @ResponseStatus(HttpStatus.OK)
+  public Account getAccountByAccountId(@PathVariable Long accountId) {
+    return accountService.getAccountByAccountId(accountId);
+  }
+
+  //get account of logged-in user
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  public AccountDTO getAccount() {
+    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    Account account = accountService.getAccountByEmailAddress(userDetails.getUsername());
+    AccountDTO accountDTO = mapper.map(account, AccountDTO.class);
+
+    int totalCards = (int) cardService.getAllCards(account.getAccountId()).stream().count();
+    accountDTO.setTotalCards(totalCards);
+
+    int totalTrans = (int) transactionService.totalTransactions(account.getAccountId()).stream().count();
+    accountDTO.setTotalTransactions(totalTrans);
+
+    return accountDTO;
+  }
+
+  //delete
+  @DeleteMapping("/{accountId}")
+  @ResponseStatus(HttpStatus.OK)
+  public Account deleteAccountByAccountId(@PathVariable Long accountId) {
+    return accountService.deleteAccountByAccountId(accountId);
+  }
+
   //create
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Object createNewAccount(@RequestBody Account account) {
+    if (!isValidEmail(account.getEmailAddress())) {
+      return "Invalid email address.";
+    }
+
     Optional<Account> existing = accountRepository.findByEmailAddress(account.getEmailAddress());
     if (existing.isPresent()) {
       return "User with email address already exists.";
@@ -74,41 +116,10 @@ public class AccountController {
     }
   }
 
-  //get
-  @GetMapping("/{accountId}")
-  @ResponseStatus(HttpStatus.OK)
-  public Account getAccountByAccountId(@PathVariable Long accountId) {
-    return accountService.getAccountByAccountId(accountId);
-  }
-
-  //get account of logged-in user
-  @GetMapping
-  @ResponseStatus(HttpStatus.OK)
-  public AccountDTO getAccount() {
-    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    Account account = accountService.getAccountByEmailAddress(userDetails.getUsername());
-    AccountDTO accountDTO = mapper.map(account, AccountDTO.class);
-
-    int totalCards = (int) cardService.getAllCards(account.getAccountId()).stream().count();
-    accountDTO.setTotalCards(totalCards);
-
-    int totalTrans = (int) transactionService.totalTransactions(account.getAccountId()).stream().count();
-    accountDTO.setTotalTransactions(totalTrans);
-
-    return accountDTO;
-  }
-
-  //delete
-  @DeleteMapping("/{accountId}")
-  @ResponseStatus(HttpStatus.OK)
-  public Account deleteAccountByAccountId(@PathVariable Long accountId) {
-    return accountService.deleteAccountByAccountId(accountId);
-  }
-
   //update
   @PutMapping("/{accountId}")
   @ResponseStatus(HttpStatus.OK)
   public Account updateAccountByAccountId(@RequestBody Account account, @PathVariable Long accountId) {
-    return accountService.updateAccountByEmailAddress(accountId,account);
+    return accountService.updateAccountByEmailAddress(accountId, account);
   }
 }
