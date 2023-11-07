@@ -58,6 +58,7 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(HttpMethod.POST, "/api/core-banking/auth/**", "/api/core-banking/account/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/", "/favicon.ico").permitAll()
                                 .anyRequest().authenticated()
                 );
 
