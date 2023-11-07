@@ -1,9 +1,4 @@
 import { Component } from '@angular/core';
-import {
-	FormControl,
-	FormGroup,
-	Validators
-} from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { AccountService } from 'src/app/services/account.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -28,7 +23,6 @@ interface OpenAccount {
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent {
-  public openAccountForm!: FormGroup;
   public isAuth: boolean = false;
   public todayDate: NgbDateStruct = this.getCurrentDate()
   public openAccount: OpenAccount = {
@@ -69,29 +63,19 @@ export class AccountComponent {
 	}
   }
 
-  onSubmit() {
-	const openAccount = {
-		firstName: '',
-		lastName: '',
-		dob: this.todayDate,
-		gender: 'male',
-		address: '',
-		city: '',
-		emailAddress: '',
-		password: ''
 
-	}
-	const dateOfBirth = new Date(openAccount.dob.year, openAccount.dob.month - 1, openAccount.dob.day);
+  onSubmit() {
+		const dateOfBirth = new Date(this.todayDate.year, this.todayDate.month - 1, this.todayDate.day);
 		const res = this.accountService
 			.openAccount(
-				openAccount.firstName,
-				openAccount.lastName,
+				this.openAccount.firstName,
+				this.openAccount.lastName,
 				dateOfBirth,
-				openAccount.gender,
-				openAccount.address,
-				openAccount.city,
-				openAccount.emailAddress,
-				openAccount.password,
+				this.openAccount.gender,
+				this.openAccount.address,
+				this.openAccount.city,
+				this.openAccount.emailAddress,
+				this.openAccount.password,
 			)
 			.subscribe(
 				{
@@ -102,7 +86,7 @@ export class AccountComponent {
 					error: (e: HttpErrorResponse) => {
 						this.toastr.error('Oops! Something went wrong while creating account.');
 					},
-					complete: () => { }
+					complete: () => {  }
 				}
 			);
 	}
