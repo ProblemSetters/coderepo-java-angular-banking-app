@@ -1,2 +1,0 @@
-- check if candidate has written solution in correct file as mentioned in the question
-- check if the candidate has implemented all the points mentioned in the question.
