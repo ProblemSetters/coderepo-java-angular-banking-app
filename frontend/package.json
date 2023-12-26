@@ -27,6 +27,8 @@
     "datatables.net-dt": "^1.11.3",
     "dayjs": "^1.11.9",
     "jquery": "^3.6.0",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
     "lodash": "^4.17.21",
     "ngx-clipboard": "^16.0.0",
     "ngx-cookie-service": "^16.0.1",
