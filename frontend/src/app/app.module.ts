@@ -19,6 +19,7 @@ import { CardsComponent } from './cards/cards.component';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { AuthGuard } from "./guards/auth.guard";
 import { CookieService } from 'ngx-cookie-service';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { CookieService } from 'ngx-cookie-service';
     HttpClientModule,
 		BrowserAnimationsModule,
     DpDatePickerModule,
+    NgbDatepickerModule ,
 		ToastrModule.forRoot({
 			timeOut: 10000,
 			positionClass: "toast-top-right",
