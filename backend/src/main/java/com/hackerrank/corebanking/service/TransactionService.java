@@ -25,6 +25,13 @@ public class TransactionService {
     Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
     Account toAccount = accountRepository.findById(transaction.getToAccountId()).get();
 
+    //Identify fraudulent transactions in a list of transactions (populate the fraudulent transactions),
+    /**
+     * Mark a transaction fraudulent if:
+     *    - the sender is sending same amount 5 times to same receiver within a day.
+     *    - and the receiver is not in beneficiary list and has not sent any mount before.
+     *    - if the receiver is in beneficiary list, then check if it was added just today.
+     */
     fromAccount.setBalance(fromAccount.getBalance() - transaction.getTransferAmount());
     toAccount.setBalance(toAccount.getBalance() + transaction.getTransferAmount());
 
