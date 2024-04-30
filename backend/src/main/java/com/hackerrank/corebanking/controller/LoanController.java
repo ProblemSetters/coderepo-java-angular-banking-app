@@ -15,13 +15,21 @@ public class LoanController {
 
     @PostMapping("/accept/{loanId}")
     public ResponseEntity<String> acceptLoan(@PathVariable Long loanId) {
-        loanService.acceptLoan(loanId);
-        return new ResponseEntity<>("Loan accepted successfully", HttpStatus.OK);
+        try {
+            loanService.acceptLoan(loanId);
+            return new ResponseEntity<>("Loan accepted successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to accept loan: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/reject/{loanId}")
     public ResponseEntity<String> rejectLoan(@PathVariable Long loanId) {
-        loanService.rejectLoan(loanId);
-        return new ResponseEntity<>("Loan rejected successfully", HttpStatus.OK);
+        try {
+            loanService.rejectLoan(loanId);
+            return new ResponseEntity<>("Loan rejected successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to reject loan: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -18,13 +18,13 @@ import java.util.Date;
 @Entity
 public class Loan implements Serializable {
     @Id
-    private Long id;
+    public Long id; 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date dateCreated;
+    public Date dateCreated;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date lastUpdated;
-    private String applicantName;
-    private double amount;
-    private String purpose;
-    private LoanStatus status;
+    public Date lastUpdated;
+    public String applicantName; 
+    public double amount; 
+    public String purpose; 
+    public LoanStatus status; 
 }

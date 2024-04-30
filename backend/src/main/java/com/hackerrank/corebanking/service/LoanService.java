@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import com.hackerrank.corebanking.model.Loan;
 import com.hackerrank.corebanking.model.LoanStatus;
 import com.hackerrank.corebanking.repository.LoanRepository;
-
 import java.util.Optional;
 
 @Service
@@ -23,7 +22,7 @@ public class LoanService {
             loan.setStatus(LoanStatus.ACCEPTED);
             loanRepository.save(loan);
         } else {
-            throw new IllegalArgumentException("Loan with ID " + loanId + " not found");
+            throw new IllegalArgumentException("Loan not found with ID: " + loanId);
         }
     }
 
@@ -31,11 +30,10 @@ public class LoanService {
         Optional<Loan> optionalLoan = loanRepository.findById(loanId);
         if (optionalLoan.isPresent()) {
             Loan loan = optionalLoan.get();
-
-            loan.setStatus(LoanStatus.REJECTED);
+            loan.setStatus(3);
             loanRepository.save(loan);
         } else {
-            throw new IllegalArgumentException("Loan with ID " + loanId + " not found");
+            throw new IllegalArgumentException("Loan not found with ID: " + loanId);
         }
     }
 }
