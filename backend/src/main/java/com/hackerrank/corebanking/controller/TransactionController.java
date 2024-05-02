@@ -55,4 +55,8 @@ public class TransactionController {
     toDate.setSeconds(00);
     return transactionRepository.findTransactionsByDateCreatedBetweenAndFromAccountIdOrToAccountId(fromDate, toDate, accountId, accountId);
   }
+
+  public Object getErrorMessage() {
+    throw new UnsupportedOperationException("Unimplemented method 'getErrorMessage'");
+  }
 }
