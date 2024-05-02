@@ -51,4 +51,10 @@ public class TransactionService {
   public List<Transaction> totalTransactions(Long accountId) {
     return transactionRepository.findTransactionByFromAccountId(accountId);
   }
+
+
+  public Object getErrorMessage() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getErrorMessage'");
+  }
 }
