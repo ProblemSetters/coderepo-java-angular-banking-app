@@ -84,6 +84,7 @@
                     <div class="card-block flex justify-end my-2">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input
+                                [id]="'cardBlock' + card.cardNumber"
                                 type="checkbox"
                                 class="sr-only peer"
                                 (ngModelChange)="cardBlockUnblock(card)"
