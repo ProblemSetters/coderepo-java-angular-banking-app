@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ToastrModule } from "ngx-toastr";
-import { SendMoneyComponent } from "./send-money.component";
+import { SendMoneyComponent } from "../app/send-money/send-money.component";
 import { TransactionService } from "src/app/services/transaction.service";
 import { Store, StoreModule } from "@ngrx/store";
 import { updateBalance } from "src/app/state/balance.actions";
 import { of } from "rxjs";
 import { BrowserModule } from "@angular/platform-browser";
-import { AppRoutingModule } from "../app-routing.module";
+import { AppRoutingModule } from "../app/app-routing.module";
 import {
   NgbCollapseModule,
   NgbDatepickerModule,
@@ -17,7 +17,7 @@ import { DataTablesModule } from "angular-datatables";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClipboardModule } from "ngx-clipboard";
-import { balanceReducer } from "../state/balance.reducer";
+import { balanceReducer } from "../app/state/balance.reducer";
 
 describe("SendMoneyComponent", () => {
   let component: SendMoneyComponent;

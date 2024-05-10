@@ -1,6 +1,4 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { CardsComponent } from "./cards.component";
-import { Account, Card } from "../dto/types";
 import { ToastrModule } from "ngx-toastr";
 import { HttpClientModule } from "@angular/common/http";
 import {
@@ -9,13 +7,15 @@ import {
   NgbModule,
 } from "@ng-bootstrap/ng-bootstrap";
 import { BrowserModule } from "@angular/platform-browser";
-import { AppRoutingModule } from "../app-routing.module";
 import { DataTablesModule } from "angular-datatables";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ClipboardModule } from "ngx-clipboard";
 import { StoreModule } from "@ngrx/store";
-import { balanceReducer } from "../state/balance.reducer";
+import { Account, Card } from "src/app/dto/types";
+import { CardsComponent } from "src/app/cards/cards.component";
+import { AppRoutingModule } from "src/app/app-routing.module";
+import { balanceReducer } from "src/app/state/balance.reducer";
 
 const cards: Card[] = [
   {
@@ -152,55 +152,6 @@ describe("CardsComponent", () => {
 
     it("Should have hide button hidden", () => {
       expect(idcardHideButtonShown).toBe(true);
-    }); 
-  });
-
-  describe("Block and Unblock", () => {
-    let cardInputs = [];
-
-    beforeEach(() => {
-      cardInputs = [];
-      cardList.forEach((card, index) => {
-        const inputId = "#cardBlock" + card.cardNumber;
-        const blockInput = fixture.nativeElement.querySelector(inputId);
-        cardInputs.push(blockInput);
-      });
-    });
-
-    it("Should have block buttons", () => {
-      expect(cardInputs.length).toBe(2);
-    });
-
-    it("Should block frist card", () => {
-      const card = cardList[0];
-      blockCard(card);
-      const inputId = "#cardBlock" + card.cardNumber;
-      const blockInput = fixture.nativeElement.querySelector(inputId);
-      expect(blockInput.blockInput).toBe(true);
-    });
-
-    it("Should unblock frist card", () => {
-      const card = cardList[0];
-      unblockCard(card);
-      const inputId = "#cardBlock" + card.cardNumber;
-      const blockInput = fixture.nativeElement.querySelector(inputId);
-      expect(blockInput.blockInput).toBe(false);
-    });
-
-    it("Should block second card", () => {
-      const card = cardList[1];
-      blockCard(card);
-      const inputId = "#cardBlock" + card.cardNumber;
-      const blockInput = fixture.nativeElement.querySelector(inputId);
-      expect(blockInput.blockInput).toBe(true);
-    });
-
-    it("Should unblock second card", () => {
-      const card = cardList[1];
-      unblockCard(card);
-      const inputId = "#cardBlock" + card.cardNumber;
-      const blockInput = fixture.nativeElement.querySelector(inputId);
-      expect(blockInput.blockInput).toBe(false);
     });
   });
 });

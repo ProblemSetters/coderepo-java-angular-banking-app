@@ -1,20 +1,23 @@
 {
-    "name": "banking-application",
-    "version": "1.0.0",
-    "description": "Core Banking Application (JAM Stack)",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "test:task5": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task4.TransactionValidationTest",
-      "test:task6": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task5.CardServiceUpdatePinTest.java",
-      "test:task7": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task8.FraudTransactionTest",
-      "test:task8": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task9.TransactionServiceTest"
-    },
-    "keywords": [
-      "core-banking",
-      "backend",
-      "testing"
-    ],
-    "author": "HackerRank",
-    "license": "ISC"
-  }
-  
+  "name": "banking-application",
+  "version": "1.0.0",
+  "description": "Core Banking Application (JAM Stack)",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:task5": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task4.TransactionValidationTest",
+    "test:task6": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task5.CardServiceUpdatePinTest.java",
+    "test:task7": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task8.FraudTransactionTest",
+    "test:task8": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task9.TransactionServiceTest",
+    "test:task9": "cd frontend && ng test --include src/test/cards.block.spec.ts",
+    "test:task10": "cd frontend && ng test --include src/test/cards.hide.spec.ts",
+    "test:task11": "cd frontend && ng test --include src/test/send-money.component.spec.ts",
+    "test:task12": "cd frontend && ng test --include src/test/account.component.spec.ts"
+  },
+  "keywords": [
+    "core-banking",
+    "backend",
+    "testing"
+  ],
+  "author": "HackerRank",
+  "license": "ISC"
+}
