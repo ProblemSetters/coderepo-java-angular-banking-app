@@ -25,6 +25,13 @@ public class TransactionService {
     Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
     Account toAccount = accountRepository.findById(transaction.getToAccountId()).get();
 
+    // Basic Bugfix Balance Validation
+    // Problem Statement:
+    // 1. the sending account must have a balance greater than or equal to the sending amount.
+    // 2. if balance is insufficient, transaction must be rejected and appropriate message to be returned.
+    // 2. the return message should be "Insufficient fund, transaction canceled".
+
+
     //Identify fraudulent transactions in a list of transactions (populate the fraudulent transactions),
     /**
      * Mark a transaction fraudulent if:
@@ -43,5 +50,11 @@ public class TransactionService {
 
   public List<Transaction> totalTransactions(Long accountId) {
     return transactionRepository.findTransactionByFromAccountId(accountId);
+  }
+
+
+  public Object getErrorMessage() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getErrorMessage'");
   }
 }
