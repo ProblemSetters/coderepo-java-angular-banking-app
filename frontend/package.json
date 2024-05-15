@@ -6,7 +6,10 @@
     "start": "ng serve --proxy-config src/proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test:task1": "ng test --include src/test/cards.block.spec.ts",
+    "test:task2": "ng test --include src/test/cards.hide.spec.ts",
+    "test:task3": "ng test --include src/test/send-money.component.spec.ts",
+    "test:task4": "ng test --include src/test/account.component.spec.ts"
   },
   "private": true,
   "dependencies": {
