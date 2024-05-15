@@ -131,20 +131,10 @@ export class CardsComponent {
   showCvv (card: Card) {
 	const cvvElement = document.getElementById('cvv' + card.cardNumber);
 	cvvElement?.classList.remove('hidden');
-	const btnHideCvvElement = document.getElementById('btnHideCvv' + card.cardNumber);
-	btnHideCvvElement?.classList.remove('hidden');
 	const btnShowCvvElement = document.getElementById('btnShowCvv' + card.cardNumber);
 	btnShowCvvElement?.classList.add('hidden');
   }
 
-  hideCvv (card: Card) {
-	const btnShowCvvElement = document.getElementById('btnShowCvv' + card.cardNumber);
-	btnShowCvvElement?.classList.remove('hidden');
-	const btnHideCvvElement = document.getElementById('btnHideCvv' + card.cardNumber);
-	btnHideCvvElement?.classList.add('hidden');
-	const cvvElement = document.getElementById('cvv' + card.cardNumber);
-	cvvElement?.classList.add('hidden');
-  }
 
   formatCardNumber(cardNumber: string): string {
 	return "xxxx xxxx xxxx " + cardNumber.slice(-4);
