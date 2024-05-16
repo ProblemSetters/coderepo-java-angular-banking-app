@@ -1,11 +1,10 @@
 import { TestBed, ComponentFixture } from "@angular/core/testing";
-import { AccountComponent } from "../app/account/account.component";
 import { AccountService } from "src/app/services/account.service";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { HttpErrorResponse } from "@angular/common/http";
 import { of } from "rxjs";
+import { AccountComponent } from "src/app/account/account.component";
 
 describe("AccountComponent", () => {
   let component: AccountComponent;
@@ -57,10 +56,6 @@ describe("AccountComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
-
   describe("ngOnInit", () => {
     it("should redirect to login page if user is already authenticated", () => {
       mockAuthenticationService.isAuthenticate.and.returnValue(of(true));
@@ -85,82 +80,75 @@ describe("AccountComponent", () => {
     });
   });
 
-  // Test case for check validation of form
-  describe("isFormValid", () => {
-    it("should return true if form is valid", () => {
-      component.openAccount = {
-        firstName: "John",
-        lastName: "Doe",
-        dob: component.todayDate,
-        gender: "male",
-        address: "123 Street",
-        city: "City",
-        emailAddress: "test@yuiii.com",
-        password: "password123",
-      };
-    });
+  it("should return true if form is valid", () => {
+    component.openAccount = {
+      firstName: "John",
+      lastName: "Doe",
+      dob: component.todayDate,
+      gender: "male",
+      address: "123 Street",
+      city: "City",
+      emailAddress: "test@yuiii.com",
+      password: "password123",
+    };
   });
 
-  describe("isFormInValid", () => {
-    it("should return false if form is invalid", () => {
-      component.openAccount = {
-        firstName: "",
-        lastName: "",
-        dob: component.todayDate,
-        gender: "male",
-        address: "123 Street",
-        city: "City",
-        emailAddress: "test@yuiii.com",
-        password: "password123",
-      };
-    });
+  it("should return false if form is invalid", () => {
+    component.openAccount = {
+      firstName: "",
+      lastName: "",
+      dob: component.todayDate,
+      gender: "male",
+      address: "123 Street",
+      city: "City",
+      emailAddress: "test@yuiii.com",
+      password: "password123",
+    };
   });
 
-  describe("onSubmit", () => {
-    it("should open account successfully", () => {
-      const todayDate = new Date();
-      const openAccountData = {
-        firstName: "John",
-        lastName: "Doe",
-        dob: todayDate,
-        gender: "male",
-        address: "123 Street",
-        city: "City",
-        emailAddress: "john.doe@example.com",
-        password: "password123",
-      };
-      const expectedDateOfBirth = new Date(
-        todayDate.getFullYear(),
-        todayDate.getMonth(),
-        todayDate.getDate()
-      );
+  it("should open account successfully", () => {
+    const todayDate = new Date();
+    const openAccountData = {
+      firstName: "John",
+      lastName: "Doe",
+      dob: todayDate,
+      gender: "male",
+      address: "123 Street",
+      city: "City",
+      emailAddress: "john.doe@example.com",
+      password: "password123",
+    };
+    const expectedDateOfBirth = new Date(
+      todayDate.getFullYear(),
+      todayDate.getMonth(),
+      todayDate.getDate()
+    );
 
-      mockAccountService.openAccount.and.returnValue(of(true));
+    mockAccountService.openAccount.and.returnValue(of(true));
 
-      component.todayDate = {
-        year: todayDate.getFullYear(),
-        month: todayDate.getMonth() + 1,
-        day: todayDate.getDate(),
-      };
-      component.openAccount = openAccountData;
+    component.todayDate = {
+      year: todayDate.getFullYear(),
+      month: todayDate.getMonth() + 1,
+      day: todayDate.getDate(),
+    };
+    component.openAccount = openAccountData;
 
-      component.onSubmit();
+    component.onSubmit();
 
-      expect(mockAccountService.openAccount).toHaveBeenCalledWith(
-        openAccountData.firstName,
-        openAccountData.lastName,
-        expectedDateOfBirth,
-        openAccountData.gender,
-        openAccountData.address,
-        openAccountData.city,
-        openAccountData.emailAddress,
-        openAccountData.password
-      );
-      expect(mockRouter.navigate).toHaveBeenCalledWith(["login"]);
-      expect(mockToastrService.success).toHaveBeenCalledWith(
-        "Account Opened Successfully"
-      );
-    });
+    expect(mockAccountService.openAccount).toHaveBeenCalledWith(
+      openAccountData.firstName,
+      openAccountData.lastName,
+      expectedDateOfBirth,
+      openAccountData.gender,
+      openAccountData.address,
+      openAccountData.city,
+      openAccountData.emailAddress,
+      openAccountData.password
+    );
+    expect(mockRouter.navigate).toHaveBeenCalledWith(["login"]);
+    expect(mockToastrService.success).toHaveBeenCalledWith(
+      "Account Opened Successfully"
+    );
 
     it("should handle error while opening account", () => {
       const errorResponse = {

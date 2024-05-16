@@ -62,14 +62,6 @@ describe("CardsComponent", () => {
   let fixture: ComponentFixture<CardsComponent>;
   let haveHideCvvMethod = false;
 
-  const blockCard = (card: Card) => {
-    card.blocked = true;
-  };
-
-  const unblockCard = (card: Card) => {
-    card.blocked = false;
-  };
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CardsComponent],
@@ -109,49 +101,46 @@ describe("CardsComponent", () => {
     expect(component?.hideCvv).toBeDefined();
   });
 
-  describe("Task 1", () => {
-    let idcardCvvHidden: Boolean;
-    let idcardHideButtonHidden: Boolean;
-    beforeEach(() => {
-      const card = cardList[0];
-      const cvvId = "#cvv" + card.cardNumber;
-      const hideButtonId = "#btnHideCvv" + card.cardNumber;
-      component.showCvv(card); // Action to show cvv
-      const cardCvv = fixture.nativeElement.querySelector(cvvId);
-      const cardHideButton = fixture.nativeElement.querySelector(hideButtonId);
-      idcardCvvHidden = cardCvv?.classList.contains("hidden");
-      idcardHideButtonHidden = cardHideButton?.classList.contains("hidden");
-    });
-
-    it("Should have cvv shown", () => {
-      expect(idcardCvvHidden).toBe(false);
-    });
-
-    it("Should have hide button shown", () => {
-      expect(idcardHideButtonHidden).toBe(false);
-    });
+  let idcardCvvHidden: Boolean;
+  let idcardHideButtonHidden: Boolean;
+  beforeEach(() => {
+    const card = cardList[0];
+    const cvvId = "#cvv" + card.cardNumber;
+    const hideButtonId = "#btnHideCvv" + card.cardNumber;
+    component.showCvv(card); // Action to show cvv
+    const cardCvv = fixture.nativeElement.querySelector(cvvId);
+    const cardHideButton = fixture.nativeElement.querySelector(hideButtonId);
+    idcardCvvHidden = cardCvv?.classList.contains("hidden");
+    idcardHideButtonHidden = cardHideButton?.classList.contains("hidden");
   });
 
-  describe("Task 2", () => {
-    let idcardCvvShown: Boolean;
-    let idcardHideButtonShown: Boolean;
-    beforeEach(() => {
-      const card = cardList[0];
-      const cvvId = "#cvv" + card.cardNumber;
-      const hideButtonId = "#btnHideCvv" + card.cardNumber;
-      component?.hideCvv(card); // Action to hide cvv
-      const cardCvv = fixture.nativeElement.querySelector(cvvId);
-      const cardHideButton = fixture.nativeElement.querySelector(hideButtonId);
-      idcardCvvShown = cardCvv?.classList?.contains("hidden");
-      idcardHideButtonShown = cardHideButton?.classList?.contains("hidden");
-    });
+  it("Should have cvv shown", () => {
+    expect(idcardCvvHidden).toBe(false);
+  });
 
-    it("Should have cvv hidden", () => {
-      expect(idcardCvvShown).toBe(true);
-    });
+  it("Should have hide button shown", () => {
+    expect(idcardHideButtonHidden).toBe(false);
+  });
 
-    it("Should have hide button hidden", () => {
-      expect(idcardHideButtonShown).toBe(true);
-    });
+  let idcardCvvShown: Boolean;
+  let idcardHideButtonShown: Boolean;
+
+  beforeEach(() => {
+    const card = cardList[0];
+    const cvvId = "#cvv" + card.cardNumber;
+    const hideButtonId = "#btnHideCvv" + card.cardNumber;
+    component?.hideCvv(card); // Action to hide cvv
+    const cardCvv = fixture.nativeElement.querySelector(cvvId);
+    const cardHideButton = fixture.nativeElement.querySelector(hideButtonId);
+    idcardCvvShown = cardCvv?.classList?.contains("hidden");
+    idcardHideButtonShown = cardHideButton?.classList?.contains("hidden");
+  });
+
+  it("Should have cvv hidden", () => {
+    expect(idcardCvvShown).toBe(true);
+  });
+
+  it("Should have hide button hidden", () => {
+    expect(idcardHideButtonShown).toBe(true);
   });
 });

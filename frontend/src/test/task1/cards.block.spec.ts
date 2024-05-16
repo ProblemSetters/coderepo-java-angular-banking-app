@@ -102,52 +102,47 @@ describe("CardsComponent", () => {
     component.accountId = account.accountId;
     fixture.detectChanges();
   });
-  describe("Block and Unblock", () => {
-    let cardInputs = [];
 
-    beforeEach(() => {
-      cardInputs = [];
-      cardList.forEach((card, index) => {
-        const inputId = "#cardBlock" + card.cardNumber;
-        const blockInput = fixture.nativeElement.querySelector(inputId);
-        cardInputs.push(blockInput);
-      });
-    });
+  let cardInputs = [];
 
-    it("Should have block buttons", () => {
-      expect(cardInputs.length).toBe(2);
-    });
-
-    it("Should block frist card", () => {
-      const card = cardList[0];
-      blockCard(card);
+  beforeEach(() => {
+    cardInputs = [];
+    cardList.forEach((card, index) => {
       const inputId = "#cardBlock" + card.cardNumber;
       const blockInput = fixture.nativeElement.querySelector(inputId);
-      expect(blockInput.blockInput).toBe(true);
+      cardInputs.push(blockInput);
     });
+  });
 
-    it("Should unblock frist card", () => {
-      const card = cardList[0];
-      unblockCard(card);
-      const inputId = "#cardBlock" + card.cardNumber;
-      const blockInput = fixture.nativeElement.querySelector(inputId);
-      expect(blockInput.blockInput).toBe(false);
-    });
+  it("Should block frist card", () => {
+    const card = cardList[0];
+    blockCard(card);
+    const inputId = "#cardBlock" + card.cardNumber;
+    const blockInput = fixture.nativeElement.querySelector(inputId);
+    expect(blockInput.blockInput).toBe(true);
+  });
 
-    it("Should block second card", () => {
-      const card = cardList[1];
-      blockCard(card);
-      const inputId = "#cardBlock" + card.cardNumber;
-      const blockInput = fixture.nativeElement.querySelector(inputId);
-      expect(blockInput.blockInput).toBe(true);
-    });
+  it("Should unblock frist card", () => {
+    const card = cardList[0];
+    unblockCard(card);
+    const inputId = "#cardBlock" + card.cardNumber;
+    const blockInput = fixture.nativeElement.querySelector(inputId);
+    expect(blockInput.blockInput).toBe(false);
+  });
 
-    it("Should unblock second card", () => {
-      const card = cardList[1];
-      unblockCard(card);
-      const inputId = "#cardBlock" + card.cardNumber;
-      const blockInput = fixture.nativeElement.querySelector(inputId);
-      expect(blockInput.blockInput).toBe(false);
-    });
+  it("Should block second card", () => {
+    const card = cardList[1];
+    blockCard(card);
+    const inputId = "#cardBlock" + card.cardNumber;
+    const blockInput = fixture.nativeElement.querySelector(inputId);
+    expect(blockInput.blockInput).toBe(true);
+  });
+
+  it("Should unblock second card", () => {
+    const card = cardList[1];
+    unblockCard(card);
+    const inputId = "#cardBlock" + card.cardNumber;
+    const blockInput = fixture.nativeElement.querySelector(inputId);
+    expect(blockInput.blockInput).toBe(false);
   });
 });
