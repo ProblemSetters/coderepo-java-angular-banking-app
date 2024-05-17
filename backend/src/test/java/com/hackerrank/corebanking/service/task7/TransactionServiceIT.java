@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -104,6 +105,107 @@ public class TransactionServiceIT {
         UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
                 () -> transactionService.sendMoney(transaction));
         assertEquals("Transaction fraudulent", exception.getMessage());
+    }
+
+    @Test
+    void testSendMoneyFraudulentTransactionIfMoreThan5TimesWithAddedTodayBeneficiary() {
+        Date todayDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Transaction anotherReceiverTransaction = createTransaction();
+        anotherReceiverTransaction.setToAccountId(secondReceiverAccount.getAccountId());
+        transactionService.sendMoney(anotherReceiverTransaction);
+
+        for (int i = 0; i <= 5; i++) {
+            Transaction todayTransaction = createTransaction();
+            transactionService.sendMoney(todayTransaction);
+            todayTransaction.setDateCreated(todayDate);
+            transactionRepository.save(todayTransaction);
+        }
+
+        Beneficiary beneficiary = new Beneficiary();
+        beneficiary.setPayerAccountId(senderAccount.getAccountId());
+        beneficiary.setBeneficiaryAccountId(receiverAccount.getAccountId());
+        beneficiaryRepository.save(beneficiary);
+
+        Transaction transaction = createTransaction();
+
+        UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
+                () -> transactionService.sendMoney(transaction));
+        assertEquals("Transaction fraudulent", exception.getMessage());
+    }
+
+    @Test
+    void testSendMoneyNotFraudulentTransactionIfLessThan5TimesWithoutBeneficiaryWithoutTransaction() {
+        Date todayDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Transaction anotherReceiverTransaction = createTransaction();
+        anotherReceiverTransaction.setToAccountId(secondReceiverAccount.getAccountId());
+        transactionService.sendMoney(anotherReceiverTransaction);
+
+        for (int i = 0; i <= 3; i++) {
+            Transaction todayTransaction = createTransaction();
+            transactionService.sendMoney(todayTransaction);
+            todayTransaction.setDateCreated(todayDate);
+            transactionRepository.save(todayTransaction);
+        }
+
+        Transaction transaction = createTransaction();
+
+        assertDoesNotThrow(() -> transactionService.sendMoney(transaction), "Should be does not error");
+    }
+
+    @Test
+    void testSendMoneyNotFraudulentTransactionIfMoreThan5TimesWithAddedYesterdayBeneficiary() {
+        Date todayDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date yesterdayDate = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Transaction anotherReceiverTransaction = createTransaction();
+        anotherReceiverTransaction.setToAccountId(secondReceiverAccount.getAccountId());
+        transactionService.sendMoney(anotherReceiverTransaction);
+
+        for (int i = 0; i <= 5; i++) {
+            Transaction todayTransaction = createTransaction();
+            transactionService.sendMoney(todayTransaction);
+            todayTransaction.setDateCreated(todayDate);
+            transactionRepository.save(todayTransaction);
+        }
+
+        Beneficiary beneficiary = new Beneficiary();
+        beneficiary.setPayerAccountId(senderAccount.getAccountId());
+        beneficiary.setBeneficiaryAccountId(receiverAccount.getAccountId());
+        beneficiary = beneficiaryRepository.save(beneficiary);
+        beneficiary.setDateCreated(yesterdayDate);
+        beneficiaryRepository.save(beneficiary);
+
+        Transaction transaction = createTransaction();
+
+        assertDoesNotThrow(() -> transactionService.sendMoney(transaction), "Should be does not error");
+    }
+
+    @Test
+    void testSendMoneyNotFraudulentTransactionIfMoreThan5TimesWithoutBeneficiaryButTransactionWasPreviously() {
+        Date todayDate = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date yesterdayDate = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Transaction yesterdayTransaction = createTransaction();
+        yesterdayTransaction = transactionService.sendMoney(yesterdayTransaction);
+        yesterdayTransaction.setDateCreated(yesterdayDate);
+        transactionRepository.save(yesterdayTransaction);
+
+        Transaction anotherReceiverTransaction = createTransaction();
+        anotherReceiverTransaction.setToAccountId(secondReceiverAccount.getAccountId());
+        transactionService.sendMoney(anotherReceiverTransaction);
+
+        for (int i = 0; i <= 5; i++) {
+            Transaction todayTransaction = createTransaction();
+            transactionService.sendMoney(todayTransaction);
+            todayTransaction.setDateCreated(todayDate);
+            transactionRepository.save(todayTransaction);
+        }
+
+        Transaction transaction = createTransaction();
+
+        assertDoesNotThrow(() -> transactionService.sendMoney(transaction), "Should be does not error");
     }
 
     private Transaction createTransaction() {

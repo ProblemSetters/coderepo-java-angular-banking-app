@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Random;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -32,6 +33,11 @@ public class CardServiceIT {
         existingCard.setCardNumber("1111222233334444");
         existingCard.setPin(5465);
         existingCard = cardRepository.save(existingCard);
+    }
+
+    @Test
+    void testUpdateWithCorrectPin() {
+        assertDoesNotThrow(() -> cardService.updatePin(existingCard.getCardNumber(), 9265), "Should be does not error");
     }
 
     @Test
