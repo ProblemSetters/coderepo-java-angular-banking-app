@@ -63,12 +63,12 @@ describe("SendMoneyComponent", () => {
     component.accountId = 1;
   });
 
-  // it("Check initial balance", () => {
-  //   store.select("balance").subscribe((data) => {
-  //     totalBal = data.balance;
-  //     expect(data.balance).toEqual(initialBalance);
-  //   });
-  // });
+  it("Check initial balance", () => {
+    store.select("balance").subscribe((data) => {
+      totalBal = data.balance;
+      expect(data.balance).toEqual(initialBalance);
+    });
+  });
 
   it("should update balance after sending money", () => {
     // Mocking the account

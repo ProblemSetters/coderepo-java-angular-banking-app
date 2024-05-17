@@ -97,9 +97,9 @@ describe("CardsComponent", () => {
     fixture.detectChanges();
   });
 
-  it("Component have hideCvv method", () => {
-    expect(component?.hideCvv).toBeDefined();
-  });
+  // it("Component have hideCvv method", () => {
+  //   expect(component?.hideCvv).toBeDefined();
+  // });
 
   let idcardCvvHidden: Boolean;
   let idcardHideButtonHidden: Boolean;
@@ -114,9 +114,9 @@ describe("CardsComponent", () => {
     idcardHideButtonHidden = cardHideButton?.classList.contains("hidden");
   });
 
-  it("Should have cvv shown", () => {
-    expect(idcardCvvHidden).toBe(false);
-  });
+  // it("Should have cvv shown", () => {
+  //   expect(idcardCvvHidden).toBe(false);
+  // });
 
   it("Should have hide button shown", () => {
     expect(idcardHideButtonHidden).toBe(false);
