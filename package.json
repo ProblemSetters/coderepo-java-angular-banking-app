@@ -4,14 +4,15 @@
     "description": "Core Banking Application (JAM Stack)",
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
+
       "test:task1": "cd frontend && npm run test:task1",
       "test:task2": "cd frontend && npm run test:task2",
       "test:task3": "cd frontend && npm run test:task3",
       "test:task4": "cd frontend && npm run test:task4",
-      "test:task5": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task4.TransactionValidationTest",
-      "test:task6": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task5.CardServiceUpdatePinTest.java",
-      "test:task7": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task8.FraudTransactionTest",
-      "test:task8": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task9.TransactionServiceTest"
+      "test:task5": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task5.TransactionControllerIT",
+      "test:task6": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.service.task6.CardServiceIT",
+      "test:task7": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.service.task7.TransactionServiceIT",
+      "test:task8": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.service.task8.TransactionServiceIT"
     },
     "keywords": [
       "core-banking",
@@ -21,4 +22,3 @@
     "author": "HackerRank",
     "license": "ISC"
   }
-  
