@@ -24,6 +24,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { StoreModule } from '@ngrx/store';
 import { balanceReducer } from './state/balance.reducer';
+import { RewardPointsComponent } from './reward-points/reward-points.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { balanceReducer } from './state/balance.reducer';
     TransactionComponent,
     CardsComponent,
     BeneficiaryComponent,
-    ProfileComponent
+    ProfileComponent,
+    RewardPointsComponent
   ],
   imports: [
     BrowserModule,
