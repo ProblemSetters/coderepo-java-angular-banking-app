@@ -18,5 +18,9 @@ export const menuList = [
     {
 		name: "Cards",
 		url: "cards",
-	}	
+	},	
+	{
+		name: "Reward Points",
+		url: "reward-points",
+	},
 ];

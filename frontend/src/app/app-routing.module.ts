@@ -9,6 +9,7 @@ import { CardsComponent } from './cards/cards.component';
 import { AuthGuard } from './guards/auth.guard';
 import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 import { ProfileComponent } from './profile/profile.component';
+import { RewardPointsComponent } from './reward-points/reward-points.component';
 
 const routes: Routes = [
   { path: 'open-account', component: AccountComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'cards', component: CardsComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'reward-points', component: RewardPointsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
