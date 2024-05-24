@@ -30,7 +30,7 @@ public class LoanService {
         Optional<Loan> optionalLoan = loanRepository.findById(loanId);
         if (optionalLoan.isPresent()) {
             Loan loan = optionalLoan.get();
-            loan.setStatus(3);
+            loan.setStatus((LoanStatus) (Object) 3);
             loanRepository.save(loan);
         } else {
             throw new IllegalArgumentException("Loan not found with ID: " + loanId);
