@@ -1,6 +1,6 @@
 /*add accounts*/
 insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance)
-values (1010213161, 'david@gmail.com', 'david', 'David', 'Edel', '1990-01-03', 'Male', '21- Right Way', 'NYC',
+values (1010213161, 'david@gmail.com', 'david123', 'David', 'Edel', '1990-01-03', 'Male', '21- Right Way', 'NYC',
         45837.87);
 insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance)
 values (1010113163, 'yalen@gmail.com', 'yalen', 'Yalen', 'Brother', '1993-01-03', 'Male', '22- Right Way', 'CA',

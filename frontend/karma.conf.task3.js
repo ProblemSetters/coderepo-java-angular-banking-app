@@ -25,7 +25,7 @@ module.exports = function (config) {
     restartOnFileChange: true,
     junitReporter: {
       useBrowserName: false,
-      outputFile: "../TestReports/task3.xml",
+      outputFile: "../output/task3.xml",
       suite: "unit",
     },
   });
