@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { DataTablesModule } from "angular-datatables";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 
@@ -25,6 +25,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { StoreModule } from '@ngrx/store';
 import { balanceReducer } from './state/balance.reducer';
 import { RewardPointsComponent } from './reward-points/reward-points.component';
+import {AuthInterceptor} from "./services/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -60,7 +61,11 @@ import { RewardPointsComponent } from './reward-points/reward-points.component';
     ClipboardModule,
     StoreModule.forRoot({balance: balanceReducer}, {}),
   ],
-  providers: [AuthGuard, CookieService],
+  providers: [AuthGuard, CookieService, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+  }],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

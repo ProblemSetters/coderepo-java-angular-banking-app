@@ -6,9 +6,8 @@ import com.hackerrank.corebanking.security.UserDetailsImpl;
 import com.hackerrank.corebanking.security.jwt.JwtUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,17 +34,13 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
 
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new JwtToken(jwtCookie.getName(), jwtCookie.getValue()));
+        return ResponseEntity.ok(new JwtToken("Bearer", jwtToken));
     }
 
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
-        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new JwtToken("", ""));
+        return ResponseEntity.ok(new JwtToken("", ""));
     }
 }

@@ -10,8 +10,8 @@ export class AuthenticationService {
 	public loggedIn = new BehaviorSubject<boolean>(false);
 	public accountDetail = new BehaviorSubject<any>(null);
 
-	private AUTH_COOKIE_KEY = "corebanking";
 	private ACCOUNT_KEY = "account";
+	private AUTH_KEY = "token";
 
 	constructor(private cookieService: CookieService) {
 		this.loggedIn.next(this.getToken() ? true : false);
@@ -19,11 +19,11 @@ export class AuthenticationService {
 	}
 
 	public getToken() {
-		return this.cookieService.get(this.AUTH_COOKIE_KEY);
+		return localStorage.getItem(this.AUTH_KEY);
 	}
 
 	public setToken(name: string, token: string) {
-		this.cookieService.set(name, token);
+		localStorage.setItem(this.AUTH_KEY, token);
 		this.loggedIn.next(true);
 	}
 
@@ -46,9 +46,7 @@ export class AuthenticationService {
 	}
 
 	public logout() {
-		// localStorage.removeItem(this.AUTH_KEY);
-		this.cookieService.delete(this.AUTH_COOKIE_KEY);
-		this.cookieService.delete(this.ACCOUNT_KEY);
+		 localStorage.removeItem(this.AUTH_KEY);
 		this.loggedIn.next(false);
 	}
 }

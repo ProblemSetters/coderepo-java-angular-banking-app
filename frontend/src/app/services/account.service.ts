@@ -35,6 +35,6 @@ export class AccountService {
 	}
 
 	public getUserAsAccount() {
-		return this.httpService.get(`${this.apiUrl}/api/core-banking/account`, { withCredentials: true });
+		return this.httpService.get(`${this.apiUrl}/api/core-banking/account`);
 	}
 }
