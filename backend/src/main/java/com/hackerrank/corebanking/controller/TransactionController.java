@@ -34,8 +34,7 @@ public class TransactionController {
     /**
      * TODO: Validate that the transaction passes following rules
      * 1. Sender cannot send more than 5000 at once to newly added beneficiary
-     * 2. To send more than 5000 to a beneficiary, beneficiary add date should be at least 5 days back.
-     * 3. If the receiver is not in beneficiary list of sender, then no restriction on the send amount.
+     * 2. To send more than 5000 to a beneficiary, beneficiary add date should be at least 5 minutes back.
      */
     Account toAccount = accountService.getAccountByAccountId(transaction.getToAccountId());
     if (toAccount != null) {
