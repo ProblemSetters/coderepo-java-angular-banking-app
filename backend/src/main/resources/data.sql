@@ -3,7 +3,7 @@ insert into account(account_id, email_address, password, first_name, last_name, 
 values (1010213161, 'david@gmail.com', 'david', 'David', 'Edel', '1990-01-03', 'Male', '21- Right Way', 'NYC',
         45837.87);
 insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance)
-values (1010113163, 'yalen@gmail.com', 'yalenyalen', 'Yalen', 'Brother', '1993-01-03', 'Male', '22- Right Way', 'CA',
+values (1010113163, 'yalen@gmail.com', 'yalen', 'Yalen', 'Brother', '1993-01-03', 'Male', '22- Right Way', 'CA',
         95437.12);
 insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance)
 values (1010213162, 'rome@gmail.com', 'rome', 'Rome', 'Wool', '1998-12-13', 'Male', 'Left way', 'LA', 384747.98);
