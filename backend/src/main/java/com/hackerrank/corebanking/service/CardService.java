@@ -3,6 +3,7 @@ package com.hackerrank.corebanking.service;
 import com.hackerrank.corebanking.model.Card;
 import com.hackerrank.corebanking.repository.CardRepository;
 import com.hackerrank.corebanking.util.CommonUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,6 @@ public class CardService {
   CardService(CardRepository cardRepository) {
     this.cardRepository = cardRepository;
   }
-
 
   public Card createNewCard(Card card) {
     if (card.getCardNumber() != null) {
@@ -51,18 +51,32 @@ public class CardService {
     Card existing = cardRepository
             .findCardByCardNumber(cardNumber)
             .orElseThrow(() -> new IllegalArgumentException("Card with given cardNumber not found."));
-    //TODO: pin validation before saving
-    /**
-     * 1. pin must be of length 4.
-     * 2. pin must be integer.
-     * 3. pin must not be a sequence of same digits like 1111, 0000, 3333, etc.
-     * 4. pin must be positive number
-     */
+
+    validatePin(newPin);
+
     existing.setPin(newPin);
     cardRepository.save(existing);
 
     return existing;
   }
+private void validatePin(int pin) {
+
+    if (pin < 0) {
+        throw new UnsupportedOperationException("Pin must be positive number");
+    }
+
+    String pinString = String.valueOf(pin);
+
+    if (pinString.length() != 4) {
+        throw new UnsupportedOperationException("Pin must be of length 4");
+    }
+
+    char firstDigit = pinString.charAt(0);
+    boolean isSequence = pinString.chars().allMatch(ch -> ch == firstDigit);
+    if (isSequence) {
+        throw new UnsupportedOperationException("Pin must not be a sequence of the same digits");
+    }
+}
 
   public Card blockCard(String cardNumber, boolean block) {
     Card existing = cardRepository
