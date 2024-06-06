@@ -48,10 +48,6 @@ public class TransactionController {
   @GetMapping("/transactionHistory")
   @ResponseStatus(HttpStatus.OK)
   public List<Transaction> transactionHistory(@RequestParam(name = "accountId") String accountId, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "fromDate") Date fromDate, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "toDate") Date toDate) {
-    //this is need to support time stamp
-    toDate.setHours(23);
-    toDate.setMinutes(60);
-    toDate.setSeconds(00);
     return transactionRepository.findTransactionsByDateCreatedBetweenAndFromAccountIdOrToAccountId(fromDate, toDate, accountId, accountId);
   }
 
