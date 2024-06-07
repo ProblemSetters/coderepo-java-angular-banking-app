@@ -114,7 +114,7 @@ describe("CardsComponent", () => {
     });
   });
 
-  it("Should block frist card", () => {
+  it("CardsComponent Should block frist card", () => {
     const card = cardList[0];
     blockCard(card);
     const inputId = "#cardBlock" + card.cardNumber;
@@ -122,7 +122,7 @@ describe("CardsComponent", () => {
     expect(blockInput.blockInput).toBe(true);
   });
 
-  it("Should unblock frist card", () => {
+  it("CardsComponent Should unblock frist card", () => {
     const card = cardList[0];
     unblockCard(card);
     const inputId = "#cardBlock" + card.cardNumber;
@@ -130,7 +130,7 @@ describe("CardsComponent", () => {
     expect(blockInput.blockInput).toBe(false);
   });
 
-  it("Should block second card", () => {
+  it("CardsComponent Should block second card", () => {
     const card = cardList[1];
     blockCard(card);
     const inputId = "#cardBlock" + card.cardNumber;
@@ -138,7 +138,7 @@ describe("CardsComponent", () => {
     expect(blockInput.blockInput).toBe(true);
   });
 
-  it("Should unblock second card", () => {
+  it("CardsComponent Should unblock second card", () => {
     const card = cardList[1];
     unblockCard(card);
     const inputId = "#cardBlock" + card.cardNumber;
