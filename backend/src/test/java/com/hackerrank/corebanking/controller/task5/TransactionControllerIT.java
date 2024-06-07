@@ -72,16 +72,25 @@ public class TransactionControllerIT {
         transaction.setTransferAmount(6000.0);
         transaction.setToAccountId(secondReceiverAccount.getAccountId());
 
-        Beneficiary beneficiary = new Beneficiary();
-        beneficiary.setPayerAccountId(senderAccount.getAccountId());
-        beneficiary.setBeneficiaryAccountId(receiverAccount.getAccountId());
-        beneficiaryRepository.save(beneficiary);
+        UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
+                () -> transactionController.sendMoney(transaction), "To send more than 5000, a beneficiary needs to be added.");
+        assertEquals("To send more than 5000, a beneficiary needs to be added", exception.getMessage());
+    }
 
+    @Test
+    void testSendMoneyWithoutBeneficiaryLessThan5000() {
+        Transaction transaction = transactionRepository.save(createTransaction());
+        transaction.setTransferAmount(4000.0);
+        transaction.setToAccountId(secondReceiverAccount.getAccountId());
+
+        Transaction result = transactionController.sendMoney(transaction);
+
+        assertTrue(5000 >= result.getTransferAmount(), "Transaction amount more than 5000");
         assertDoesNotThrow(() -> transactionController.sendMoney(transaction), "Should be does not error");
     }
 
     @Test
-    void testSendMoneyWithNewBeneficiaryMoreThan5000() {
+    void testSendMoneyWithNewBeneficiaryBeforeFiveMinutesMoreThan5000() {
         Transaction transaction = transactionRepository.save(createTransaction());
         transaction.setTransferAmount(6000.0);
 
@@ -96,8 +105,52 @@ public class TransactionControllerIT {
     }
 
     @Test
-    void testSendMoneyBeneficiaryBeforeFiveMinutesLessThan5000() {
-        Date fiveMinutesAgo = Date.from(Instant.now().minus(5, ChronoUnit.MINUTES));
+    void testSendMoneyWithNewBeneficiaryBeforeFiveMinutesLessThan5000() {
+        Transaction transaction = transactionRepository.save(createTransaction());
+        transaction.setTransferAmount(4000.0);
+
+        Beneficiary beneficiary = new Beneficiary();
+        beneficiary.setPayerAccountId(senderAccount.getAccountId());
+        beneficiary.setBeneficiaryAccountId(receiverAccount.getAccountId());
+        beneficiary = beneficiaryRepository.save(beneficiary);
+
+        Transaction result = transactionController.sendMoney(transaction);
+
+        long diffInMill = Math.abs(beneficiary.getDateCreated().getTime() - result.getDateCreated().getTime());
+        long diff = TimeUnit.MINUTES.convert(diffInMill, TimeUnit.MILLISECONDS);
+
+        assertTrue(diff <= 5, "More than 5 minutes back");
+        assertTrue(5000 >= result.getTransferAmount(), "Transaction amount more than 5000");
+        assertDoesNotThrow(() -> transactionController.sendMoney(transaction), "Should be does not error");
+    }
+
+    @Test
+    void testSendMoneyWithNewBeneficiaryAfterFiveMinutesMoreThan5000() {
+        Date fiveMinutesAgo = Date.from(Instant.now().minus(6, ChronoUnit.MINUTES));
+
+        Transaction transaction = transactionRepository.save(createTransaction());
+        transaction.setTransferAmount(6000.0);
+
+        Beneficiary beneficiary = new Beneficiary();
+        beneficiary.setPayerAccountId(senderAccount.getAccountId());
+        beneficiary.setBeneficiaryAccountId(receiverAccount.getAccountId());
+        beneficiary = beneficiaryRepository.save(beneficiary);
+        beneficiary.setDateCreated(fiveMinutesAgo);
+        beneficiaryRepository.save(beneficiary);
+
+        Transaction result = transactionController.sendMoney(transaction);
+
+        long diffInMill = Math.abs(beneficiary.getDateCreated().getTime() - result.getDateCreated().getTime());
+        long diff = TimeUnit.MINUTES.convert(diffInMill, TimeUnit.MILLISECONDS);
+
+        assertTrue(diff >= 5, "Less than 5 minutes back");
+        assertTrue(5000 <= result.getTransferAmount(), "Transaction amount less than 5000");
+        assertDoesNotThrow(() -> transactionController.sendMoney(transaction), "Should be does not error");
+    }
+
+    @Test
+    void testSendMoneyWithNewBeneficiaryAfterFiveMinutesLessThan5000() {
+        Date fiveMinutesAgo = Date.from(Instant.now().minus(6, ChronoUnit.MINUTES));
 
         Transaction transaction = transactionRepository.save(createTransaction());
         transaction.setTransferAmount(4000.0);
@@ -114,7 +167,7 @@ public class TransactionControllerIT {
         long diffInMill = Math.abs(beneficiary.getDateCreated().getTime() - result.getDateCreated().getTime());
         long diff = TimeUnit.MINUTES.convert(diffInMill, TimeUnit.MILLISECONDS);
 
-        assertTrue(diff <= 5, "More than 5 minutes back");
+        assertTrue(diff >= 5, "Less than 5 minutes back");
         assertTrue(5000 >= result.getTransferAmount(), "Transaction amount more than 5000");
         assertDoesNotThrow(() -> transactionController.sendMoney(transaction), "Should be does not error");
     }

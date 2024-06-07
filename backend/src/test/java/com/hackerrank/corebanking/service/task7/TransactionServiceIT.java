@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -65,7 +66,7 @@ public class TransactionServiceIT {
     }
 
     @Test
-    void testSendMoneyFraudulentTransactionRepeated() {
+    void testSendMoneyFraudulentTransactionSameAmountMoreThan5Times() {
         Date yesterdayDate = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         Beneficiary beneficiary = new Beneficiary();
@@ -77,10 +78,12 @@ public class TransactionServiceIT {
 
         for (int i = 1; i <= 5; i++) {
             Transaction todayTransaction = createTransaction();
+            todayTransaction.setTransferAmount(5000.0);
             transactionService.sendMoney(todayTransaction);
         }
 
         Transaction transaction = createTransaction();
+        transaction.setTransferAmount(5000.0);
 
         UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
                 () -> transactionService.sendMoney(transaction));
@@ -88,7 +91,54 @@ public class TransactionServiceIT {
     }
 
     @Test
-    void testSendMoneyFraudulentTransactionNewBeneficiaries() {
+    void testSendMoneyFraudulentTransactionSameAmountLessThan5Times() {
+        Date yesterdayDate = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Beneficiary beneficiary = new Beneficiary();
+        beneficiary.setPayerAccountId(senderAccount.getAccountId());
+        beneficiary.setBeneficiaryAccountId(receiverAccount.getAccountId());
+        beneficiaryRepository.save(beneficiary);
+        beneficiary.setDateCreated(yesterdayDate);
+        beneficiaryRepository.save(beneficiary);
+
+        for (int i = 1; i <= 3; i++) {
+            Transaction todayTransaction = createTransaction();
+            todayTransaction.setTransferAmount(5000.0);
+            transactionService.sendMoney(todayTransaction);
+        }
+
+        Transaction transaction = createTransaction();
+        transaction.setTransferAmount(5000.0);
+
+        assertDoesNotThrow(() -> transactionService.sendMoney(transaction), "Should be does not error");
+    }
+
+    @Test
+    void testSendMoneyNotFraudulentTransactionRandomAmountMoreThan5Times() {
+        Random random = new Random();
+        Date yesterdayDate = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Beneficiary beneficiary = new Beneficiary();
+        beneficiary.setPayerAccountId(senderAccount.getAccountId());
+        beneficiary.setBeneficiaryAccountId(receiverAccount.getAccountId());
+        beneficiaryRepository.save(beneficiary);
+        beneficiary.setDateCreated(yesterdayDate);
+        beneficiaryRepository.save(beneficiary);
+
+        for (int i = 1; i <= 5; i++) {
+            Transaction todayTransaction = createTransaction();
+            todayTransaction.setTransferAmount(random.nextDouble(2000,6000));
+            transactionService.sendMoney(todayTransaction);
+        }
+
+        Transaction transaction = createTransaction();
+        transaction.setTransferAmount(5000.0);
+
+        assertDoesNotThrow(() -> transactionService.sendMoney(transaction), "Should be does not error");
+    }
+
+    @Test
+    void testSendMoneyFraudulentTransactionWithoutBeneficiaries() {
         Transaction transaction = createTransaction();
 
         UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
@@ -97,7 +147,7 @@ public class TransactionServiceIT {
     }
 
     @Test
-    void testSendMoneyFraudulentTransactionRecentlyAddedBeneficiaries() {
+    void testSendMoneyNotFraudulentTransactionTodayAddedBeneficiary() {
         Transaction transaction = createTransaction();
 
         Beneficiary beneficiary = new Beneficiary();
@@ -108,6 +158,22 @@ public class TransactionServiceIT {
         UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
                 () -> transactionService.sendMoney(transaction));
         assertEquals("Transaction fraudulent", exception.getMessage());
+    }
+
+    @Test
+    void testSendMoneyFraudulentTransactionYesterdayAddedBeneficiary() {
+        Date yesterdayDate = Date.from(LocalDate.now().minusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Transaction transaction = createTransaction();
+
+        Beneficiary beneficiary = new Beneficiary();
+        beneficiary.setPayerAccountId(senderAccount.getAccountId());
+        beneficiary.setBeneficiaryAccountId(receiverAccount.getAccountId());
+        beneficiary = beneficiaryRepository.save(beneficiary);
+        beneficiary.setDateCreated(yesterdayDate);
+        beneficiaryRepository.save(beneficiary);
+
+        assertDoesNotThrow(() -> transactionService.sendMoney(transaction), "Should be does not error");
     }
 
     private Transaction createTransaction() {
