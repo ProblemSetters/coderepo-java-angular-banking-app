@@ -55,6 +55,7 @@ import { balanceReducer } from './state/balance.reducer';
 			enableHtml: true,
 		}),
     NgbDatepickerModule,
+    
     ClipboardModule,
     StoreModule.forRoot({balance: balanceReducer}, {}),
   ],

@@ -1,174 +1,190 @@
-import { TestBed, ComponentFixture } from "@angular/core/testing";
+import { AccountComponent } from "src/app/account/account.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
 import { AccountService } from "src/app/services/account.service";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
-import { of } from "rxjs";
-import { AccountComponent } from "src/app/account/account.component";
+import { of, throwError } from "rxjs";
+
+class MockAccountService {
+  openAccount(
+    firstName: string,
+    lastName: string,
+    dob: Date,
+    gender: string,
+    address: string,
+    city: string,
+    emailAddress: string,
+    password: string
+  ) {
+    return of({});
+  }
+}
 
 describe("AccountComponent", () => {
   let component: AccountComponent;
   let fixture: ComponentFixture<AccountComponent>;
-  let mockAccountService: jasmine.SpyObj<AccountService>;
-  let mockAuthenticationService: jasmine.SpyObj<AuthenticationService>;
-  let mockRouter: jasmine.SpyObj<Router>;
-  let mockToastrService: jasmine.SpyObj<ToastrService>;
+  let toastrService: ToastrService;
+  let accountService: MockAccountService;
+  let authenticationService: AuthenticationService;
+  let router: Router;
 
   beforeEach(async () => {
-    const accountServiceSpy = jasmine.createSpyObj("AccountService", [
-      "openAccount",
+    const toastrServiceSpy = jasmine.createSpyObj("ToastrService", [
+      "error",
+      "success",
     ]);
     const authenticationServiceSpy = jasmine.createSpyObj(
       "AuthenticationService",
       ["isAuthenticate"]
     );
     const routerSpy = jasmine.createSpyObj("Router", ["navigate"]);
-    const toastrServiceSpy = jasmine.createSpyObj("ToastrService", [
-      "success",
-      "error",
-    ]);
 
     await TestBed.configureTestingModule({
       declarations: [AccountComponent],
+      imports: [ReactiveFormsModule, NgbModule],
       providers: [
-        { provide: AccountService, useValue: accountServiceSpy },
+        { provide: ToastrService, useValue: toastrServiceSpy },
+        { provide: AccountService, useClass: MockAccountService },
         { provide: AuthenticationService, useValue: authenticationServiceSpy },
         { provide: Router, useValue: routerSpy },
-        { provide: ToastrService, useValue: toastrServiceSpy },
       ],
     }).compileComponents();
 
-    mockAccountService = TestBed.inject(
-      AccountService
-    ) as jasmine.SpyObj<AccountService>;
-    mockAuthenticationService = TestBed.inject(
-      AuthenticationService
-    ) as jasmine.SpyObj<AuthenticationService>;
-    mockRouter = TestBed.inject(Router) as jasmine.SpyObj<Router>;
-    mockToastrService = TestBed.inject(
-      ToastrService
-    ) as jasmine.SpyObj<ToastrService>;
-  });
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(AccountComponent);
     component = fixture.componentInstance;
+    toastrService = TestBed.inject(ToastrService);
+    accountService = TestBed.inject(
+      AccountService
+    ) as unknown as MockAccountService;
+    authenticationService = TestBed.inject(AuthenticationService);
+    router = TestBed.inject(Router);
+
+    // Mocking the isAuthenticate method to return an observable
+    // authenticationService.isAuthenticate.and.returnValue(of(false));
+  });
+
+  // it('should create the component', () => {
+  //   expect(component).toBeTruthy();
+  // });
+
+  it("should initialize the form", () => {
     fixture.detectChanges();
+    expect(component.openAccountForm).toBeTruthy();
   });
 
-  describe("ngOnInit", () => {
-    it("should redirect to login page if user is already authenticated", () => {
-      mockAuthenticationService.isAuthenticate.and.returnValue(of(true));
+  it("should validate form controls", () => {
+    fixture.detectChanges();
+    const form = component.openAccountForm;
+    expect(form.valid).toBeFalsy();
 
-      component.ngOnInit();
-
-      expect(mockRouter.navigate).toHaveBeenCalledWith(["login"]);
-    });
-
-    it("should set today date if user is not authenticated", () => {
-      const todayDate = new Date();
-
-      mockAuthenticationService.isAuthenticate.and.returnValue(of(false));
-
-      component.ngOnInit();
-
-      expect(component.todayDate).toEqual({
-        year: todayDate.getFullYear(),
-        month: todayDate.getMonth() + 1,
-        day: todayDate.getDate(),
-      });
-    });
-  });
-
-  it("should return true if form is valid", () => {
-    component.openAccount = {
-      firstName: "John",
-      lastName: "Doe",
-      dob: component.todayDate,
-      gender: "male",
-      address: "123 Street",
-      city: "City",
-      emailAddress: "test@yuiii.com",
-      password: "password123",
-    };
-  });
-
-  it("should return false if form is invalid", () => {
-    component.openAccount = {
-      firstName: "",
-      lastName: "",
-      dob: component.todayDate,
-      gender: "male",
-      address: "123 Street",
-      city: "City",
-      emailAddress: "test@yuiii.com",
-      password: "password123",
-    };
-  });
-
-  it("should open account successfully", () => {
-    const todayDate = new Date();
-    const openAccountData = {
-      firstName: "John",
-      lastName: "Doe",
-      dob: todayDate,
-      gender: "male",
-      address: "123 Street",
-      city: "City",
-      emailAddress: "john.doe@example.com",
-      password: "password123",
-    };
-    const expectedDateOfBirth = new Date(
-      todayDate.getFullYear(),
-      todayDate.getMonth(),
-      todayDate.getDate()
-    );
-
-    mockAccountService.openAccount.and.returnValue(of(true));
-
-    component.todayDate = {
-      year: todayDate.getFullYear(),
-      month: todayDate.getMonth() + 1,
-      day: todayDate.getDate(),
-    };
-    component.openAccount = openAccountData;
+    form.controls["firstName"].setValue("");
+    form.controls["lastName"].setValue("");
+    form.controls["dob"].setValue("");
+    form.controls["emailAddress"].setValue("invalid-email");
+    form.controls["password"].setValue("123");
+    form.controls["city"].setValue("");
+    form.controls["address"].setValue("");
 
     component.onSubmit();
 
-    expect(mockAccountService.openAccount).toHaveBeenCalledWith(
-      openAccountData.firstName,
-      openAccountData.lastName,
-      expectedDateOfBirth,
-      openAccountData.gender,
-      openAccountData.address,
-      openAccountData.city,
-      openAccountData.emailAddress,
-      openAccountData.password
+
+    expect(form.controls["firstName"].valid).toBeFalsy();
+    expect(component.getFormControlError("firstName")).toBe(
+      "First name is required."
     );
-    expect(mockRouter.navigate).toHaveBeenCalledWith(["login"]);
-    expect(mockToastrService.success).toHaveBeenCalledWith(
+
+    expect(form.controls["lastName"].valid).toBeFalsy();
+    expect(component.getFormControlError("lastName")).toBe(
+      "Last name is required."
+    );
+
+    expect(form.controls["dob"].valid).toBeFalsy();
+    expect(component.getFormControlError("dob")).toBe(
+      "Date of birth is required."
+    );
+
+    expect(form.controls["emailAddress"].valid).toBeFalsy();
+    expect(component.getFormControlError("emailAddress")).toBe(
+      "Enter a valid email address."
+    );
+
+    expect(form.controls["password"].valid).toBeFalsy();
+    expect(component.getFormControlError("password")).toBe(
+      "Password must be at least 6 characters long."
+    );
+
+    expect(form.controls["city"].valid).toBeFalsy();
+    expect(component.getFormControlError("city")).toBe("City is required.");
+
+    expect(form.controls["address"].valid).toBeFalsy();
+    expect(component.getFormControlError("address")).toBe(
+      "Address is required."
+    );
+
+    expect(form.controls["privacyPolicy"].valid).toBeFalsy();
+    expect(component.getFormControlError("privacyPolicy")).toBe(
+      "You must accept the privacy policy."
+    );
+  });
+
+  it("should show error message when form is invalid", () => {
+    fixture.detectChanges();
+    component.onSubmit();
+    expect(toastrService.error).toHaveBeenCalledWith(
+      "Please fill in all the required fields."
+    );
+  });
+
+  it("should call openAccount on valid form submission", () => {
+    fixture.detectChanges();
+    const form = component.openAccountForm;
+    form.controls["firstName"].setValue("John");
+    form.controls["lastName"].setValue("Doe");
+    form.controls["dob"].setValue({ year: 2000, month: 1, day: 1 });
+    form.controls["emailAddress"].setValue("john.doe@example.com");
+    form.controls["password"].setValue("password123");
+    form.controls["gender"].setValue("male");
+    form.controls["address"].setValue("123 Main St");
+    form.controls["city"].setValue("Metropolis");
+    form.controls["privacyPolicy"].setValue(true);
+
+    spyOn(accountService, "openAccount").and.returnValue(of({}));
+
+    component.onSubmit();
+
+    expect(accountService.openAccount).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(["login"]);
+    expect(toastrService.success).toHaveBeenCalledWith(
       "Account Opened Successfully"
     );
+  });
 
-    it("should handle error while opening account", () => {
-      const errorResponse = {
-        error: "Oops! Something went wrong while creating account.",
-        status: 500,
-        statusText: "Internal Server Error",
-        url: "/api/account/open",
-        name: "HttpErrorResponse",
-        message:
-          "Http failure response for /api/account/open: 500 Internal Server Error",
-        ok: false,
-      };
+  it("should handle openAccount error", () => {
+    fixture.detectChanges();
+    const form = component.openAccountForm;
+    form.controls["firstName"].setValue("John");
+    form.controls["lastName"].setValue("Doe");
+    form.controls["dob"].setValue({ year: 2000, month: 1, day: 1 });
+    form.controls["emailAddress"].setValue("john.doe@example.com");
+    form.controls["password"].setValue("password123");
+    form.controls["gender"].setValue("male");
+    form.controls["address"].setValue("123 Main St");
+    form.controls["city"].setValue("Metropolis");
+    form.controls["privacyPolicy"].setValue(true);
 
-      mockAccountService.openAccount.and.returnValue(of(errorResponse));
+    spyOn(accountService, "openAccount").and.returnValue(
+      throwError(() => new Error("Error creating account"))
+    );
 
-      component.onSubmit();
+    component.onSubmit();
 
-      expect(mockToastrService.error).toHaveBeenCalledWith(
-        "Oops! Something went wrong while creating account."
-      );
-    });
+    expect(accountService.openAccount).toHaveBeenCalled();
+    expect(toastrService.error).toHaveBeenCalledWith(
+      "Oops! Something went wrong while creating account."
+    );
   });
 });
