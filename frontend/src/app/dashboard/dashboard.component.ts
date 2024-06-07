@@ -56,4 +56,14 @@ export class DashboardComponent {
       }
 		);
   }
+  numberFormat(value: string | number | undefined) {
+    if (!value) return "0.00";
+    if (typeof value === "string") {
+      return Number(value).toFixed(2);
+    }
+    if (typeof value === "number") {
+      return value.toFixed(2);
+    }
+    return "0.00";
+  }
 }

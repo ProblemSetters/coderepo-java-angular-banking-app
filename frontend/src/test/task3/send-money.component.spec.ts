@@ -1,115 +1,133 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ToastrModule } from "ngx-toastr";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
 import { TransactionService } from "src/app/services/transaction.service";
-import { Store, StoreModule } from "@ngrx/store";
+import { BeneficiaryService } from "src/app/services/beneficiary.service";
+import { Store } from "@ngrx/store";
 import { updateBalance } from "src/app/state/balance.actions";
 import { of } from "rxjs";
-import { BrowserModule } from "@angular/platform-browser";
-import {
-  NgbCollapseModule,
-  NgbDatepickerModule,
-  NgbModule,
-} from "@ng-bootstrap/ng-bootstrap";
-import { DataTablesModule } from "angular-datatables";
-import { HttpClientModule } from "@angular/common/http";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ClipboardModule } from "ngx-clipboard";
-import { balanceReducer } from "src/app/state/balance.reducer";
-import { AppRoutingModule } from "src/app/app-routing.module";
+// import { RouterTestingModule } from "@angular/router/testing";
+import { CommonModule } from "@angular/common";
+import { AuthService } from "src/app/services/auth.service";
 import { SendMoneyComponent } from "src/app/send-money/send-money.component";
+import { NavbarComponent } from "src/app/components/navbar/navbar.component";
+import { AuthenticationService } from "src/app/services/authentication.service";
+// import { Router, NavigationEnd } from "@angular/router";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+// import { AppRoutingModule } from "src/app/app-routing.module";
 
-describe("SendMoneyComponent", () => {
-  let component: SendMoneyComponent;
-  let fixture: ComponentFixture<SendMoneyComponent>;
-  let transactionService: TransactionService;
-  let store: Store<any>;
-  let totalBal: Number;
-  const initialBalance = 1000;
-  const transferAmount = 500;
-  const updatedBalance = 500;
+class MockTransactionService {
+  sendMoney(accountId: number, toAccountId: number, transferAmount: number) {
+    return of({});
+  }
+}
+
+class MockAuthenticationService {
+  isAuthenticate() {
+    return of(true);
+  }
+
+  account() {
+    return of({ accountId: 1, balance: 1000 });
+  }
+
+  logout() {}
+}
+
+class MockBeneficiaryService {
+  getAllBeneficiaries() {
+    return of([{ accountId: 2, name: "Beneficiary 1" }]);
+  }
+}
+
+class MockAuthService {
+  logout() {
+    return of({});
+  }
+}
+
+export class RouterStub {
+  routerState = { root: "" };
+  navigate() {
+    return of({});
+  }
+}
+
+describe("Balance Update Tests", () => {
+  let sendMoneyFixture: ComponentFixture<SendMoneyComponent>;
+  let sendMoneyComponent: SendMoneyComponent;
+  let navbarFixture: ComponentFixture<NavbarComponent>;
+  let navbarComponent: NavbarComponent;
+  let toastrService: ToastrService;
+  let transactionService: MockTransactionService;
+  let authenticationService: MockAuthenticationService;
+  let beneficiaryService: MockBeneficiaryService;
+  let store: jasmine.SpyObj<Store<any>>;
+  // let router: Router;
 
   beforeEach(async () => {
+    const toastrServiceSpy = jasmine.createSpyObj("ToastrService", [
+      "error",
+      "success",
+    ]);
+    const storeSpy = jasmine.createSpyObj("Store", ["dispatch", "select"]);
+    // const routerSpy = jasmine.createSpyObj("Router", ["navigate"]);
+    // routerSpy.events = of(new NavigationEnd(0, "", ""));
+
     await TestBed.configureTestingModule({
-      declarations: [SendMoneyComponent],
+      declarations: [SendMoneyComponent, NavbarComponent],
       imports: [
-        BrowserModule,
-        AppRoutingModule,
-        NgbModule,
-        NgbCollapseModule,
-        DataTablesModule,
-        FormsModule,
         ReactiveFormsModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        ToastrModule.forRoot({
-          timeOut: 4000,
-          positionClass: "toast-top-right",
-          preventDuplicates: true,
-          enableHtml: true,
-        }),
-        NgbDatepickerModule,
-        ClipboardModule,
-        StoreModule.forRoot({ balance: balanceReducer }, {}),
+        FormsModule,
+        // RouterTestingModule,
+        CommonModule,
       ],
-      providers: [TransactionService],
+      providers: [
+        { provide: ToastrService, useValue: toastrServiceSpy },
+        { provide: TransactionService, useClass: MockTransactionService },
+        { provide: AuthenticationService, useClass: MockAuthenticationService },
+        { provide: BeneficiaryService, useClass: MockBeneficiaryService },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: Store, useValue: storeSpy },
+        // { provide: Router, useValue: routerSpy },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
-    fixture = TestBed.createComponent(SendMoneyComponent);
-    component = fixture.componentInstance;
-    transactionService = TestBed.inject(TransactionService);
-    store = TestBed.inject(Store);
-    fixture.detectChanges();
-    store.dispatch(updateBalance({ balance: initialBalance }));
-    component.accountId = 1;
+
+    sendMoneyFixture = TestBed.createComponent(SendMoneyComponent);
+    sendMoneyComponent = sendMoneyFixture.componentInstance;
+    navbarFixture = TestBed.createComponent(NavbarComponent);
+    navbarComponent = navbarFixture.componentInstance;
+    toastrService = TestBed.inject(ToastrService);
+    transactionService = TestBed.inject(
+      TransactionService
+    ) as unknown as MockTransactionService;
+    authenticationService = TestBed.inject(
+      AuthenticationService
+    ) as unknown as MockAuthenticationService;
+    beneficiaryService = TestBed.inject(
+      BeneficiaryService
+    ) as unknown as MockBeneficiaryService;
+    store = TestBed.inject(Store) as jasmine.SpyObj<Store<any>>;
+    // router = TestBed.inject(Router);
+
+    sendMoneyFixture.detectChanges();
+    navbarFixture.detectChanges();
   });
 
-  it("Check initial balance", () => {
-    store.select("balance").subscribe((data) => {
-      totalBal = data.balance;
-      expect(data.balance).toEqual(initialBalance);
-    });
-  });
-
-  it("should update balance after sending money", () => {
-    // Mocking the account
-    component.account = {
-      id: 1,
-      accountId: 1,
-      firstName: "John",
-      lastName: "Doe",
-      dob: new Date(),
-      gender: "",
-      address: "",
-      city: "",
-      emailAddress: "",
-      balance: "",
-      password: "",
-      totalTransactions: 0,
-      totalCards: 0,
-    };
-
-    // Mocking the form values
-    component.sendMoneyForm.setValue({
-      toAccountId: 2,
-      transferAmount: transferAmount,
-    });
-
-    // Mocking the transaction service
-
-    spyOn(transactionService, "sendMoney").and.returnValue(
-      of({
-        balance: updatedBalance,
-      })
+  it("should update balance after successful money transfer", () => {
+    expect(store.dispatch).toHaveBeenCalledWith(
+      updateBalance({ balance: 900 })
     );
+    expect(toastrService.success).toHaveBeenCalledWith(
+      "Money Sent Successfully"
+    );
+  });
 
-    // Mocking the store dispatch
-    spyOn(store, "dispatch").and.callThrough();
-    // Calling the onSubmit method
-    component.onSubmit();
-
-    spyOn(store, "select").and.returnValue(of({ balance: updatedBalance }));
-    store.select("balance").subscribe((data) => {
-      expect(data.balance).toEqual(updatedBalance);
-    });
+  it("should update balance dynamically in NavbarComponent", () => {
+    const balance = 900;
+    store.select.and.returnValue(of({ balance }));
+    navbarComponent.getBalance();
+    expect(navbarComponent.balance).toBe(balance);
   });
 });
