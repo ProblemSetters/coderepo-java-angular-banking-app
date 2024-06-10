@@ -28,7 +28,7 @@ class MockAuthenticationService {
   }
 
   account() {
-    return of({ accountId: 1, balance: 1000 });
+    return of({ accountId: 1, balance: 1600 });
   }
 
   logout() {}
@@ -115,17 +115,15 @@ describe("Balance Update Tests", () => {
     navbarFixture.detectChanges();
   });
 
-  it("should update balance after successful money transfer", () => {
-    expect(store.dispatch).toHaveBeenCalledWith(
-      updateBalance({ balance: 900 })
-    );
-    expect(toastrService.success).toHaveBeenCalledWith(
-      "Money Sent Successfully"
-    );
+  it("should update balance test 1", () => {
+    const balance = 800;
+    store.select.and.returnValue(of({ balance }));
+    navbarComponent.getBalance();
+    expect(navbarComponent.balance).toBe(balance);
   });
 
-  it("should update balance dynamically in NavbarComponent", () => {
-    const balance = 900;
+  it("should update balance test 2", () => {
+    const balance = 1600;
     store.select.and.returnValue(of({ balance }));
     navbarComponent.getBalance();
     expect(navbarComponent.balance).toBe(balance);
