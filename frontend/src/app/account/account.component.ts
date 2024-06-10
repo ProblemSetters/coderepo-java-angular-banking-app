@@ -24,6 +24,9 @@ interface OpenAccount {
   styleUrls: ["./account.component.scss"],
 })
 export class AccountComponent {
+  getFormControlError(arg0: string): any {
+    throw new Error("Method not implemented.");
+  }
   public openAccountForm: any;
   public isAuth: boolean = false;
   public todayDate: NgbDateStruct = this.getCurrentDate();
