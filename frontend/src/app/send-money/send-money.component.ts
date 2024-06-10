@@ -59,7 +59,10 @@ export class SendMoneyComponent {
 		this.beneficiaryService.getAllBeneficiaries().subscribe(
 		{
 			next: (data: any) => {
-				this.beneficiaryList = data;
+				const uniqueBeneficiaries = Array.from(
+					new Map(data.map((item: any) => [item['beneficiaryAccountId'], item])).values()
+				);
+				this.beneficiaryList = uniqueBeneficiaries;
 			},
 			error: (e: HttpErrorResponse) => {
 				this.toastr.error('Oops! Something went wrong while fetching all beneficiaries.');

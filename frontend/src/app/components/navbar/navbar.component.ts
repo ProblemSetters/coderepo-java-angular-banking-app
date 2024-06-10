@@ -37,9 +37,11 @@ export class NavbarComponent {
     this.authenticationService.account().subscribe((account: Account) => {
       this.account = account;
       this.store.dispatch(updateBalance({ balance: Number(account.balance) }));
-      this.getBalance();
+      this.balance = Number(account.balance);
     });
   }
+
+  getBalance() {}
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
@@ -48,14 +50,6 @@ export class NavbarComponent {
       }
     });
     this.currentUrl = this.router.url;
-  }
-
-  getBalance() {
-    this.store
-      .select((state) => state.balance)
-      .subscribe((balance) => {
-        this.balance = balance.balance;
-      });
   }
 
   toggleNavbar() {
