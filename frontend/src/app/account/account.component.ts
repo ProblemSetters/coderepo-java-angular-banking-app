@@ -9,13 +9,15 @@ import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 interface OpenAccount {
   firstName: string;
   lastName: string;
-  dob: object;
+  dob: NgbDateStruct;
   gender: string;
   address: string;
   city: string;
   emailAddress: string;
   password: string;
+  privacyPolicy: boolean;
 }
+
 @Component({
   selector: "app-account",
   templateUrl: "./account.component.html",
@@ -34,6 +36,7 @@ export class AccountComponent {
     city: "",
     emailAddress: "",
     password: "",
+    privacyPolicy: false,
   };
 
   getCurrentDate(): NgbDateStruct {
@@ -62,17 +65,14 @@ export class AccountComponent {
     }
   }
 
-  getFormControlError(fieldName: string): string {
-    return "";
-  }
-
   onSubmit() {
     const dateOfBirth = new Date(
-      this.todayDate.year,
-      this.todayDate.month - 1,
-      this.todayDate.day
+      this.openAccount.dob.year,
+      this.openAccount.dob.month - 1,
+      this.openAccount.dob.day
     );
-    const res = this.accountService
+
+    this.accountService
       .openAccount(
         this.openAccount.firstName,
         this.openAccount.lastName,
@@ -93,7 +93,6 @@ export class AccountComponent {
             "Oops! Something went wrong while creating account."
           );
         },
-        complete: () => {},
       });
   }
 }
