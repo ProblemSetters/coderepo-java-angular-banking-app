@@ -123,7 +123,7 @@ describe("Balance Update Tests", () => {
   });
 
   it("should update balance test 2", () => {
-    const balance = 1600;
+    const balance = 1500;
     store.select.and.returnValue(of({ balance }));
     navbarComponent.getBalance();
     expect(navbarComponent.balance).toBe(balance);
