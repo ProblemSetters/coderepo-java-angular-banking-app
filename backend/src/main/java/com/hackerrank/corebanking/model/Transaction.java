@@ -26,7 +26,7 @@ public class Transaction implements Serializable {
     @UpdateTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date lastCreated;
-    @TableGenerator(name = "tr_id_gen", table = "tr_id_gen", pkColumnName = "gen_name", valueColumnName = "gen_val", pkColumnValue = "gen_val", initialValue = 1119, allocationSize = 7)
+    @TableGenerator(name = "tr_id_gen", table = "tr_id_gen", pkColumnName = "gen_name", valueColumnName = "gen_val", pkColumnValue = "gen_val", initialValue = 1042, allocationSize = 7)
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tr_id_gen")
     private Long transactionId;
