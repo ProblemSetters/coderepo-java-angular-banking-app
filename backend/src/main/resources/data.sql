@@ -59,50 +59,50 @@ values (1010113169, 1010213161);
 
 /*add transactions*/
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1001, 1010213161, 1010113163, 374);
+values (CURRENT_DATE - INTERVAL '2' DAY, CURRENT_DATE - INTERVAL '2' DAY, 1001, 1010213161, 1010113163, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1002, 1010213161, 1010113163, 545);
+values (CURRENT_DATE - INTERVAL '3' DAY, CURRENT_DATE - INTERVAL '3' DAY, 1002, 1010213161, 1010113163, 545);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1003, 1010213161, 1010113163, 7);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1004, 1010213161, 1010113163, 434);
+values (CURRENT_DATE - INTERVAL '5' DAY, CURRENT_DATE - INTERVAL '5' DAY, 1004, 1010213161, 1010113163, 434);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1005, 1010213161, 1010113163, 6576);
+values (CURRENT_DATE - INTERVAL '6' DAY, CURRENT_DATE - INTERVAL '6' DAY, 1005, 1010213161, 1010113163, 6576);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1006, 1010213161, 1010113163, 55);
+values (CURRENT_DATE - INTERVAL '7' DAY, CURRENT_DATE - INTERVAL '7' DAY, 1006, 1010213161, 1010113163, 55);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1007, 1010213161, 1010113163, 34);
+values (CURRENT_DATE - INTERVAL '8' DAY, CURRENT_DATE - INTERVAL '8' DAY, 1007, 1010213161, 1010113163, 34);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1008, 1010213161, 1010113163, 374);
+values (CURRENT_DATE - INTERVAL '9' DAY, CURRENT_DATE - INTERVAL '9' DAY, 1008, 1010213161, 1010113173, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1009, 1010213161, 1010113163, 374);
+values (CURRENT_DATE - INTERVAL '9' DAY, CURRENT_DATE - INTERVAL '9' DAY, 1009, 1010213161, 1010113183, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1010, 1010213161, 1010113163, 374);
+values (CURRENT_DATE - INTERVAL '8' DAY, CURRENT_DATE - INTERVAL '8' DAY, 1010, 1010213161, 1010113163, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1012, 1010213161, 1010113163, 434);
+values (CURRENT_DATE - INTERVAL '7' DAY, CURRENT_DATE - INTERVAL '7' DAY, 1012, 1010213161, 1010113163, 434);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1013, 1010213161, 1010113163, 34);
+values (CURRENT_DATE - INTERVAL '7' DAY, CURRENT_DATE - INTERVAL '7' DAY, 1013, 1010213161, 1010113163, 34);
 
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1014, 1010213161, 1010213162, 374);
+values (CURRENT_DATE - INTERVAL '5' DAY, CURRENT_DATE - INTERVAL '5' DAY, 1014, 1010213161, 1010213162, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1015, 1010213161, 1010213162, 545);
+values (CURRENT_DATE - INTERVAL '5' DAY, CURRENT_DATE - INTERVAL '5' DAY, 1015, 1010213161, 1010213162, 545);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1016, 1010213161, 1010213162, 7);
+values (CURRENT_DATE - INTERVAL '5' DAY, CURRENT_DATE - INTERVAL '5' DAY, 1016, 1010213161, 1010213162, 7);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1017, 1010213161, 1010213162, 434);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1018, 1010213161, 1010213162, 6576);
+values (CURRENT_DATE - INTERVAL '3' DAY, CURRENT_DATE - INTERVAL '3' DAY, 1018, 1010213161, 1010213162, 6576);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1019, 1010213161, 1010213162, 55);
+values (CURRENT_DATE - INTERVAL '3' DAY, CURRENT_DATE - INTERVAL '3' DAY, 1019, 1010213161, 1010213162, 55);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1020, 1010213161, 1010213162, 34);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1021, 1010213161, 1010213162, 374);
+values (CURRENT_DATE - INTERVAL '2' DAY, CURRENT_DATE - INTERVAL '2' DAY, 1021, 1010213161, 1010213162, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1022, 1010213161, 1010213162, 374);
+values (CURRENT_DATE - INTERVAL '3' DAY, CURRENT_DATE - INTERVAL '3' DAY, 1022, 1010213161, 1010213162, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1023, 1010213161, 1010213162, 374);
+values (CURRENT_DATE - INTERVAL '5' DAY, CURRENT_DATE - INTERVAL '5' DAY, 1023, 1010213161, 1010213162, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1024, 1010213161, 1010213162, 434);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
@@ -117,21 +117,21 @@ values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1028, 
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1029, 1010113169, 1010213162, 434);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1030, 1010113169, 1010213162, 6576);
+values (CURRENT_DATE - INTERVAL '14' DAY, CURRENT_DATE - INTERVAL '14' DAY, 1030, 1010113169, 1010213162, 6576);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1031, 1010113169, 1010213162, 55);
+values (CURRENT_DATE - INTERVAL '16' DAY, CURRENT_DATE - INTERVAL '16' DAY, 1031, 1010113169, 1010213162, 55);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1032, 1010113169, 1010213162, 34);
+values (CURRENT_DATE - INTERVAL '14' DAY, CURRENT_DATE - INTERVAL '14' DAY, 1032, 1010113169, 1010213162, 34);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1033, 1010113169, 1010213162, 374);
+values (CURRENT_DATE - INTERVAL '25' DAY, CURRENT_DATE - INTERVAL '25' DAY, 1033, 1010113169, 1010213162, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1034, 1010113169, 1010213162, 374);
+values (CURRENT_DATE - INTERVAL '15' DAY, CURRENT_DATE - INTERVAL '15' DAY, 1034, 1010113169, 1010213162, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1035, 1010113169, 1010213162, 374);
+values (CURRENT_DATE - INTERVAL '14' DAY, CURRENT_DATE - INTERVAL '14' DAY, 1035, 1010113169, 1010213162, 374);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1036, 1010113169, 1010213162, 434);
+values (CURRENT_DATE - INTERVAL '13' DAY, CURRENT_DATE - INTERVAL '13' DAY, 1036, 1010113169, 1010213162, 434);
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
-values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1037, 1010113169, 1010213162, 34);
+values (CURRENT_DATE - INTERVAL '13' DAY, CURRENT_DATE - INTERVAL '13' DAY, 1037, 1010113169, 1010213162, 34);
 
 /*fraudent transaction*/
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
