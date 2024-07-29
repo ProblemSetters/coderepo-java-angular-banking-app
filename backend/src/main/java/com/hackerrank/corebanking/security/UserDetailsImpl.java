@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hackerrank.corebanking.model.Account;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,44 +20,46 @@ import java.util.Collection;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDetailsImpl implements UserDetails {
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    private Long id;
+  private Long id;
 
-    private String username;
+  private String username;
 
-    @JsonIgnore
-    private String password;
+  @JsonIgnore
+  private String password;
 
-    public static UserDetailsImpl build(Account user) {
-        return new UserDetailsImpl(
-                user.getAccountId(),
-                user.getEmailAddress(),
-                user.getPassword());
-    }
+  private boolean enabled;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+  private Collection<? extends GrantedAuthority> authorities;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+  public static UserDetailsImpl build(Account user) {
+    Set<SimpleGrantedAuthority> roles = user.getRoles()
+      .stream()
+      .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+      .collect(Collectors.toSet());
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    return UserDetailsImpl.builder()
+      .id(user.getAccountId())
+      .username(user.getEmailAddress())
+      .password(user.getPassword())
+      .enabled(!user.isDeleted())
+      .authorities(roles)
+      .build();
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
 }

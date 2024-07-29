@@ -10,6 +10,7 @@ import com.hackerrank.corebanking.service.TransactionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +78,7 @@ public class AccountController {
   //get
   @GetMapping("/{accountId}")
   @ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("hasRole('ADMIN')")
   public Account getAccountByAccountId(@PathVariable Long accountId) {
     return accountService.getAccountByAccountId(accountId);
   }
@@ -101,8 +103,9 @@ public class AccountController {
   //delete
   @DeleteMapping("/{accountId}")
   @ResponseStatus(HttpStatus.OK)
-  public Account deleteAccountByAccountId(@PathVariable Long accountId) {
-    return accountService.deleteAccountByAccountId(accountId);
+  @PreAuthorize("hasRole('ADMIN')")
+  public Account deleteAccountByAccountId(@PathVariable Long accountId, @RequestParam(defaultValue = "false") boolean softDelete) {
+    return accountService.deleteAccountByAccountId(accountId, softDelete);
   }
 
   //update

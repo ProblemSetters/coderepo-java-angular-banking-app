@@ -2,10 +2,15 @@ package com.hackerrank.corebanking.service;
 
 import com.hackerrank.corebanking.model.Account;
 import com.hackerrank.corebanking.repository.AccountRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
+
 @Service
+@Transactional
 public class AccountService {
   private final AccountRepository accountRepository;
 
@@ -45,12 +50,18 @@ public class AccountService {
     return existing;
   }
 
-  public Account deleteAccountByAccountId(Long accountId) {
+  public Account deleteAccountByAccountId(Long accountId, boolean softDelete) {
     Account existing = accountRepository
             .findById(accountId)
             .orElseThrow(() -> new IllegalArgumentException("Account with given accountId not found."));
-    accountRepository.delete(existing);
 
+    if (softDelete) {
+      existing.setDeleted(true);
+      existing.setDeletedAt(Date.from(Instant.now()));
+      return accountRepository.save(existing);
+    }
+
+    accountRepository.delete(existing);
     return existing;
   }
 
