@@ -1,15 +1,22 @@
 /*add accounts*/
-insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance)
+insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted)
 values (1010213161, 'david@gmail.com', 'david123', 'David', 'Edel', '1990-01-03', 'Male', '21- Right Way', 'NYC',
-        45837.87);
-insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance)
-values (1010113163, 'yalen@gmail.com', 'yalen', 'Yalen', 'Brother', '1993-01-03', 'Male', '22- Right Way', 'CA',
-        95437.12);
-insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance)
-values (1010213162, 'rome@gmail.com', 'rome', 'Rome', 'Wool', '1998-12-13', 'Male', 'Left way', 'LA', 384747.98);
-insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance)
+        45837.87, false);
+insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted)
+values (1010113163, 'yalen@gmail.com', 'yalen123', 'Yalen', 'Brother', '1993-01-03', 'Male', '22- Right Way', 'CA',
+        95437.12, false);
+insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted)
+values (1010213162, 'rome@gmail.com', 'rome', 'Rome', 'Wool', '1998-12-13', 'Male', 'Left way', 'LA', 384747.98, false);
+insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted)
 values (1010113169, 'ravi@gmail.com', 'ravi', 'Ravi', 'Mahale', '1991-09-23', 'Male', 'Statue Road', 'Delhi',
-        474636.09);
+        474636.09, false);
+
+insert into role(id, name)
+values (1, 'ADMIN'),
+       (2, 'USER');
+
+insert into user_roles(account_id, role_id)
+values (1010213161, 1);
 
 /*Add cards to accounts*/
 insert into card(card_number, account_id, name, balance, pin, blocked, expire_month, expire_year, card_holder_name, cvv)
