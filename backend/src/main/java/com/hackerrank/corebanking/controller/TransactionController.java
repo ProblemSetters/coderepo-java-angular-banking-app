@@ -3,11 +3,15 @@ package com.hackerrank.corebanking.controller;
 import com.hackerrank.corebanking.model.Account;
 import com.hackerrank.corebanking.model.Transaction;
 import com.hackerrank.corebanking.repository.TransactionRepository;
+import com.hackerrank.corebanking.security.UserDetailsImpl;
 import com.hackerrank.corebanking.service.AccountService;
 import com.hackerrank.corebanking.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -47,7 +51,15 @@ public class TransactionController {
   //get
   @GetMapping("/transactionHistory")
   @ResponseStatus(HttpStatus.OK)
-  public List<Transaction> transactionHistory(@RequestParam(name = "accountId") String accountId, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "fromDate") Date fromDate, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "toDate") Date toDate) {
+  public List<Transaction> userTransactionHistory(@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "fromDate") Date fromDate, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "toDate") Date toDate) {
+    UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    return transactionRepository.findTransactionsByDateCreatedBetweenAndFromAccountIdOrToAccountId(fromDate, toDate, userDetails.getId().toString(), userDetails.getId().toString());
+  }
+
+  @GetMapping("/transactionHistory/accounts/{accountId}")
+  @ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("hasRole('ADMIN')")
+  public List<Transaction> transactionHistory(@PathVariable(name = "accountId") String accountId, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "fromDate") Date fromDate, @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(name = "toDate") Date toDate) {
     return transactionRepository.findTransactionsByDateCreatedBetweenAndFromAccountIdOrToAccountId(fromDate, toDate, accountId, accountId);
   }
 
