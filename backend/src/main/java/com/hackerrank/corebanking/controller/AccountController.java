@@ -103,6 +103,7 @@ public class AccountController {
   //delete
   @DeleteMapping("/{accountId}")
   @ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("hasRole('ADMIN')")
   public Account deleteAccountByAccountId(@PathVariable Long accountId, @RequestParam(defaultValue = "false") boolean softDelete) {
     return accountService.deleteAccountByAccountId(accountId, softDelete);
   }
