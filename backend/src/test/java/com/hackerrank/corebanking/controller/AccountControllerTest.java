@@ -18,12 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Map;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -76,6 +72,30 @@ class AccountControllerTest {
         .contentType(MediaType.APPLICATION_JSON)
         .content(om.writeValueAsBytes(Map.of("emailAddress", "user@example.com", "password", "user#password123"))))
       .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void shouldNotAllowNormalUserToDeleteAnAccount() throws Exception {
+    createAccount(Account.builder()
+      .emailAddress("user1@shouldNotAllowNormalUserToDeleteAnAccount.com")
+      .password("user1#password123")
+      .build());
+    Account user2 = createAccount(Account.builder()
+      .emailAddress("user2@shouldNotAllowNormalUserToDeleteAnAccount.com")
+      .password("user2#password123")
+      .build());
+    JwtToken user1Jwt = login("user1@shouldNotAllowNormalUserToDeleteAnAccount.com", "user1#password123");
+
+    mockMvc.perform(delete("/api/core-banking/account/{accountId}?softDelete=true", user2.getAccountId())
+        .accept(MediaType.APPLICATION_JSON)
+        .header("Authorization", "%s %s".formatted(user1Jwt.getName(), user1Jwt.getValue()))
+      )
+      .andExpect(status().isForbidden());
+    mockMvc.perform(delete("/api/core-banking/account/{accountId}", user2.getAccountId())
+        .accept(MediaType.APPLICATION_JSON)
+        .header("Authorization", "%s %s".formatted(user1Jwt.getName(), user1Jwt.getValue()))
+      )
+      .andExpect(status().isForbidden());
   }
 
   @Test
