@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 
 export enum AppTheme {
   LIGHT = 'light',
@@ -22,59 +22,34 @@ export class DarkThemeSelectorService {
   currentTheme = this.themeSubject.asObservable();
 
   setLightTheme() {
-    this.themeSubject.next(AppTheme.LIGHT);
-    this.setToLocalStorage(AppTheme.LIGHT);
-    this.removeClassFromHtml(AppTheme.DARK);
+   // Setting Light Theme Logic goes here 
   }
 
   setDarkTheme() {
-    this.themeSubject.next(AppTheme.DARK);
-    this.setToLocalStorage(AppTheme.DARK);
-    this.addClassToHtml(AppTheme.DARK);
+   // Setting Dark Theme Logic goes here 
   }
 
   setSystemTheme() {
-    this.removeFromLocalStorage();
-    if (isSystemDark()) {
-      this.themeSubject.next(AppTheme.DARK);
-      this.addClassToHtml('dark');
-      this.setToLocalStorage(AppTheme.DARK);
-    } else {
-      this.themeSubject.next(AppTheme.LIGHT);
-      this.removeClassFromHtml('dark');
-      this.setToLocalStorage(AppTheme.LIGHT);
-    }
+    // Setting System Theme Logic goes here
   }
 
   private addClassToHtml(className: string) {
-    if (CLIENT_RENDER) {
-      this.removeClassFromHtml(className);
-      document.documentElement.classList.add(className);
-    }
+   // Adding class to HTML Logic goes here
   }
 
   private removeClassFromHtml(className: string) {
-    if (CLIENT_RENDER) {
-      document.documentElement.classList.remove(className);
-    }
+   // removing class from HTML Logic goes here
   }
 
   private setToLocalStorage(theme: AppTheme) {
-    if (CLIENT_RENDER) {
-      localStorage.setItem(LS_THEME, theme);
-    }
+    // Setting to Local Storage Logic goes here
   }
 
   private removeFromLocalStorage() {
-    if (CLIENT_RENDER) {
-      localStorage.removeItem(LS_THEME);
-    }
+    // Removing from Local Storage Logic goes here
   }
 }
 
 function isSystemDark() {
-  if (typeof window !== 'undefined') {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
-  return false;
+  // Check is Theme Dark Logic goes here this will return boolean value isThemeDark or not
 }

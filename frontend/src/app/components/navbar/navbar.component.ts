@@ -60,7 +60,7 @@ export class NavbarComponent {
   getBalance() {}
 
   ngOnInit() {
-    this.darkThemeSelectorService.currentTheme.subscribe(theme => {
+    this.darkThemeSelectorService.currentTheme.subscribe((theme: AppTheme | undefined) => {
       this.isDarkMode = theme === AppTheme.DARK;
       this.themeText = theme === AppTheme.DARK ? 'Dark' : 'Light'
     });

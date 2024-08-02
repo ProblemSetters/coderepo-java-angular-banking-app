@@ -1,41 +1,20 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ToastrModule } from "ngx-toastr";
-import { HttpClientModule } from "@angular/common/http";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { BrowserModule } from "@angular/platform-browser";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { StoreModule } from "@ngrx/store";
+import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { NavbarComponent } from "src/app/components/navbar/navbar.component";
-import {
-  DarkThemeSelectorService,
-  AppTheme,
-} from "src/app/services/themeToggle.service";
+import { DarkThemeSelectorService, AppTheme } from "../../app/services/themeToggle.service";
+import { BrowserModule } from "@angular/platform-browser";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastrModule } from "ngx-toastr";
+import { StoreModule } from "@ngrx/store";
 import { balanceReducer } from "src/app/state/balance.reducer";
-import { BehaviorSubject, of } from "rxjs";
 
-// Mock service
-class MockDarkThemeSelectorService {
-  private themeSubject = new BehaviorSubject<AppTheme | undefined>(
-    AppTheme.LIGHT
-  ); // Default value for the test
-  currentTheme = this.themeSubject.asObservable();
-
-  setLightTheme() {}
-  setDarkTheme() {}
-  setSystemTheme() {}
-
-  // Method to manually set the theme for testing
-  setTheme(theme: AppTheme) {
-    this.themeSubject.next(theme);
-  }
-}
-
-describe("NavbarComponent", () => {
+describe('NavbarComponent Integration Test', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
-  let darkThemeService: MockDarkThemeSelectorService;
+  let darkThemeService: DarkThemeSelectorService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -51,74 +30,67 @@ describe("NavbarComponent", () => {
         ToastrModule.forRoot(),
         StoreModule.forRoot({ balance: balanceReducer }),
       ],
-      providers: [
-        {
-          provide: DarkThemeSelectorService,
-          useClass: MockDarkThemeSelectorService,
-        },
-      ],
+      providers: [DarkThemeSelectorService], // Use real service
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
-    darkThemeService = TestBed.inject(
-      DarkThemeSelectorService
-    ) as unknown as MockDarkThemeSelectorService;
+    darkThemeService = TestBed.inject(DarkThemeSelectorService);
     fixture.detectChanges();
   });
 
-  it("should initialize with the correct theme", () => {
-    darkThemeService.setTheme(AppTheme.LIGHT);
+  it('should initialize with the correct theme', fakeAsync(() => {
+    darkThemeService.setLightTheme();
     fixture.detectChanges();
-    // Given the default value is LIGHT
-    expect(component.isDarkMode).toBeFalse();
-  });
+    tick(); // Ensure that change detection has completed
 
-  it("should toggle theme correctly", () => {
-    // Given the default value is DARK
-    darkThemeService.setTheme(AppTheme.DARK);
-    fixture.detectChanges();
+    darkThemeService.currentTheme.subscribe((theme: any) => {
+      expect(theme).toBe(AppTheme.LIGHT);
+      expect(component.isDarkMode).toBeFalse();
+    }).unsubscribe(); // Ensure to unsubscribe to avoid memory leaks
+  }));
 
-    expect(component.isDarkMode).toBeTrue();
-  });
-
-  it("should call setLightTheme when toggling from dark to light", () => {
-    spyOn(darkThemeService, "setLightTheme").and.callThrough();
-    spyOn(darkThemeService, "setDarkTheme");
-
+  it('should toggle theme correctly', fakeAsync(() => {
     // Set initial theme to DARK
-    darkThemeService.setTheme(AppTheme.DARK);
+    darkThemeService.setDarkTheme();
     fixture.detectChanges();
+    tick(); // Ensure that change detection has completed
 
-    // Verify the component state after setting the theme
-    expect(component.isDarkMode).toBeTrue();
+    // Check if the theme is DARK
+    darkThemeService.currentTheme.subscribe((theme: AppTheme | undefined) => {
+      expect(theme).toBe(AppTheme.DARK);
+    }).unsubscribe(); // Ensure to unsubscribe to avoid memory leaks
 
     // Trigger theme toggle
     component.handleToggleTheme();
     fixture.detectChanges();
+    tick(); // Ensure that change detection has completed
 
-    // Verify that setLightTheme was called
-    expect(darkThemeService.setLightTheme).toHaveBeenCalled();
-    expect(darkThemeService.setDarkTheme).not.toHaveBeenCalled();
-  });
+    // Check if the theme has toggled to LIGHT
+    darkThemeService.currentTheme.subscribe((theme: AppTheme | undefined) => {
+      expect(theme).toBe(AppTheme.LIGHT);
+    }).unsubscribe(); // Ensure to unsubscribe to avoid memory leaks
+  }));
 
-  it("should call setDarkTheme when toggling from light to dark", () => {
-    spyOn(darkThemeService, "setLightTheme");
-    spyOn(darkThemeService, "setDarkTheme").and.callThrough();
-
-    // Set initial theme to LIGHT
-    darkThemeService.setTheme(AppTheme.LIGHT);
+  it('should call setDarkTheme when toggling from light to dark', fakeAsync(() => {
+    darkThemeService.setDarkTheme();
     fixture.detectChanges();
+    tick(); // Ensure that change detection has completed
 
-    // Verify the component state after setting the theme
-    expect(component.isDarkMode).toBeFalse();
+    darkThemeService.currentTheme.subscribe((theme: AppTheme | undefined) => {
+      expect(theme).toBe(AppTheme.DARK);
+      expect(component.isDarkMode).toBeTrue();
+    }).unsubscribe(); // Ensure to unsubscribe to avoid memory leaks
+  }));
 
-    // Trigger theme toggle
-    component.handleToggleTheme();
+  it('should call setDarkTheme when toggling from dark to light', fakeAsync(() => {
+    darkThemeService.setLightTheme();
     fixture.detectChanges();
+    tick(); // Ensure that change detection has completed
 
-    // Verify that setDarkTheme was called
-    expect(darkThemeService.setDarkTheme).toHaveBeenCalled();
-    expect(darkThemeService.setLightTheme).not.toHaveBeenCalled();
-  });
+    darkThemeService.currentTheme.subscribe((theme: AppTheme | undefined) => {
+      expect(theme).toBe(AppTheme.LIGHT);
+      expect(component.isDarkMode).toBeFalse();
+    }).unsubscribe(); // Ensure to unsubscribe to avoid memory leaks
+  }));
 });
