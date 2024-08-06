@@ -8,23 +8,77 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
-import { StoreModule } from "@ngrx/store";
+import { Store, StoreModule } from "@ngrx/store";
 import { balanceReducer } from "src/app/state/balance.reducer";
 import { Router } from "@angular/router";
 import { BeneficiaryComponent } from "src/app/beneficiary/beneficiary.component";
 import { AppComponent } from "src/app/app.component";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { of } from "rxjs";
+import { TransactionService } from "src/app/services/transaction.service";
+import { AuthenticationService } from "src/app/services/authentication.service";
+import { BeneficiaryService } from "src/app/services/beneficiary.service";
+import { AuthService } from "src/app/services/auth.service";
+import { CommonModule } from "@angular/common";
+
+
+class MockTransactionService {
+  sendMoney(accountId: number, toAccountId: number, transferAmount: number) {
+    return of({});
+  }
+}
+
+class MockAuthenticationService {
+  isAuthenticate() {
+    return of(true);
+  }
+  getToken(){
+    return of('token');
+  }
+  account() {
+    return of({ accountId: 1, balance: 1600 });
+  }
+
+  logout() {}
+}
+
+class MockBeneficiaryService {
+  getAllBeneficiaries() {
+    return of([{ accountId: 2, name: "Beneficiary 1" }]);
+  }
+}
+
+class MockAuthService {
+  logout() {
+    return of({});
+  }
+}
+
+export class RouterStub {
+  routerState = { root: "" };
+  navigate() {
+    return of({});
+  }
+}
 
 describe('Theme Toggler Button Integration Test', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let darkThemeService: DarkThemeSelectorService;
   let router: Router;
+  let transactionService: MockTransactionService;
+  let authenticationService: MockAuthenticationService;
+  let beneficiaryService: MockBeneficiaryService;
+  let store: jasmine.SpyObj<Store<any>>;
 
   beforeEach(async () => {
+    const storeSpy = jasmine.createSpyObj("Store", ["dispatch", "select"]);
+
     await TestBed.configureTestingModule({
-      declarations: [AppComponent, NavbarComponent],
+      declarations: [AppComponent ,NavbarComponent],
       imports: [
         BrowserModule,
+        CommonModule,
         RouterTestingModule.withRoutes([
           { path: 'beneficiary', component: BeneficiaryComponent }
         ]),
@@ -37,12 +91,30 @@ describe('Theme Toggler Button Integration Test', () => {
         ToastrModule.forRoot(),
         StoreModule.forRoot({ balance: balanceReducer }),
       ],
-      providers: [DarkThemeSelectorService], // Use real service
+      providers: [DarkThemeSelectorService,
+        { provide: TransactionService, useClass: MockTransactionService },
+        { provide: AuthenticationService, useClass: MockAuthenticationService },
+        { provide: BeneficiaryService, useClass: MockBeneficiaryService },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: Store, useValue: storeSpy },
+
+      ], // Use real service
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     darkThemeService = TestBed.inject(DarkThemeSelectorService);
+    transactionService = TestBed.inject(
+      TransactionService
+    ) as unknown as MockTransactionService;
+    authenticationService = TestBed.inject(
+      AuthenticationService
+    ) as unknown as MockAuthenticationService;
+    beneficiaryService = TestBed.inject(
+      BeneficiaryService
+    ) as unknown as MockBeneficiaryService;
+    store = TestBed.inject(Store) as jasmine.SpyObj<Store<any>>;
     router = TestBed.inject(Router);
     fixture.detectChanges();
   });
