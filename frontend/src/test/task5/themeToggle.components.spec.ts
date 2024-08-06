@@ -10,17 +10,24 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 import { StoreModule } from "@ngrx/store";
 import { balanceReducer } from "src/app/state/balance.reducer";
+import { Router } from "@angular/router";
+import { BeneficiaryComponent } from "src/app/beneficiary/beneficiary.component";
+import { AppComponent } from "src/app/app.component";
 
-describe('NavbarComponent Integration Test', () => {
-  let component: NavbarComponent;
-  let fixture: ComponentFixture<NavbarComponent>;
+describe('Theme Toggler Button Integration Test', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
   let darkThemeService: DarkThemeSelectorService;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NavbarComponent],
+      declarations: [AppComponent, NavbarComponent],
       imports: [
         BrowserModule,
+        RouterTestingModule.withRoutes([
+          { path: 'beneficiary', component: BeneficiaryComponent }
+        ]),
         RouterTestingModule,
         NgbModule,
         FormsModule,
@@ -33,9 +40,10 @@ describe('NavbarComponent Integration Test', () => {
       providers: [DarkThemeSelectorService], // Use real service
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NavbarComponent);
+    fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     darkThemeService = TestBed.inject(DarkThemeSelectorService);
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -92,5 +100,28 @@ describe('NavbarComponent Integration Test', () => {
       expect(theme).toBe(AppTheme.LIGHT);
       expect(component.isDarkMode).toBeFalse();
     }).unsubscribe(); // Ensure to unsubscribe to avoid memory leaks
+  }));
+
+  it('should have body class bg-gray-900 on beneficiary page when dark mode is enabled', fakeAsync(() => {
+    // Navigate to beneficiary page
+    router.navigate(["beneficiary"]);
+    fixture.detectChanges();
+    tick();
+
+    // Enable dark mode
+    darkThemeService.setDarkTheme();
+    fixture.detectChanges();
+    tick(); // Ensure that change detection has complete
+
+    // Check if body has class bg-gray-900
+    expect(document.body.classList.contains("bg-gray-900")).toBeTrue();
+
+    // Disable dark mode
+    darkThemeService.setLightTheme();
+    fixture.detectChanges();
+    tick(); // Ensure that change detection has completed
+
+    // Check if body does not have class bg-gray-900
+    expect(document.body.classList.contains("bg-gray-900")).toBeFalse();
   }));
 });

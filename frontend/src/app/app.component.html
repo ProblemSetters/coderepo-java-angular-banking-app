@@ -1,4 +1,20 @@
 <div>
-    <app-navbar></app-navbar>
-    <router-outlet></router-outlet>
+  <app-navbar></app-navbar>
+  <router-outlet>
+    <div class="theme-toggle toggleThemeButton dark:bg-slate-600">
+      <p class="dark:text-white">Theme</p>
+      <input
+        type="checkbox"
+        class="checkbox"
+        id="checkbox"
+        [checked]="isDarkMode"
+        (change)="handleToggleTheme()"
+      />
+      <label for="checkbox" class="checkbox-label">
+        <i class="bi bi-moon-stars-fill"></i>
+        <i class="bi bi-sun-fill"></i>
+        <span class="ball"></span>
+      </label>
+    </div>
+  </router-outlet>
 </div>

@@ -1,5 +1,6 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 export enum AppTheme {
   LIGHT = 'light',
@@ -21,6 +22,17 @@ export class DarkThemeSelectorService {
 
   currentTheme = this.themeSubject.asObservable();
 
+  constructor(private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.handleRouteChange(event.url);
+      }
+    });
+
+    // Initial theme application
+    this.handleRouteChange(this.router.url);
+  }
+
   setLightTheme() {
    // Setting Light Theme Logic goes here 
   }
@@ -30,7 +42,11 @@ export class DarkThemeSelectorService {
   }
 
   setSystemTheme() {
-    // Setting System Theme Logic goes here
+    // Setting System Theme Logic goes
+  }
+
+  private handleRouteChange(url: string) {
+    // Handle Route Change Logic goes 
   }
 
   private addClassToHtml(className: string) {
@@ -52,4 +68,6 @@ export class DarkThemeSelectorService {
 
 function isSystemDark() {
   // Check is Theme Dark Logic goes here this will return boolean value isThemeDark or not
+  //TODO : - For Not Returning false By Default 
+  return false;
 }
