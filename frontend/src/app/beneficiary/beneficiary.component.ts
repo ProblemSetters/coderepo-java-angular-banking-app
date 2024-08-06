@@ -9,6 +9,7 @@ import { BeneficiaryService } from 'src/app/services/beneficiary.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Account } from '../dto/types';
+import { AppTheme, DarkThemeSelectorService } from '../services/themeToggle.service';
 
 @Component({
 	selector: 'app-beneficiary',
@@ -21,11 +22,13 @@ export class BeneficiaryComponent {
 	public accountId!: number
 	public beneficiaryForm!: FormGroup;
 	public beneficiaryList!: Array<any>;
+	public isDarkMode: boolean = false;
 
 	constructor(
 		private toastr: ToastrService,
 		private beneficiaryService: BeneficiaryService,
 		private authenticationService: AuthenticationService,
+		private darkThemeSelectorService: DarkThemeSelectorService // Injected here
 	) {
 		this.authenticationService
 			.isAuthenticate()
@@ -40,6 +43,10 @@ export class BeneficiaryComponent {
 	}
 
 	ngOnInit() {
+		this.darkThemeSelectorService.currentTheme.subscribe((theme: AppTheme | undefined) => {
+      this.isDarkMode = theme === AppTheme.DARK;
+    });
+		
 		this.beneficiaryForm = new FormGroup({
 			beneficiaryAccountId: new FormControl(null, Validators.required),
 		});

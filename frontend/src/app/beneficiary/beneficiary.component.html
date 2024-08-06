@@ -67,7 +67,13 @@
                     <div class="mt-10 mx-8 md:mx-0">
                         <button
                             type="submit"
-                            class="block w-full disabled:opacity-25 rounded-md bg-primary-blue px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-secondary-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue"
+                            class="block w-full rounded-md bg-primary-blue px-3.5 py-2.5 text-center text-sm font-semibol shadow-sm hover:bg-secondary-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue"
+
+                            [ngClass]="{
+                                'bg-[#3c3c3c]  text-[#959494] opacity-100 hover:bg-[#3c3c3c]': isDarkMode && !beneficiaryForm.valid,
+                                'bg-[#e0e0e0]  text-[#0a0a0a] hover:bg-[#9d9494] opacity-100': isDarkMode && beneficiaryForm.valid,
+                                'text-white disabled:opacity-25': !isDarkMode,
+                              }"
                             [disabled]="!beneficiaryForm.valid"
                         >
                             Add Beneficiary

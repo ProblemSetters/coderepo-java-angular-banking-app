@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { BehaviorSubject, filter } from 'rxjs';
 
 export enum AppTheme {
   LIGHT = 'light',
@@ -21,16 +22,29 @@ export class DarkThemeSelectorService {
 
   currentTheme = this.themeSubject.asObservable();
 
+  constructor(private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.handleRouteChange(event.url);
+      }
+    });
+
+    // Initial theme application
+    this.handleRouteChange(this.router.url);
+  }
+
   setLightTheme() {
     this.themeSubject.next(AppTheme.LIGHT);
     this.setToLocalStorage(AppTheme.LIGHT);
     this.removeClassFromHtml(AppTheme.DARK);
+    this.handleRouteChange(this.router.url); // Ensure the class is updated on theme change
   }
 
   setDarkTheme() {
     this.themeSubject.next(AppTheme.DARK);
     this.setToLocalStorage(AppTheme.DARK);
     this.addClassToHtml(AppTheme.DARK);
+    this.handleRouteChange(this.router.url); // Ensure the class is updated on theme change
   }
 
   setSystemTheme() {
@@ -43,6 +57,15 @@ export class DarkThemeSelectorService {
       this.themeSubject.next(AppTheme.LIGHT);
       this.removeClassFromHtml('dark');
       this.setToLocalStorage(AppTheme.LIGHT);
+    }
+    this.handleRouteChange(this.router.url); // Ensure the class is updated on theme change
+  }
+
+  private handleRouteChange(url: string) {
+    if (this.themeSubject.getValue() === AppTheme.DARK && url === '/beneficiary') {
+      document.body.classList.add('bg-gray-900');
+    } else {
+      document.body.classList.remove('bg-gray-900');
     }
   }
 

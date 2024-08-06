@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
+import { AppTheme, DarkThemeSelectorService } from './services/themeToggle.service';
 
 @Component({
   selector: 'app-root',
@@ -13,15 +14,23 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'banking-system-app';
   public isAuth: boolean = false;
-  
+  public isDarkMode: boolean = false;
+  public themeText = '';
+
   constructor(
 		private toastr: ToastrService,
 		private accountService: AccountService,
     private authenticationService: AuthenticationService,
+		private darkThemeSelectorService: DarkThemeSelectorService, // Injected here
     private router: Router,
 	) {}
 
   ngOnInit(): void {
+    this.darkThemeSelectorService.currentTheme.subscribe(theme => {
+      this.isDarkMode = theme === AppTheme.DARK;
+      this.themeText = theme === AppTheme.DARK ? 'Dark' : 'Light'
+    });
+
     this.authenticationService.isAuthenticate().subscribe((status) => {
 			this.isAuth = status;
 			if (this.isAuth) {
@@ -31,6 +40,18 @@ export class AppComponent {
       }
 		});
     
+  }
+
+  handleToggleTheme(){
+    if(this.isDarkMode){
+      this.themeText = 'Light';
+      this.darkThemeSelectorService.setLightTheme();
+      this.isDarkMode = false;
+      return
+    }
+    this.themeText = 'Dark';
+    this.darkThemeSelectorService.setDarkTheme();
+    this.isDarkMode = true;
   }
 
   getUserAccount() {

@@ -44,19 +44,6 @@ export class NavbarComponent {
       this.balance = Number(account.balance);
     });
   }
-  
-  handleToggleTheme(){
-    if(this.isDarkMode){
-      this.themeText = 'Light';
-      this.darkThemeSelectorService.setLightTheme();
-      this.isDarkMode = false;
-      return
-    }
-    this.themeText = 'Dark';
-    this.darkThemeSelectorService.setDarkTheme();
-    this.isDarkMode = true;
-  }
-
   getBalance() {}
 
   ngOnInit() {
