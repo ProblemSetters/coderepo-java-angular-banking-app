@@ -1,6 +1,6 @@
 # Springboot Angular Banking App
 
-This is a full-stack banking application built using the springboot in backend and angular in the frontend. It provides
+This full-stack banking application is built using spring-boot (backend) and angular (frontend). It provides
 the following features:
 
 - Account Creation: Customers can create accounts and securely store their information.
