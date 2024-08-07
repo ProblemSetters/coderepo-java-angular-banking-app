@@ -70,6 +70,10 @@ Currently, there are some operations in the app which should only be allowed for
 2. View full transaction history of other customers
 3. Soft delete customers
 
+But no RBAC management is currently implemented, meaning that any user can use their own JWT token to directly call the APIs to mimic transactions of other users, retrieve other user account details and delete a user account completely.
+
+All of these operations should solely be allowed by an admin only. Implement **RBAC management** in the application so that these operations are allowed for an admin only.
+
 ### Domain-mode updates
 #### Role for RBAC (and its usage in Account domain model)
 <details open>
