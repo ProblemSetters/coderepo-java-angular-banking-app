@@ -7,367 +7,164 @@
     </div>
 
     <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+      <div class="flex mt-4 mb-4 px">
+        <button
+          type="button"
+          (click)="focusPrevious()"
+          class="bg-gray-500 text-white px-4 py-2 rounded"
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          (click)="focusNext()"
+          class="bg-green-500 text-white px-4 py-2 rounded"
+        >
+          Next
+        </button>
+      </div>
+
       <div formArrayName="applicants">
-        <h2 class="font-bold text-left leading-4 text-primary-blue mt-4">
+        <h2 class="font-bold text-left leading-4 text-primary-blue mt-4 px-4">
           Contact Information
         </h2>
         <div
+          #stepperContainer
           *ngFor="let applicant of applicants.controls; let i = index"
           [formGroupName]="i"
           class="p-4"
         >
-          <div class="grid grid-cols-2 gap-4 mb-3">
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-              Name
-              <input
-                formControlName="name"
-                placeholder="Enter name"
-                type="text"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('name')?.invalid &&
-                  applicant.get('name')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                Name is required
+          <div class="flex flex-wrap -mx-2">
+            <div
+              *ngFor="let field of applicantFields"
+              [ngSwitch]="field.type"
+              [ngClass]="field.class"
+              class="mb-4"
+            >
+              <div *ngIf="field.type !== 'radio' && field.type !== 'checkbox'">
+                <label
+                  class="text-sm font-medium leading-none text-gray-800 mb-2"
+                >
+                  {{ field.label }}
+                </label>
+                <ng-container [ngSwitch]="field.type">
+                  <input
+                    *ngSwitchCase="'text'"
+                    [formControlName]="field.name"
+                    [type]="field.type"
+                    [placeholder]="field.placeholder"
+                    class="border p-2 rounded w-full"
+                    #fieldInput
+                    [attr.data-index]="i"
+                  />
+                  <input
+                    *ngSwitchCase="'number'"
+                    [formControlName]="field.name"
+                    [type]="field.type"
+                    [placeholder]="field.placeholder"
+                    class="border p-2 rounded w-full"
+                    #fieldInput
+                    [attr.data-index]="i"
+                  />
+                  <input
+                    *ngSwitchCase="'email'"
+                    [formControlName]="field.name"
+                    [type]="field.type"
+                    [placeholder]="field.placeholder"
+                    class="border p-2 rounded w-full"
+                    #fieldInput
+                    [attr.data-index]="i"
+                  />
+                  <textarea
+                    *ngSwitchCase="'textarea'"
+                    [formControlName]="field.name"
+                    [placeholder]="field.placeholder"
+                    class="border p-2 rounded w-full"
+                    rows="4"
+                    #fieldInput
+                    [attr.data-index]="i"
+                  ></textarea>
+                  <select
+                    *ngSwitchCase="'select'"
+                    [formControlName]="field.name"
+                    class="border p-2 rounded w-full"
+                    #fieldInput
+                    [attr.data-index]="i"
+                  >
+                    <option value="" disabled selected>
+                      {{ field.placeholder }}
+                    </option>
+                    <option
+                      *ngFor="let option of getFieldOptions(field)"
+                      [value]="option"
+                    >
+                      {{ option }}
+                    </option>
+                  </select>
+                </ng-container>
+                <div
+                  *ngIf="
+                    applicant.get(field.name)?.invalid &&
+                    applicant.get(field.name)?.touched
+                  "
+                  class="text-red-500 text-sm mt-1"
+                >
+                  {{ field.label }} is required
+                </div>
               </div>
-            </label>
-            <label class="text-sm font-medium leading-none text-gray-800">
-              Age
-              <input
-                formControlName="age"
-                placeholder="Enter age"
-                type="number"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
               <div
-                *ngIf="
-                  applicant.get('age')?.invalid && applicant.get('age')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
+                *ngSwitchCase="'radio'"
+                class="flex items-center space-x-4 mt-2"
               >
-                Age is required
+                <div *ngFor="let option of getFieldOptions(field)">
+                  <label class="inline-flex items-center">
+                    <input
+                      type="radio"
+                      [formControlName]="field.name"
+                      [value]="option"
+                      class="form-radio"
+                      #fieldInput
+                      [attr.data-index]="i"
+                    />
+                    <span class="ml-2">{{ option }}</span>
+                  </label>
+                </div>
               </div>
-            </label>
+            </div>
           </div>
-          <div class="grid grid-cols-2 gap-4 mb-3">
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-              Phone number
-              <input
-                formControlName="number"
-                placeholder="Enter phone number"
-                type="number"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('number')?.invalid &&
-                  applicant.get('number')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                Phone number is required
-              </div>
-            </label>
-            <label class="text-sm font-medium leading-none text-gray-800">
-              E-mail
-              <input
-                formControlName="email"
-                placeholder="Enter email address"
-                type="email"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('email')?.invalid &&
-                  applicant.get('email')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                A valid email is required
-              </div>
-            </label>
-          </div>
-          <div class="grid grid-cols-2 gap-4 mb-3">
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-              Aadhaar number
-              <input
-                formControlName="aadhar"
-                placeholder="Enter Aadhar card number"
-                type="number"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('aadhar')?.invalid &&
-                  applicant.get('aadhar')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                Aadhaar number is required and must be a valid number
-              </div>
-            </label>
-            <label class="text-sm font-medium leading-none text-gray-800">
-              PAN number
-              <input
-                formControlName="pan"
-                placeholder="Enter PAN card number"
-                type="text"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('pan')?.invalid && applicant.get('pan')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                PAN number is required and must be a valid number
-              </div>
-            </label>
-          </div>
-
-          <div class="grid cols-1">
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-               Loan type
-               <select
-               formControlName="loanType"
-               class="border p-2 rounded w-full mt-2"
-               required
-             >
-               <option value="" disabled selected>Select Loan Type</option>
-               <option *ngFor="let loanType of loanTypes" [value]="loanType">
-                 {{ loanType }}
-               </option>
-             </select>
-              <div
-                *ngIf="
-                  applicant.get('loanType')?.invalid &&
-                  applicant.get('loanType')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                Loan type is required
-              </div>
-            </label>
-          </div>
-          <h2 class="font-bold text-left leading-4 text-primary-blue mt-4 mb-4">
-            Address Details
-          </h2>
-
-          <div class="grid cols-1 mb-2">
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-               Street Address
-              <input
-                formControlName="streetAddress"
-                placeholder="enter street address"
-                type="text"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('streetAddress')?.invalid &&
-                  applicant.get('streetAddress')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                Address is required 
-              </div>
-            </label>
-          </div>
-          <div class="grid grid-cols-2 gap-4 mb-3">
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-              City
-              <input
-                formControlName="city"
-                placeholder="Enter your city"
-                type="text"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('city')?.invalid &&
-                  applicant.get('city')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                city is required
-              </div>
-            </label>
-            <label class="text-sm font-medium leading-none text-gray-800">
-              State
-              <select
-                formControlName="state"
-                class="border p-2 rounded w-full mt-2"
-                required
-              >
-                <option value="" disabled selected>Select your state</option>
-                <option *ngFor="let state of states" [value]="state">
-                  {{ state }}
-                </option>
-              </select>
-              <div
-                *ngIf="
-                  applicant.get('state')?.invalid && applicant.get('state')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                State is required
-              </div>
-            </label>
-          </div>
-          <div class="grid cols-1">
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-              Zip/postal code
-              <input
-                formControlName="code"
-                placeholder="enter zip code"
-                type="number"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('code')?.invalid &&
-                  applicant.get('code')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                zip/postal is required 
-              </div>
-            </label>
-          </div>
-
-          <h2 class="font-bold text-left leading-4 text-primary-blue mt-4 mb-4">
-            Additional Information
-          </h2>
-          
-          <div class="grid cols-1 mb-2">
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-               Select Gender
-               <select
-               formControlName="gender"
-               class="border p-2 rounded w-full mt-2"
-               required
-             >
-               <option value="" disabled selected>Select gender</option>
-               <option *ngFor="let gender of genderType" [value]="gender">
-                 {{ gender }}
-               </option>
-             </select>
-              <div
-                *ngIf="
-                  applicant.get('gender')?.invalid &&
-                  applicant.get('gender')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                gender is required
-              </div>
-            </label>
-          </div>
-          <div class="grid grid-cols-3 gap-4 mb-3">
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-              Birth Date
-              <input
-                formControlName="birthDay"
-                placeholder="DD"
-                type="number"
-                min="1"
-                max="31"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('birthDay')?.invalid &&
-                  applicant.get('birthDay')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                Day is required and must be between 1 and 31
-              </div>
-            </label>
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-              Birth Month
-              <input
-                formControlName="birthMonth"
-                placeholder="MM"
-                type="number"
-                min="1"
-                max="12"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('birthMonth')?.invalid &&
-                  applicant.get('birthMonth')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                Month is required and must be between 1 and 12
-              </div>
-            </label>
-            <label class="text-sm font-medium leading-none text-gray-800 mb-2">
-             Birth Year
-              <input
-                formControlName="birthYear"
-                placeholder="YYYY"
-                type="number"
-                min="1900"
-                max="2099"
-                class="border p-2 rounded w-full mt-2"
-                required
-              />
-              <div
-                *ngIf="
-                  applicant.get('birthYear')?.invalid &&
-                  applicant.get('birthYear')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                Year is required and must be between 1900 and 2099
-              </div>
-            </label>
-          </div>
-
-          <div class="grid cols-1 mb-2">
-            <label class="text-sm font-medium leading-none text-gray-800">
-              Additional Comments
-              <textarea
-                formControlName="comments"
-                placeholder="Enter any additional comments here"
-                class="border p-2 rounded w-full mt-2"
-                rows="4"
-              ></textarea>
-              <div
-                *ngIf="
-                  applicant.get('comments')?.invalid && applicant.get('comments')?.touched
-                "
-                class="text-red-500 text-sm mt-1"
-              >
-                Comments are optional
-              </div>
-            </label>
-          </div>
-      
         </div>
       </div>
 
-      <button type="submit" class="bg-green-500 text-white  px-4 py-2 rounded">
-        Submit
-      </button>
+      <div class="mb-2 flex items-center">
+        <input
+          type="checkbox"
+          formControlName="acceptTerms"
+          id="acceptTerms"
+          class="form-checkbox"
+        />
+        <label for="acceptTerms" class="ml-2 text-sm text-gray-800">
+          I confirm that all information provided is correct.
+        </label>
+
+        <div
+          *ngIf="
+            loanForm.get('acceptTerms')?.invalid &&
+            loanForm.get('acceptTerms')?.touched
+          "
+          class="text-red-500 text-sm mt-1"
+        >
+          You must accept the terms and conditions.
+        </div>
+      </div>
+
+      <div class="flex justify-start mt-4">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+          Submit
+        </button>
+      </div>
     </form>
   </div>
 </section>
+
+
+
