@@ -31,6 +31,7 @@ public class Transaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "tr_id_gen")
     private Long transactionId;
     private Long fromAccountId;
+    private String sourceCardNumber;
     private Long toAccountId;
     private Double transferAmount;
 }

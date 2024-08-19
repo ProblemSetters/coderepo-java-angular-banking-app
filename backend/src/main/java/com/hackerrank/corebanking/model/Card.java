@@ -20,6 +20,10 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Card implements Serializable {
+
+    private final double DAILY_TRANSACTION_LIMIT = 5000.00;
+    private final double MONTHLY_TRANSACTION_LIMIT = 20000.00;
+
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date dateCreated;

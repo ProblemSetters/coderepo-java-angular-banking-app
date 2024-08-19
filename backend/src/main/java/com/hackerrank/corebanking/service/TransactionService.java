@@ -1,51 +1,44 @@
 package com.hackerrank.corebanking.service;
 
 import com.hackerrank.corebanking.model.Account;
+import com.hackerrank.corebanking.model.Card;
 import com.hackerrank.corebanking.model.Transaction;
 import com.hackerrank.corebanking.repository.AccountRepository;
+import com.hackerrank.corebanking.repository.CardRepository;
 import com.hackerrank.corebanking.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
 public class TransactionService {
   private final TransactionRepository transactionRepository;
   private final AccountRepository accountRepository;
+  private final CardRepository cardRepository;
 
   @Autowired
-  TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository) {
+  TransactionService(
+          TransactionRepository transactionRepository,
+          AccountRepository accountRepository,
+          CardRepository cardRepository) {
     this.transactionRepository = transactionRepository;
     this.accountRepository = accountRepository;
+    this.cardRepository = cardRepository;
   }
 
 
   public Transaction sendMoney(Transaction transaction) {
-    Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
-    Account toAccount = accountRepository.findById(transaction.getToAccountId()).get();
-
-    // Basic Bugfix Balance Validation
-    // Problem Statement:
-    // 1. the sending account must have a balance greater than or equal to the sending amount.
-    // 2. if balance is insufficient, transaction must be rejected and appropriate message to be returned.
-    // 2. the return message should be "Insufficient fund, transaction canceled".
-
-
-    //Identify fraudulent transactions in a list of transactions (populate the fraudulent transactions),
-    /**
-     * Mark a transaction fraudulent if:
-     *    - the sender is sending same amount 5 times to same receiver within a day.
-     *    - and the receiver is not in beneficiary list and has not sent any mount before.
-     *    - if the receiver is in beneficiary list, then check if it was added just today.
-     */
-    fromAccount.setBalance(fromAccount.getBalance() - transaction.getTransferAmount());
-    toAccount.setBalance(toAccount.getBalance() + transaction.getTransferAmount());
-
-    accountRepository.save(fromAccount);
-    accountRepository.save(toAccount);
-
-    return transactionRepository.save(transaction);
+    if (transaction.getFromAccountId() != null) {
+      return sendMoneyFromAccount(transaction);
+    } else if (transaction.getSourceCardNumber() != null) {
+      return sendMoneyFromCard(transaction);
+    } else {
+      throw new RuntimeException("Transaction must have either a source account ID or a source card number.");
+    }
   }
 
   public List<Transaction> totalTransactions(Long accountId) {
@@ -56,5 +49,72 @@ public class TransactionService {
   public Object getErrorMessage() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getErrorMessage'");
+  }
+
+  private Transaction sendMoneyFromAccount(Transaction transaction) {
+    Account fromAccount = accountRepository.findById(transaction.getFromAccountId())
+            .orElseThrow(() -> new RuntimeException("Source account not found"));
+    Account toAccount = accountRepository.findById(transaction.getToAccountId())
+            .orElseThrow(() -> new RuntimeException("Destination account not found"));
+
+    // Update balances
+    fromAccount.setBalance(fromAccount.getBalance() - transaction.getTransferAmount());
+    toAccount.setBalance(toAccount.getBalance() + transaction.getTransferAmount());
+
+    accountRepository.save(fromAccount);
+    accountRepository.save(toAccount);
+
+    return transactionRepository.save(transaction);
+  }
+
+  private Transaction sendMoneyFromCard(Transaction transaction) {
+    Card sourceCard = cardRepository.findById(transaction.getSourceCardNumber())
+            .orElseThrow(() -> new RuntimeException("Source card not found"));
+    Account toAccount = accountRepository.findById(transaction.getToAccountId())
+            .orElseThrow(() -> new RuntimeException("Destination account not found"));
+
+    validateTransactionBasedOnCardLimits(sourceCard, transaction.getTransferAmount());
+
+    // Update balances
+    sourceCard.setBalance(sourceCard.getBalance() - transaction.getTransferAmount());
+    toAccount.setBalance(toAccount.getBalance() + transaction.getTransferAmount());
+
+    cardRepository.save(sourceCard);
+    accountRepository.save(toAccount);
+
+    return transactionRepository.save(transaction);
+  }
+
+  private void validateTransactionBasedOnCardLimits(Card sourceCard, double transferAmount) {
+    double totalDailyTransactions = calculateTotalDailyCardTransactions(sourceCard.getCardNumber());
+    double totalMonthlyTransactions = calculateTotalMonthlyCardTransactions(sourceCard.getCardNumber());
+
+    // Check if the new transaction would breach the daily limit
+    if (totalDailyTransactions + transferAmount > sourceCard.getDAILY_TRANSACTION_LIMIT()) {
+      throw new RuntimeException("Transaction cannot be completed as it exceeds the daily transaction limit.");
+    }
+
+    // Check if the new transaction would breach the monthly limit
+    if (totalMonthlyTransactions + transferAmount > sourceCard.getMONTHLY_TRANSACTION_LIMIT()) {
+      throw new RuntimeException("Transaction cannot be completed as it exceeds the monthly transaction limit.");
+    }
+  }
+
+  private double calculateTotalDailyCardTransactions(String cardNumber) {
+    LocalDate today = LocalDate.now();
+    return transactionRepository.findBySourceCardNumberAndTransactionDateBetween(
+            cardNumber,
+            today.atStartOfDay(ZoneId.systemDefault()).toInstant(),
+            today.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()
+    ).stream().mapToDouble(Transaction::getTransferAmount).sum();
+  }
+
+  private double calculateTotalMonthlyCardTransactions(String cardNumber) {
+    YearMonth currentMonth = YearMonth.now();
+    return transactionRepository.findBySourceCardNumberAndTransactionDateBetween(
+            cardNumber,
+            currentMonth.atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant(),
+            currentMonth.plusMonths(1).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant()
+    ).stream().mapToDouble(Transaction::getTransferAmount).sum();
   }
 }
