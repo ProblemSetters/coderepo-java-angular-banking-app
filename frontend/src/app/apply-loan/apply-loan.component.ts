@@ -1,172 +1,120 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  Validators,
-  AbstractControl,
-  ValidationErrors,
-  ValidatorFn,
-} from "@angular/forms";
-import { applicantFields } from "./form-fields.helper"; // Import the helper file
+import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { applicantFields, FormField } from "./form-fields.helper";
 
 @Component({
   selector: "apply-loan",
   templateUrl: "./apply-loan.component.html",
   styleUrls: ["./apply-loan.component.scss"],
 })
-export class ApplyLoanComponent implements AfterViewInit {
-  loanForm: FormGroup;
-  submittedApplicants: any[] = [];
-  currentIndex: number = 0; // Track the current field index
+export class ApplyLoanComponent {
+  dynamicForm!: FormGroup;
+  applicantFields = applicantFields;
+  steps: any = [];
+  currentStep = 0;
+  categories = ["Personal Info", "Contact Info", "Loan Details"];
 
-  @ViewChild("stepperContainer") stepperContainer!: ElementRef<HTMLDivElement>;
+  constructor(private fb: FormBuilder) {}
 
-  // List of states, loan types, and gender types to populate the dropdowns
-  states: string[] = [
-    "Punjab",
-    "Haryana",
-    "Uttar Pradesh",
-    "Delhi",
-    "Rajasthan",
-  ];
-  loanTypes: string[] = [
-    "Home Loan",
-    "Car Loan",
-    "Personal Loan",
-    "Education Loan",
-  ];
-  genderType: string[] = ["Female", "Male", "Other"];
-
-  // Expose applicantFields to the template and ensure it's properly typed
-  public applicantFields = applicantFields;
-
-  constructor(private fb: FormBuilder) {
-    this.loanForm = this.fb.group({
-      applicants: this.fb.array([this.createApplicantGroup()]), // Start with one applicant group
-      acceptTerms: [false, Validators.requiredTrue], // Initialize checkbox with validation
-    });
+  ngOnInit() {
+    this.dynamicForm = this.fb.group({});
+    this.createFormControls();
+    this.createSteps();
   }
 
-  ngAfterViewInit() {
-    this.focusCurrent();
-  }
-
-  // Getter for applicants FormArray
-  get applicants() {
-    return this.loanForm.get("applicants") as FormArray;
-  }
-
-  // Function to create a new form group for an applicant
-  createApplicantGroup() {
-    const group: { [key: string]: any } = {};
+  createFormControls() {
     this.applicantFields.forEach((field) => {
-      const validators = this.getValidators(field.validators || []); // Default to empty array if validators is undefined
-      group[field.name] = ["", validators];
+      const validators = this.getValidators(field.validators);
+      this.dynamicForm.addControl(field.name, this.fb.control("", validators));
     });
-    return this.fb.group(group);
   }
 
-  // Function to get validators based on configuration
-  getValidators(validators: string[]): ValidatorFn[] {
-    const formValidators: ValidatorFn[] = [];
-    validators.forEach((validator) => {
-      if (validator === "required") formValidators.push(Validators.required);
-      else if (validator.startsWith("min:"))
-        formValidators.push(Validators.min(+validator.split(":")[1]));
-      else if (validator.startsWith("max:"))
-        formValidators.push(Validators.max(+validator.split(":")[1]));
-      else if (validator === "email") formValidators.push(Validators.email);
-      else if (validator === "custom:panValidator")
-        formValidators.push(panValidator());
-    });
-    return formValidators;
-  }
-
-  // Method to dynamically get the options based on the field
-  getFieldOptions(field: any): string[] {
-    if (field.options === "states") {
-      return this.states;
-    } else if (field.options === "loanTypes") {
-      return this.loanTypes;
-    } else if (field.options === "genderType") {
-      return this.genderType;
-    } else if (Array.isArray(field.options)) {
-      return field.options;
+  getErrrorMessage(fieldName: string) {
+    const control = this.dynamicForm.get(fieldName);
+    if (control?.hasError("required")) {
+      return "This field is required";
     }
-    return [];
-  }
-
-  // Method to navigate to the next input field
-  focusNext() {
-    const fields = Array.from(
-      this.stepperContainer.nativeElement.querySelectorAll(
-        "input, textarea, select"
-      )
-    );
-    if (this.currentIndex < fields.length - 1) {
-      this.currentIndex++;
-      this.focusCurrent();
+    if (control?.hasError("email")) {
+      return "Enter a valid email address";
     }
-  }
-
-  // Method to navigate to the previous input field
-  focusPrevious() {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-      this.focusCurrent();
+    if (control?.hasError("min")) {
+      return "Enter a valid number";
     }
+    if (control?.hasError("panInvalid")) {
+      return "Enter a valid PAN number";
+    }
+    return "";
   }
 
-  // Method to focus the current field based on the currentIndex
-  private focusCurrent() {
-    if (this.stepperContainer) {
-      const fields = Array.from(
-        this.stepperContainer.nativeElement.querySelectorAll(
-          "input, textarea, select"
-        )
-      );
-      if (fields[this.currentIndex]) {
-        (fields[this.currentIndex] as HTMLElement).focus();
+  createSteps() {
+    const stepGroups: any = {};
+    this.applicantFields.forEach((field) => {
+      if (!stepGroups[field.category]) {
+        stepGroups[field.category] = [];
       }
+      stepGroups[field.category].push(field);
+    });
+
+    this.steps = this.categories.map((category) => ({
+      category: category,
+      fields: stepGroups[category] || [],
+    }));
+  }
+
+  getValidators(validatorNames: string[]) {
+    const validators: any = [];
+    validatorNames?.forEach((name) => {
+      if (name === "required") validators.push(Validators.required);
+      if (name.startsWith("min:")) {
+        const value = parseInt(name.split(":")[1], 10);
+        validators.push(Validators.min(value));
+      }
+      if (name === "email") validators.push(Validators.email);
+      if (name === "custom:panValidator") validators.push(this.panValidator);
+    });
+    return validators;
+  }
+
+  panValidator(control: any) {
+    const pattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/; // Example pattern for PAN number
+    return pattern.test(control.value) ? null : { panInvalid: true };
+  }
+
+  nextStep() {
+    if (
+      this.currentStep < this.steps.length - 1 &&
+      this.isStepComplete(this.currentStep)
+    ) {
+      this.currentStep++;
     }
+  }
+
+  previousStep() {
+    if (this.currentStep > 0) {
+      this.currentStep--;
+    }
+  }
+
+  isStepComplete(stepIndex: number): boolean {
+    const stepFields: FormField[] = this.steps[stepIndex].fields;
+    return stepFields.every((field) => this.dynamicForm.get(field.name)?.valid);
   }
 
   onSubmit() {
-    if (this.loanForm.invalid) {
-      this.markAllAsTouched();
-      return;
+    if (this.dynamicForm.valid) {
+      console.log(this.dynamicForm.value);
     }
-
-    // Push the form values to submittedApplicants array
-    this.submittedApplicants.push(...this.loanForm.value.applicants);
-
-    // Reset the form and maintain one empty applicant group
-    this.applicants.clear(); // Clear all applicant groups
-    this.applicants.push(this.createApplicantGroup()); // Add a fresh applicant group
-
-    this.loanForm.markAsPristine();
-    this.loanForm.markAsUntouched();
   }
-
-  // Function to mark all form controls as touched
-  private markAllAsTouched() {
-    this.loanForm.markAllAsTouched();
-    this.applicants.controls.forEach((applicant) => {
-      (applicant as FormGroup).markAllAsTouched();
-    });
+  getOptions(optionType: string) {
+    if (optionType === "loanTypes") {
+      return ["Car Loan", "Home Loan", "Personal Loan"]; // Example options
+    }
+    if (optionType === "states") {
+      return [ "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh","Goa", "Gujarat","Haryana","Himachal Pradesh"]; // Example options
+    }
+    return [];
+  }
+  getJson(value: any) {
+    return JSON.stringify(value, null, 2);
   }
 }
-
-// Validator function to ensure the PAN number format
-export function panValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value;
-    const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    const isValid = panPattern.test(value);
-    return isValid ? null : { invalidPan: true };
-  };
-}
-
-
-
