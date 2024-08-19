@@ -18,16 +18,9 @@ export class ApplyLoanComponent {
 
   ngOnInit() {
     this.dynamicForm = this.fb.group({});
-    this.createFormControls();
-    this.createSteps();
   }
 
-  createFormControls() {
-    this.applicantFields.forEach((field) => {
-      const validators = this.getValidators(field.validators);
-      this.dynamicForm.addControl(field.name, this.fb.control("", validators));
-    });
-  }
+  createFormControls() {}
 
   getErrrorMessage(fieldName: string) {
     const control = this.dynamicForm.get(fieldName);
@@ -46,38 +39,13 @@ export class ApplyLoanComponent {
     return "";
   }
 
-  createSteps() {
-    const stepGroups: any = {};
-    this.applicantFields.forEach((field) => {
-      if (!stepGroups[field.category]) {
-        stepGroups[field.category] = [];
-      }
-      stepGroups[field.category].push(field);
-    });
+  createSteps() {}
 
-    this.steps = this.categories.map((category) => ({
-      category: category,
-      fields: stepGroups[category] || [],
-    }));
-  }
-
-  getValidators(validatorNames: string[]) {
-    const validators: any = [];
-    validatorNames?.forEach((name) => {
-      if (name === "required") validators.push(Validators.required);
-      if (name.startsWith("min:")) {
-        const value = parseInt(name.split(":")[1], 10);
-        validators.push(Validators.min(value));
-      }
-      if (name === "email") validators.push(Validators.email);
-      if (name === "custom:panValidator") validators.push(this.panValidator);
-    });
-    return validators;
-  }
+  getValidators(validatorNames: string[]) {}
 
   panValidator(control: any) {
-    const pattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/; // Example pattern for PAN number
-    return pattern.test(control.value) ? null : { panInvalid: true };
+    
+    return   { panInvalid: false }
   }
 
   nextStep() {
@@ -106,13 +74,8 @@ export class ApplyLoanComponent {
     }
   }
   getOptions(optionType: string) {
-    if (optionType === "loanTypes") {
-      return ["Car Loan", "Home Loan", "Personal Loan"]; // Example options
-    }
-    if (optionType === "states") {
-      return [ "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh","Goa", "Gujarat","Haryana","Himachal Pradesh"]; // Example options
-    }
-    return [];
+   
+    return [""];
   }
   getJson(value: any) {
     return JSON.stringify(value, null, 2);
