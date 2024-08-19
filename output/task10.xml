@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<testsuite name="Chrome Headless 127.0.6533.120 (Windows 10)" package="unit" timestamp="2024-08-19T14:06:12" id="0" hostname="DESKTOP-PEO2I2O" tests="13" errors="0" failures="0" time="0.202">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/127.0.6533.120 Safari/537.36"/>
+  </properties>
+  <testcase name="ApplyLoanComponent should create" time="0.09" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should submit the form if valid" time="0.013" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should return error for invalid PAN number" time="0.012" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should display error message for required field" time="0.009" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should return correct options for states" time="0.01" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should initialize the form with dynamic controls" time="0.01" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should move to the next step when valid" time="0.008" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should create steps correctly based on categories" time="0.009" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should return null for valid PAN number" time="0.008" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should not move to the next step when invalid" time="0.01" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should not submit the form if invalid" time="0.008" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should return correct options for loan types" time="0.008" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should move to the previous step" time="0.007" classname=".ApplyLoanComponent"/>
+  <system-out>
+    <![CDATA[
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
