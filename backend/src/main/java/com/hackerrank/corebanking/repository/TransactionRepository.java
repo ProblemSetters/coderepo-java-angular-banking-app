@@ -25,14 +25,14 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query("SELECT t FROM Transaction t WHERE t.fromAccountId = :accountId AND t.dateCreated BETWEEN :startDate AND :endDate")
     List<Transaction> findByFromAccountIdAndTransactionDateBetween(
             @Param("accountId") Long accountId,
-            @Param("startDate") Instant startDate,
-            @Param("endDate") Instant endDate
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate
     );
 
     @Query("SELECT t FROM Transaction t WHERE t.sourceCardNumber = :cardNumber AND t.dateCreated BETWEEN :startDate AND :endDate")
     List<Transaction> findBySourceCardNumberAndTransactionDateBetween(
             @Param("cardNumber") String cardNumber,
-            @Param("startDate") Instant startDate,
-            @Param("endDate") Instant endDate
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate
     );
 }

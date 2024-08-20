@@ -197,13 +197,10 @@ public class TransactionServiceIT {
 
     @Test
     public void testSuccessfulCardTransaction() {
-        // Given
         Transaction transaction = createTransaction(3000.0);
 
-        // When
         Transaction result = transactionService.sendMoney(transaction);
 
-        // Then
         assertNotNull(result);
         assertNotNull(result.getTransactionId());
         assertEquals(47000.0, cardRepository.findById(sourceCard.getCardNumber()).get().getBalance());
@@ -211,45 +208,29 @@ public class TransactionServiceIT {
 
     @Test
     public void testCardTransactionFailsDueToDailyLimit() {
-        // Given
-        // First transaction to bring the daily total close to the limit
         transactionService.sendMoney(createTransaction(4000.0));
 
-        // Second transaction that should breach the daily limit
         Transaction transaction = createTransaction(2000.0);
 
-        // When & Then
-        assertThrows(RuntimeException.class, () -> {
-            transactionService.sendMoney(transaction);
-        }, "Transaction cannot be completed as it exceeds the daily transaction limit.");
+        assertThrows(RuntimeException.class, () -> transactionService.sendMoney(transaction), "Transaction cannot be completed as it exceeds the daily transaction limit.");
     }
 
     @Test
     public void testCardTransactionFailsDueToMonthlyLimit() {
-        // Given
-        // Accumulate transactions to reach close to the monthly limit
         for (int i = 0; i < 4; i++) {
             transactionService.sendMoney(createTransaction(4500.0));
         }
 
-        // Attempting another transaction that should breach the monthly limit
         Transaction transaction = createTransaction(5000.0);
 
-        // When & Then
-        assertThrows(RuntimeException.class, () -> {
-            transactionService.sendMoney(transaction);
-        }, "Transaction cannot be completed as it exceeds the monthly transaction limit.");
+        assertThrows(RuntimeException.class, () -> transactionService.sendMoney(transaction), "Transaction cannot be completed as it exceeds the monthly transaction limit.");
     }
 
     @Test
     public void testCardTransactionFailsDueToInsufficientBalance() {
-        // Given
         Transaction transaction = createTransaction(60000.0); // More than the card balance
 
-        // When & Then
-        assertThrows(RuntimeException.class, () -> {
-            transactionService.sendMoney(transaction);
-        }, "Transaction cannot be completed due to insufficient balance.");
+        assertThrows(RuntimeException.class, () -> transactionService.sendMoney(transaction), "Transaction cannot be completed due to insufficient balance.");
     }
 
     private Transaction createTransaction() {

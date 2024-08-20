@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -102,19 +103,21 @@ public class TransactionService {
 
   private double calculateTotalDailyCardTransactions(String cardNumber) {
     LocalDate today = LocalDate.now();
+    Date startDate = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    Date endDate = Date.from(today.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
     return transactionRepository.findBySourceCardNumberAndTransactionDateBetween(
-            cardNumber,
-            today.atStartOfDay(ZoneId.systemDefault()).toInstant(),
-            today.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()
+            cardNumber, startDate, endDate
     ).stream().mapToDouble(Transaction::getTransferAmount).sum();
   }
 
   private double calculateTotalMonthlyCardTransactions(String cardNumber) {
     YearMonth currentMonth = YearMonth.now();
+    Date startDate = Date.from(currentMonth.atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    Date endDate = Date.from(currentMonth.plusMonths(1).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
     return transactionRepository.findBySourceCardNumberAndTransactionDateBetween(
-            cardNumber,
-            currentMonth.atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant(),
-            currentMonth.plusMonths(1).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant()
+            cardNumber, startDate, endDate
     ).stream().mapToDouble(Transaction::getTransferAmount).sum();
   }
 }
