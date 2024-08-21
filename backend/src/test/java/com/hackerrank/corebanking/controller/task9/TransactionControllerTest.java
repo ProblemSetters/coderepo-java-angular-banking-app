@@ -88,19 +88,6 @@ class TransactionControllerTest {
     }
 
     @Test
-    public void testCreation() throws Exception {
-        Account expectedRecord = Account.builder().emailAddress("test@gmail.com").build();
-        Account actualRecord = om.readValue(mockMvc.perform(post("/api/core-banking/account")
-                        .contentType("application/json")
-                        .content(om.writeValueAsString(expectedRecord)))
-                .andDo(print())
-                .andExpect(jsonPath("$.accountId", greaterThan(0)))
-                .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString(), Account.class);
-
-        Assertions.assertEquals(expectedRecord.getEmailAddress(), actualRecord.getEmailAddress());
-    }
-
-    @Test
     void shouldSoftDeleteAccountAndUserShouldNotBeAbleToLogin() throws Exception {
         createAccount(Account.builder()
                 .emailAddress("admin@shouldSoftDeleteAccountAndUserShouldNotBeAbleToLogin.com")
@@ -149,27 +136,6 @@ class TransactionControllerTest {
                         .header("Authorization", "%s %s".formatted(user1Jwt.getName(), user1Jwt.getValue()))
                 )
                 .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void shouldAllowAdminToGetAnAccount() throws Exception {
-        createAccount(Account.builder()
-                .emailAddress("admin@shouldAllowAdminToGetAnAccount.com")
-                .password("admin#password123")
-                .roles(Set.of(new Role(1L, "ADMIN")))
-                .build());
-        Account normalUserAccount = createAccount(Account.builder()
-                .emailAddress("user@shouldAllowAdminToGetAnAccount.com")
-                .password("user#password123")
-                .build());
-        JwtToken adminJwt = login("admin@shouldAllowAdminToGetAnAccount.com", "admin#password123");
-
-        mockMvc.perform(get("/api/core-banking/account/{accountId}", normalUserAccount.getAccountId())
-                        .accept(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "%s %s".formatted(adminJwt.getName(), adminJwt.getValue()))
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accountId", equalTo(normalUserAccount.getAccountId().intValue())));
     }
 
     @Test

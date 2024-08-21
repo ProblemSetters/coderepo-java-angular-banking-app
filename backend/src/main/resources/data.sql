@@ -12,7 +12,8 @@ values (1010113169, 'ravi@gmail.com', 'ravi', 'Ravi', 'Mahale', '1991-09-23', 'M
         474636.09, false);
 
 insert into role(id, name)
-values (1, 'ADMIN');
+values (1, 'ADMIN'),
+       (2, 'USER');
 
 insert into user_roles(account_id, role_id)
 values (1010213161, 1);
