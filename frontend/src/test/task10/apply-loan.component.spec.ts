@@ -143,4 +143,98 @@ describe("ApplyLoanComponent", () => {
       "Himachal Pradesh",
     ]);
   });
+  
+
+
+  it("should have correct container width", () => {
+    const container = fixture.nativeElement.querySelector('.container');
+    expect(container.classList).toContain('mx-auto');
+  });  
+
+  it("should apply correct width classes to input fields", () => {
+    const fields = fixture.nativeElement.querySelectorAll('.col-6, .col-4, .col-3, .col-2, .col-1');
+    fields.forEach((field: HTMLElement) => {
+      const classes = field.classList;
+      expect(classes).toContain('mb-4');
+      expect(
+        classes.contains('col-6') ||
+        classes.contains('col-4') ||
+        classes.contains('col-3') ||
+        classes.contains('col-2') ||
+        classes.contains('col-1')
+      ).toBeTrue();
+    });
+  });
+
+  it("should apply correct step text colors", () => {
+    component.currentStep = 1;
+    fixture.detectChanges();
+    const steps = fixture.nativeElement.querySelectorAll('li');
+    steps.forEach((step: HTMLElement, index: number) => {
+      if (index < component.currentStep) {
+        expect(step.classList).toContain('text-green-500');
+      } else if (index === component.currentStep) {
+        expect(step.classList).toContain('text-blue-600');
+      } else {
+        expect(step.classList).toContain('text-gray-500');
+      }
+    });
+  });
+
+  it("should apply correct width classes to navigation buttons", () => {
+    const buttons = fixture.nativeElement.querySelectorAll('button');
+    buttons.forEach((button: HTMLElement) => {
+      const buttonClasses = button.classList;
+      expect(buttonClasses).toContain('px-4');
+      expect(buttonClasses).toContain('py-2');
+      expect(buttonClasses).toContain('rounded');
+    });
+  });
+
+  it("should have correct padding and border radius for input fields", () => {
+    const inputFields = fixture.nativeElement.querySelectorAll('input, textarea, select');
+    inputFields.forEach((input: HTMLElement) => {
+      const padding = getComputedStyle(input).padding;
+      expect(padding).toBe('0.5rem'); // Tailwind 'p-2'
+      const borderRadius = getComputedStyle(input).borderRadius;
+      expect(borderRadius).toBe('0.25rem'); // Tailwind 'rounded'
+    });
+  });
+  
+  it("should apply the correct background color class to the form section", () => {
+    const formSection = fixture.nativeElement.querySelector('form.bg-slate-50');
+    expect(formSection).not.toBeNull(); // check if element exists 
+    expect(formSection.classList).toContain('bg-slate-50');
+  });
+
+  it("should apply the correct color class to error messages", () => {
+    const errorMessages = fixture.nativeElement.querySelectorAll('.text-red-500');
+    errorMessages.forEach((error: HTMLElement) => {
+      expect(error.classList).toContain('text-red-500');
+    });
+  });
+
+  it("should apply the correct background color class to the 'Next' button", () => {
+    const nextButton = fixture.nativeElement.querySelector('button.bg-blue-600');
+    expect(nextButton).not.toBeNull(); // Ensure the button is present
+    expect(nextButton.classList).toContain('bg-blue-600');
+    expect(nextButton.classList).toContain('text-white');
+  });
+
+  it("should apply the correct background color class to the 'Back' button", () => {
+    const backButton = fixture.nativeElement.querySelector('button.bg-gray-200');
+    expect(backButton).not.toBeNull(); // Ensure the button is present
+    expect(backButton.classList).toContain('bg-gray-200');
+    expect(backButton.classList).toContain('text-gray-700'); 
+  });
+  
+  it("should apply correct text alignment to form labels", () => {
+    const labels = fixture.nativeElement.querySelectorAll('label');
+    labels.forEach((label: HTMLElement) => {
+      expect(label.classList).toContain('text-sm');
+      expect(label.classList).toContain('font-medium');
+      expect(label.classList).toContain('text-gray-700');
+    });
+  });
+
 });
