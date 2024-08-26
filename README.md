@@ -89,3 +89,80 @@ Frontend start:
 
 1. `cd frontend` 
 2. `npm start`
+
+## Example Usage
+
+### Dark Mode Functionality
+
+This Angular application supports a dynamic dark mode feature, allowing users to switch between light and dark themes. The dark mode is implemented through the `DarkThemeSelectorService` service in `themeToggle.services.ts` file , which manages the application's theme based on user preferences and system settings.
+
+#### Key Features
+
+- **Light and Dark Themes:** Users can toggle between light and dark themes. The selected theme applied automatically.
+- **System Theme Detection:** The application can detect the system's color scheme preference and apply the appropriate theme. If the system preference changes, the application updates the theme accordingly.
+- **Route-Based Styling:** Specific routes can have different styles based on the current theme. For instance, the `/beneficiary` route applies a dark background when the dark theme is active.
+
+#### Usage
+
+1. **Inject the Service:**
+
+   The `DarkThemeSelectorService` is provided in the root of the application. Inject it into any component or service where theme switching is required.
+
+   ```typescript
+   constructor(private darkThemeSelector: DarkThemeSelectorService) { }
+   ```
+
+2. **Set Themes:**
+   Use the service methods to set the desired theme:
+
+   ```typescript
+   this.darkThemeSelector.setLightTheme();  // Sets the light theme
+   this.darkThemeSelector.setDarkTheme();   // Sets the dark theme
+   this.darkThemeSelector.setSystemTheme(); // Sets the theme based on system preference
+
+3. **Observe Theme Changes:**
+   Subscribe to the currentTheme observable to react to theme changes in your components:
+
+   ```typescript
+   this.darkThemeSelector.currentTheme.subscribe(theme => {
+   console.log('Current theme:', theme);
+   });
+   ```
+
+4. **Handling Route Changes:**
+   Customize the appearance of specific routes based on the active theme:
+
+   ```typescript
+   this.darkThemeSelector.handleRouteChange('/beneficiary');
+   ```
+
+#### Implementation Details
+
+`DarkThemeSelectorService`
+
+The `DarkThemeSelectorService` is a core part of the dark mode functionality. It is responsible for managing theme changes, local storage operations, and applying/removing theme-related classes on the HTML document.
+
+##### Core Methods:
+
+- `setLightTheme()`: Applies the light theme, updates local storage, and adjusts the document's CSS class.
+- `setDarkTheme()`: Applies the dark theme, updates local storage, and modifies the document's CSS class.
+- `setSystemTheme()`: Detects the system's theme preference and applies it. Updates local storage accordingly.
+- `handleRouteChange(url: string)`: Customizes route-specific styling based on the active theme.
+- `addClassToHtml(className: string)`: Adds a CSS class to the HTML document element.
+- `removeClassFromHtml(className: string)`: Removes a CSS class from the HTML document element.
+- `setToLocalStorage(theme: AppTheme)`: Saves the selected theme to local storage.
+- `removeFromLocalStorage()`: Removes the theme setting from local storage.
+
+##### System Theme Detection
+
+The application detects the system's color scheme preference using the `window.matchMedia` API. The `isSystemDark()` function checks if the system prefers a dark color scheme and adjusts the theme accordingly.
+
+```typescript
+   isSystemDark(): boolean {
+   return window.matchMedia('(prefers-color-scheme: dark)').matches;
+   }
+   ```
+
+##### Function:
+
+- `isSystemDark()`: Checks the system's color scheme preference and returns `true` if the dark mode is preferred, otherwise `false`.
