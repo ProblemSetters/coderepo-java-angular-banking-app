@@ -1,86 +1,91 @@
-## User Story
-Currently, there are no daily or monthly transaction limits on cards. To improve user security, we need to implement transaction limits in the application:
+# Springboot Angular Banking App
 
-1.	**Daily Transaction Limit**: Users should be restricted from making transactions that exceed a certain amount in a single day.
-2.	**Monthly Transaction Limit**: Users should not be allowed to transfer more than a specified total amount in one month.
+This full-stack banking application is built using spring-boot (backend) and angular (frontend). It provides
+the following features:
 
-These limits can be set as static values for now and do not need to be customizable at the user level.
+- Account Creation: Customers can create accounts and securely store their information.
+- Customer Login: Registered customers can log into their accounts and access banking features.
+- Customer Profile: Display customer profile information.
+- Fund Transfer: Customers can transfer money from one account to another account.
+- Add Beneficiary: Customers can add beneficiary to their account and use later on to transfer funds quickly.
+- View Transactions: Customers can view transactions history based on selected date range.
+- Block/Unblock Cards: Customers can block and unblock cards.
+- Update Pin: Customers can change card pin.
 
-## Acceptance Criteria
-1. **Daily Transaction Limit Enforcement:**
-    - Ensure that users cannot make transactions exceeding the daily transaction limit.
-    - If a user attempts to make a transaction that would cause the total daily transactions to exceed the limit, the transaction should be blocked, and an appropriate error message should be returned.
+## Folder Structure
 
-2. **Monthly Transaction Limit Enforcement:**
-    - Ensure that users cannot transfer more than the specified monthly transaction limit.
-    - If a user attempts to make a transaction that would cause the total monthly transactions to exceed the limit, the transaction should be blocked, and an appropriate error message should be returned.
+### Frontend:
 
-3. **Static Limit Values:**
-    - Implement the daily and monthly transaction limits as static values as part of `Card` entity itself.
-    - The values for these limits should be hardcoded and not configurable by users.
+This project uses `Angular`
+The folder structure for the frontend of the application is as follows:
 
-4. **Error Handling:**
-    - Ensure that appropriate error messages are displayed to the user when a transaction is blocked due to exceeding the daily or monthly limits.
-    - The error messages should clearly indicate which limit was exceeded.
-
-5. **Code Quality:**
-    - Follow best practices for code readability, maintainability, and performance.
-    - Ensure the code is properly documented where necessary, and that the solution integrates well with the existing codebase.
-
-## Domain-mode updates
-#### Transaction
-<details open>
-<summary>The transaction entity JSON can look like this:</summary>
-
-```json
-{
-  "dateCreated": "2024-08-21 10:30:00",
-  "lastCreated": "2024-08-21 10:30:00",
-  "transactionId": 1042,
-  "fromAccountId": 1010213161,
-  "sourceCardNumber": "2111460214118071",
-  "toAccountId": 1010213162,
-  "transferAmount": 1500.75
-}
 ```
-</details>
-<br />
-<details>
-<summary>The Card entity JSON can look like this:</summary>
-
-```json
-{
-  "dateCreated": "2024-08-21 10:30:00",
-  "lastCreated": "2024-08-21 10:30:00",
-  "cardNumber": "2111460214118071",
-  "accountId": 1010213161,
-  "name": "Visa",
-  "balance": 3837474.3,
-  "pin": 234,
-  "blocked": false,
-  "expireMonth": "03",
-  "expireYear": "2024",
-  "cardHolderName": "David Edel",
-  "cvv": 234,
-  "DAILY_TRANSACTION_LIMIT": 5000.00,
-  "MONTHLY_TRANSACTION_LIMIT": 20000.00
-}
-```
-</details>
-
-### API Updates
-#### **Send Money** (Updated, backward-compatible)
-Note that the customer is able to send a source card number in the SendMoneyTransaction API. They don't have to mention the source account number.
-```bash
-curl -X POST http://localhost:8080/transactions \
-    -H "Content-Type: application/json" \
-    -d '{
-      "sourceCardNumber": "2111460214118071",
-      "toAccountId": 1010213162,
-      "transferAmount": 3000.00,
-      "dateCreated": "2024-08-21T10:30:00",
-      "lastCreated": "2024-08-21T10:30:00"
-    }'
+├── src
+│ ├── app
+│ ├── assets
+│ ├── account
+│ ├── beneficiary
+│ ├── cards
+│ ├── components
+│ │     └── navbar
+│ ├── dashboard
+│ ├── login
+│ ├── profile
+│ ├── send-money
+│ └── transaction
+├── package.json
+├── angular.json
+└── testconfig.json
 ```
 
-**Note**: From an API point of view, this is the only API which will be impacted from this transaction limit due to the reason that we are applying a static limit for now. So we don't have to create or update any admin API through which we can update these limits.
+- `src`: Contains the source code for the frontend.
+    - `assets`: Holds static assets such as images, stylesheets, or fonts.
+    - `app`: Contains reusable angular components used throughout the application.
+        - `account`: Customers can create accounts related UI components.
+        - `beneficiary`: Beneficiary releted UI components
+        - `cards`: Card related UI components.
+        - `dashboard`: Contains the UI for dashboard.
+        - `login`: All the login related views and logics.
+        - `profile`: Profile releted views and logic are there.
+        - `send-money`: It contain the UI for Send money.
+        - `transaction`: Transaction releted UI and logic are there.
+    - `package.json`: Package information.
+    - `angular.json`: Angular related information.
+
+## Flow
+
+- Starts with `app.component.html` at `/`. Then customer create account with `account.component.html` at `/open-account`.
+  customer can send money with `send-money.component.html` at `/send-money`. Customer can add beneficiary with `beneficiary.component.html` at `/beneficiary`.
+  customer can see all transactions history with `transaction.component.html` at `/transaction`. customer can see all card with `cards.component.html` at `/cards`.
+
+## Technologies Used
+
+- H2 In-Memory DB: Database for storing customer information, transactions data, and card details.
+- Springboot Java: Backend framework for handling API routes and business logic.
+- Angular JS: Frontend library for building user interfaces and components.
+
+## Local Development Setup Guide:
+
+This section is not applicable if you are taking the assessment on the online HackerRank IDE. Follow these steps only if
+you need to set up this project for local development on your system.
+
+### Prerequisites
+
+Before you begin, make sure you have the following installed on your system:
+
+- Java (version 17)
+- Maven
+- node
+
+### Getting Started
+
+Backend start:
+
+1. `cd backend`
+2. `mvn clean package -DskipTests`
+3. `mvn springboot-run`
+
+Frontend start:
+
+1. `cd frontend` 
+2. `npm start`
