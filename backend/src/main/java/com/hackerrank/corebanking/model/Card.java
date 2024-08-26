@@ -20,12 +20,10 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class Card implements Serializable {
-    @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    Date dateCreated;
-    @UpdateTimestamp
+    Date dateCreated = new Date();
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    Date lastCreated;
+    Date lastCreated = new Date();
     @Id
     private String cardNumber;
     private Long accountId;
