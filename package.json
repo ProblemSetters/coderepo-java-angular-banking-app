@@ -16,6 +16,7 @@
         "test:task6": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.service.task6.CardServiceIT; cd .. && mv ./backend/target/surefire-reports/TEST-com.hackerrank.corebanking.service.task6.CardServiceIT.xml ./output/task6.xml",
         "test:task7": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.service.task7.TransactionServiceIT; cd .. && mv ./backend/target/surefire-reports/TEST-com.hackerrank.corebanking.service.task7.TransactionServiceIT.xml ./output/task7.xml",
         "test:task8": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.service.task8.TransactionServiceIT; cd .. && mv ./backend/target/surefire-reports/TEST-com.hackerrank.corebanking.service.task8.TransactionServiceIT.xml ./output/task8.xml",
+        "test:task9": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task9.TransactionControllerTest; cd .. && mv ./backend/target/surefire-reports/TEST-com.hackerrank.corebanking.controller.task9.TransactionControllerTest.xml ./output/task9.xml",
         "test:task10": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.service.task10.TransactionServiceTest; cd .. && mv ./backend/target/surefire-reports/TEST-com.hackerrank.corebanking.service.task10.TransactionServiceTest.xml ./output/task10.xml"
     },
     "keywords": [
