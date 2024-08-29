@@ -11,6 +11,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Account } from '../dto/types';
 import { AppTheme, DarkThemeSelectorService } from '../services/themeToggle.service';
 
+
+
 @Component({
 	selector: 'app-beneficiary',
 	templateUrl: './beneficiary.component.html',
@@ -21,14 +23,17 @@ export class BeneficiaryComponent {
 	public account?: Account;
 	public accountId!: number
 	public beneficiaryForm!: FormGroup;
-	public beneficiaryList!: Array<any>;
+	// public beneficiaryList!: Array<any>;
+	public beneficiaryList: Array<any> = [];
 	public isDarkMode: boolean = false;
+
 
 	constructor(
 		private toastr: ToastrService,
 		private beneficiaryService: BeneficiaryService,
 		private authenticationService: AuthenticationService,
-		private darkThemeSelectorService: DarkThemeSelectorService // Injected here
+		private darkThemeSelectorService: DarkThemeSelectorService, // Injected here
+	
 	) {
 		this.authenticationService
 			.isAuthenticate()
@@ -70,6 +75,9 @@ export class BeneficiaryComponent {
 			});
 	}
 
+
+
+
 	getFormControlError(fieldName: string): string {
 		const field = this.beneficiaryForm.get(fieldName);
 		if (field && field.touched && field.invalid) {
@@ -108,7 +116,12 @@ export class BeneficiaryComponent {
 					}
 				}
 			);
-
-
 	}
+	onBeneficiaryListChange(uniqueBeneficiaries: any[]) {
+    this.beneficiaryList = uniqueBeneficiaries;
+    console.log('Updated beneficiaryList:', this.beneficiaryList);
 }
+
+	
+}
+
