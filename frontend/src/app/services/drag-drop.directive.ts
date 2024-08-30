@@ -1,73 +1,69 @@
-import { Directive, ElementRef, Renderer2, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  Renderer2,
+} from "@angular/core";
 
 @Directive({
-  selector: '[appDragDrop]'
+  selector: "[appDragDrop]",
 })
 export class DragDropDirective {
-  @Input() appDragDrop!: any[];
-  @Input() index!: number;
-  @Output() appDragDropChange = new EventEmitter<any[]>();
+  @Input() draggableItem: any;
+  @Input() list: Array<any> = [];
+  @Output() listChange = new EventEmitter<Array<any>>();
 
-  private draggedIndex: number | null = null;
+  private dragStartIndex!: number;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
-
-  @HostListener('dragstart', ['$event'])
-  onDragStart(event: DragEvent) {
-    this.draggedIndex = this.index;
-    event.dataTransfer?.setData('text/plain', this.index.toString());
-    this.renderer.addClass(this.el.nativeElement, 'dragging');
-    console.log(`Drag started: index=${this.draggedIndex}`);
+  constructor(private el: ElementRef, private renderer: Renderer2) {
+    this.renderer.setAttribute(this.el.nativeElement, "draggable", "true");
   }
 
-  @HostListener('dragover', ['$event'])
+  @HostListener("dragstart", ["$event"])
+  onDragStart(event: DragEvent) {
+    this.dragStartIndex = this.list.indexOf(this.draggableItem);
+    event.dataTransfer?.setData("text/plain", this.dragStartIndex.toString());
+
+    this.renderer.addClass(this.el.nativeElement, "dragging-background");
+
+    setTimeout(() => {
+      this.renderer.setStyle(this.el.nativeElement, "opacity", "0.5");
+    }, 0);
+
+    console.log("drag start index==>", this.dragStartIndex);
+  }
+
+  @HostListener("dragend")
+  onDragEnd() {
+    this.renderer.removeClass(this.el.nativeElement, "dragging-background");
+    this.renderer.setStyle(this.el.nativeElement, "opacity", "1");
+  }
+
+  @HostListener("dragover", ["$event"])
   onDragOver(event: DragEvent) {
     event.preventDefault();
-    this.renderer.addClass(this.el.nativeElement, 'over');
-    console.log('Drag over on index:', this.index);
   }
 
-  @HostListener('dragleave', ['$event'])
-  onDragLeave(event: DragEvent) {
-    this.renderer.removeClass(this.el.nativeElement, 'over');
-    console.log('Drag leave from index:', this.index);
-  }
-
-  @HostListener('drop', ['$event'])
+  @HostListener("drop", ["$event"])
   onDrop(event: DragEvent) {
     event.preventDefault();
-    this.renderer.removeClass(this.el.nativeElement, 'dragging');
-    this.renderer.removeClass(this.el.nativeElement, 'over');
-  
-    const droppedIndex = this.index;
+    const dragEndIndex = this.list.indexOf(this.draggableItem);
+    const startIndex = +event.dataTransfer?.getData("text/plain")!;
 
-    console.log(`Dropped at index=${droppedIndex}, draggedIndex=${this.draggedIndex}`);
-  
-    if (this.draggedIndex !== null && this.draggedIndex !== droppedIndex) {
-      console.log("======")
-      // Extract the item from the original position
-      const draggedItem = this.appDragDrop[this.draggedIndex];
-  
-      // Remove item from its original position
-      this.appDragDrop.splice(this.draggedIndex, 1);
-  
-      // Insert it at the new position
-      this.appDragDrop.splice(droppedIndex, 0, draggedItem);
-  
-      console.log('Reordered List:', this.appDragDrop);
-  
-      // Emit the updated array with a new reference
-      this.appDragDropChange.emit([...this.appDragDrop]);
+    if (startIndex !== dragEndIndex) {
+      // Swap the items
+      [this.list[startIndex], this.list[dragEndIndex]] = [
+        this.list[dragEndIndex],
+        this.list[startIndex],
+      ];
+
+      // Emit the updated list
+      this.listChange.emit(this.list);
     }
-  
-    // Clear the dragged index
-    this.draggedIndex = null;
-  }
-  
-  @HostListener('dragend', ['$event'])
-  onDragEnd(event: DragEvent) {
-    this.renderer.removeClass(this.el.nativeElement, 'dragging');
-    this.renderer.removeClass(this.el.nativeElement, 'over');
-    console.log('Drag ended');
+
+    console.log("dropped index==>", dragEndIndex);
   }
 }

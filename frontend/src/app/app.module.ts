@@ -15,6 +15,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
+import { DragDropDirective } from './services/drag-drop.directive';  // drag-drop directive for beneficiary component list
 import { CardsComponent } from './cards/cards.component';
 import { AuthGuard } from "./guards/auth.guard";
 import { CookieService } from 'ngx-cookie-service';
@@ -26,7 +27,7 @@ import { StoreModule } from '@ngrx/store';
 import { balanceReducer } from './state/balance.reducer';
 import { RewardPointsComponent } from './reward-points/reward-points.component';
 import {AuthInterceptor} from "./services/auth.interceptor";
-import { DragDropDirective } from './services/drag-drop.directive';
+
 
 @NgModule({
   declarations: [
@@ -39,9 +40,10 @@ import { DragDropDirective } from './services/drag-drop.directive';
     TransactionComponent,
     CardsComponent,
     BeneficiaryComponent,
+    DragDropDirective,
     ProfileComponent,
     RewardPointsComponent,
-    DragDropDirective
+   
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,8 @@ import { DragDropDirective } from './services/drag-drop.directive';
       useClass: AuthInterceptor,
       multi: true
   }],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent,BeneficiaryComponent],
+  // bootstrap:[BeneficiaryComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

@@ -32,40 +32,31 @@
                 </th>
               </tr>
             </thead>
-            <!-- <tbody>
-                            <tr class="bg-white border-b dark:bg-gray-900 dark:border-b hover:bg-gray-50 dark:hover:bg-gray-50"
-                                *ngFor="let beneficiary of beneficiaryList">
-                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
-                                    {{beneficiary.beneficiaryAccountId}}
-                                </td>
-                                <td class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-gray-900">
-                                    {{beneficiary.dateCreated}}
-                                </td>
-                            </tr>
-                        </tbody> -->
-                        <tbody>
-                          <tr
-                            *ngFor="let beneficiary of beneficiaryList; let i = index"
-                            [appDragDrop]="beneficiaryList"
-                            [index]="i"
-                            (appDragDropChange)="onBeneficiaryListChange($event)"
-                            draggable="true"
-                            class="bg-white border-b dark:bg-gray-900 dark:border-b hover:bg-gray-50 dark:hover:bg-gray-50"
-                          >
-                            <td
-                              scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900"
-                            >
-                              {{ beneficiary.beneficiaryAccountId }}
-                            </td>
-                            <td
-                              class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-gray-900"
-                            >
-                              {{ beneficiary.dateCreated }}
-                            </td>
-                          </tr>
-                        </tbody>
-                        
+
+            <tbody>
+              <tr
+                class="bg-white border-b dark:bg-gray-900 dark:border-b hover:bg-gray-50 dark:hover:bg-gray-50"
+                *ngFor="let beneficiary of beneficiaryList; let i = index"
+                [draggableItem]="beneficiary"
+                [list]="beneficiaryList"
+                (listChange)="beneficiaryList = $event"
+                appDragDrop
+              >
+                <td
+                  scope="row"
+                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900"
+                >
+                  {{ beneficiary.beneficiaryAccountId }}
+                </td>
+                <td
+                  class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-gray-900"
+                >
+                  {{ beneficiary.dateCreated }}
+                </td>
+              </tr>
+            </tbody>
+
+            
           </table>
         </div>
         <ng-template #elseBlock>
