@@ -31,4 +31,8 @@ public class Transaction implements Serializable {
     private String sourceCardNumber;
     private Long toAccountId;
     private Double transferAmount;
+
+    @ManyToOne
+    @JoinColumn(name = "recurring_transaction_id")
+    private RecurringTransaction recurringTransaction;
 }

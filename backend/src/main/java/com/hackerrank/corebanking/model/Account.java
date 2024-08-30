@@ -40,4 +40,7 @@ public class Account implements Serializable {
     joinColumns = @JoinColumn(name = "account_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
+
+  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+  private Set<RecurringTransaction> recurringTransactions = new HashSet<>();
 }
