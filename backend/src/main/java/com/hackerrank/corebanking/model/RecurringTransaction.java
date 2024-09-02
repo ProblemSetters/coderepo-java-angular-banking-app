@@ -1,16 +1,13 @@
 package com.hackerrank.corebanking.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Builder;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -18,39 +15,26 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
+@ToString
 @Entity
 public class RecurringTransaction implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @OneToMany(mappedBy = "recurringTransaction", cascade = CascadeType.ALL)
-    private Set<Transaction> transactions;
-
+    private Long toAccountId;
     private Double amount;
-
-    @Enumerated(EnumType.STRING)
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Frequency frequency;
 
-    private LocalDate startDate;
+    @OneToMany(mappedBy = "recurringTransaction", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Transaction> transactions = new HashSet<>();
 
-    private LocalDate endDate;
-
-    @Column(updatable = false, nullable = false)
-    @CreationTimestamp
-    private Date createdAt;
-
-    public RecurringTransaction(Account account, Double amount, LocalDate startDate, LocalDate endDate, Frequency frequency, Date createdAt) {
-        this.account = account;
-        this.amount = amount;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.frequency = frequency;
-        this.createdAt = createdAt;
-    }
 }
