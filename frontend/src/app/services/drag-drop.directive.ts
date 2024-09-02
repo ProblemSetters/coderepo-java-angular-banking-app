@@ -54,16 +54,19 @@ export class DragDropDirective {
     const startIndex = +event.dataTransfer?.getData("text/plain")!;
 
     if (startIndex !== dragEndIndex) {
-      // Swap the items
-      [this.list[startIndex], this.list[dragEndIndex]] = [
-        this.list[dragEndIndex],
-        this.list[startIndex],
+      const adjustedStartIndex = startIndex === 0 ? 1 : startIndex;
+      const adjustedEndIndex =
+        dragEndIndex === this.list.length - 1 ? dragEndIndex - 1 : dragEndIndex;
+
+      [this.list[adjustedStartIndex], this.list[adjustedEndIndex]] = [
+        this.list[adjustedEndIndex],
+        this.list[adjustedStartIndex],
       ];
 
       // Emit the updated list
       this.listChange.emit(this.list);
     }
 
-    console.log("dropped index==>", dragEndIndex);
+    console.log("dropped index ==>", dragEndIndex);
   }
 }
