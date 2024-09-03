@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<testsuite name="Chrome Headless 128.0.0.0 (Windows 10)" package="unit" timestamp="2024-09-03T10:36:31" id="0" hostname="DESKTOP-PEO2I2O" tests="22" errors="0" failures="13" time="0.101">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/128.0.0.0 Safari/537.36"/>
+  </properties>
+  <testcase name="ApplyLoanComponent should apply correct step text colors" time="0.042" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should apply correct width classes to input fields" time="0.004" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should return correct options for loan types" time="0.006" classname=".ApplyLoanComponent">
+    <failure type="">Expected $.length = 1 to equal 3.
+Expected $[0] = '' to equal 'Car Loan'.
+Expected $[1] = undefined to equal 'Home Loan'.
+Expected $[2] = undefined to equal 'Personal Loan'.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:129:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should apply the correct background color class to the 'Next' button" time="0.003" classname=".ApplyLoanComponent">
+    <failure type="">Expected null not to be null.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:219:28)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+    <failure type="">TypeError: Cannot read properties of null (reading 'classList')
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:220:23)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+    at Zone.run (node_modules/zone.js/fesm2015/zone.js:129:43)
+    at runInTestZone (node_modules/zone.js/fesm2015/zone-testing.js:555:34)
+    at UserContext.&lt;anonymous&gt; (node_modules/zone.js/fesm2015/zone-testing.js:570:20)
+    at &lt;Jasmine&gt;
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should initialize the form with dynamic controls" time="0.006" classname=".ApplyLoanComponent">
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+    <failure type="">Expected false to be true.
+    at &lt;Jasmine&gt;
+    at forEach (src/test/task14/apply-loan.component.spec.ts:27:58)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:26:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should apply the correct background color class to the form section" time="0.003" classname=".ApplyLoanComponent">
+    <failure type="">Expected null not to be null.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:206:29)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+    <failure type="">TypeError: Cannot read properties of null (reading 'classList')
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:207:24)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+    at Zone.run (node_modules/zone.js/fesm2015/zone.js:129:43)
+    at runInTestZone (node_modules/zone.js/fesm2015/zone-testing.js:555:34)
+    at UserContext.&lt;anonymous&gt; (node_modules/zone.js/fesm2015/zone-testing.js:570:20)
+    at &lt;Jasmine&gt;
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should have correct padding and border radius for input fields" time="0.002" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should not move to the next step when invalid" time="0.003" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should apply correct width classes to navigation buttons" time="0.003" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should not submit the form if invalid" time="0.004" classname=".ApplyLoanComponent">
+    <failure type="">Error: NG01000: 
+    There are no form controls registered with this group yet. If you're using ngModel,
+    you may want to check next tick (e.g. use setTimeout).
+  
+error properties: Object({ code: 1000 })
+    at assertControlPresent (node_modules/@angular/forms/fesm2022/forms.mjs:1582:15)
+    at forEach (node_modules/@angular/forms/fesm2022/forms.mjs:2669:13)
+    at Array.forEach (&lt;anonymous&gt;)
+    at FormGroup.setValue (node_modules/@angular/forms/fesm2022/forms.mjs:2668:28)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:105:27)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+    at Zone.run (node_modules/zone.js/fesm2015/zone.js:129:43)
+    at runInTestZone (node_modules/zone.js/fesm2015/zone-testing.js:555:34)
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should have correct container width" time="0.002" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should apply the correct background color class to the 'Back' button" time="0.003" classname=".ApplyLoanComponent">
+    <failure type="">Expected null not to be null.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:226:28)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+    <failure type="">TypeError: Cannot read properties of null (reading 'classList')
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:227:23)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+    at Zone.run (node_modules/zone.js/fesm2015/zone.js:129:43)
+    at runInTestZone (node_modules/zone.js/fesm2015/zone-testing.js:555:34)
+    at UserContext.&lt;anonymous&gt; (node_modules/zone.js/fesm2015/zone-testing.js:570:20)
+    at &lt;Jasmine&gt;
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should submit the form if valid" time="0.002" classname=".ApplyLoanComponent">
+    <failure type="">Error: NG01000: 
+    There are no form controls registered with this group yet. If you're using ngModel,
+    you may want to check next tick (e.g. use setTimeout).
+  
+error properties: Object({ code: 1000 })
+    at assertControlPresent (node_modules/@angular/forms/fesm2022/forms.mjs:1582:15)
+    at forEach (node_modules/@angular/forms/fesm2022/forms.mjs:2669:13)
+    at Array.forEach (&lt;anonymous&gt;)
+    at FormGroup.setValue (node_modules/@angular/forms/fesm2022/forms.mjs:2668:28)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:82:27)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+    at Zone.run (node_modules/zone.js/fesm2015/zone.js:129:43)
+    at runInTestZone (node_modules/zone.js/fesm2015/zone-testing.js:555:34)
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should return null for valid PAN number" time="0.002" classname=".ApplyLoanComponent">
+    <failure type="">Expected Object({ panInvalid: false }) to be null.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:43:32)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should move to the previous step" time="0.002" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should return correct options for states" time="0.002" classname=".ApplyLoanComponent">
+    <failure type="">Expected $.length = 1 to equal 9.
+Expected $[0] = '' to equal 'Andhra Pradesh'.
+Expected $[1] = undefined to equal 'Arunachal Pradesh'.
+Expected $[2] = undefined to equal 'Assam'.
+Expected $[3] = undefined to equal 'Bihar'.
+Expected $[4] = undefined to equal 'Chhattisgarh'.
+Expected $[5] = undefined to equal 'Goa'.
+Expected $[6] = undefined to equal 'Gujarat'.
+Expected $[7] = undefined to equal 'Haryana'.
+Expected $[8] = undefined to equal 'Himachal Pradesh'.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:134:21)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should display error message for required field" time="0.002" classname=".ApplyLoanComponent">
+    <failure type="">Expected '' to be 'This field is required'.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:37:26)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should move to the next step when valid" time="0.002" classname=".ApplyLoanComponent">
+    <failure type="">Expected 0 to be 1.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:64:35)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should apply correct text alignment to form labels" time="0.002" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should apply the correct color class to error messages" time="0.001" classname=".ApplyLoanComponent"/>
+  <testcase name="ApplyLoanComponent should create steps correctly based on categories" time="0.003" classname=".ApplyLoanComponent">
+    <failure type="">Expected 0 to be 3.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:54:36)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+    <failure type="">TypeError: Cannot read properties of undefined (reading 'category')
+    at forEach (src/test/task14/apply-loan.component.spec.ts:56:37)
+    at Array.forEach (&lt;anonymous&gt;)
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:55:26)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+    at Zone.run (node_modules/zone.js/fesm2015/zone.js:129:43)
+    at runInTestZone (node_modules/zone.js/fesm2015/zone-testing.js:555:34)
+    at UserContext.&lt;anonymous&gt; (node_modules/zone.js/fesm2015/zone-testing.js:570:20)
+    at &lt;Jasmine&gt;
+</failure>
+  </testcase>
+  <testcase name="ApplyLoanComponent should return error for invalid PAN number" time="0.002" classname=".ApplyLoanComponent">
+    <failure type="">Expected $.panInvalid = false to equal true.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task14/apply-loan.component.spec.ts:49:32)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+  </testcase>
+  <system-out>
+    <![CDATA[
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
