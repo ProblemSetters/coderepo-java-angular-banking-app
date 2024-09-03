@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<testsuite name="Chrome Headless 128.0.0.0 (Windows 10)" package="unit" timestamp="2024-09-03T10:04:22" id="0" hostname="DESKTOP-PEO2I2O" tests="5" errors="0" failures="0" time="0.176">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/128.0.0.0 Safari/537.36"/>
+  </properties>
+  <testcase name="Theme Toggler Button Integration Test should have body class bg-gray-900 on beneficiary page when dark mode is enabled" time="0.127" classname=".Theme Toggler Button Integration Test"/>
+  <testcase name="Theme Toggler Button Integration Test should call setDarkTheme when toggling from light to dark" time="0.014" classname=".Theme Toggler Button Integration Test"/>
+  <testcase name="Theme Toggler Button Integration Test should call setDarkTheme when toggling from dark to light" time="0.013" classname=".Theme Toggler Button Integration Test"/>
+  <testcase name="Theme Toggler Button Integration Test should initialize with the correct theme" time="0.012" classname=".Theme Toggler Button Integration Test"/>
+  <testcase name="Theme Toggler Button Integration Test should toggle theme correctly" time="0.01" classname=".Theme Toggler Button Integration Test"/>
+  <system-out>
+    <![CDATA[Chrome Headless 128.0.0.0 (Windows 10) WARN: 'Navigation triggered outside Angular zone, did you forget to call 'ngZone.run()'?'
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: [Object{accountId: 2, name: 'Beneficiary 1'}]
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
