@@ -31,7 +31,8 @@ export class NavbarComponent {
     private authService: AuthService,
     private authenticationService: AuthenticationService,
     private store: Store<any>,
-    protected darkThemeSelectorService: DarkThemeSelectorService
+    protected darkThemeSelectorService: DarkThemeSelectorService,
+
   ) {
     this.menuList = menuList;
     this.authenticationService.isAuthenticate().subscribe((status: boolean) => {
@@ -52,6 +53,8 @@ export class NavbarComponent {
       this.themeText = theme === AppTheme.DARK ? 'Dark' : 'Light'
     });
 
+
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentUrl = event.url;
@@ -62,6 +65,15 @@ export class NavbarComponent {
 
   toggleNavbar() {
     this.showMenu = !this.showMenu;
+  }
+  handleToggleTheme(){
+    if(this.isDarkMode){
+      this.darkThemeSelectorService.setLightTheme();
+      this.isDarkMode = false;
+      return
+    }
+    this.darkThemeSelectorService.setDarkTheme();
+    this.isDarkMode = true;
   }
 
   logout() {
