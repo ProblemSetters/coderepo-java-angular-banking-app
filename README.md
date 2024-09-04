@@ -4,28 +4,28 @@ Currently, there are no daily or monthly transaction limits on cards. To improve
 1.	**Daily Transaction Limit**: Users should be restricted from making transactions that exceed a certain amount in a single day.
 2.	**Monthly Transaction Limit**: Users should not be allowed to transfer more than a specified total amount in one month.
 
-These limits can be set as static values for now and do not need to be customizable at the user level.
+These **limits can be set as static values for now** and do not need to be customizable at the user level.
 
 ## Acceptance Criteria
 1. **Daily Transaction Limit Enforcement:**
-    - Ensure that users cannot make transactions exceeding the daily transaction limit.
-    - If a user attempts to make a transaction that would cause the total daily transactions to exceed the limit, the transaction should be blocked, and an appropriate error message should be returned.
+   - Ensure that users cannot make transactions exceeding the daily transaction limit.
+   - If a user attempts to make a transaction that would cause the total daily transactions to exceed the limit, the transaction should be blocked, and an appropriate error message should be returned.
 
 2. **Monthly Transaction Limit Enforcement:**
-    - Ensure that users cannot transfer more than the specified monthly transaction limit.
-    - If a user attempts to make a transaction that would cause the total monthly transactions to exceed the limit, the transaction should be blocked, and an appropriate error message should be returned.
+   - Ensure that users cannot transfer more than the specified monthly transaction limit.
+   - If a user attempts to make a transaction that would cause the total monthly transactions to exceed the limit, the transaction should be blocked, and an appropriate error message should be returned.
 
 3. **Static Limit Values:**
-    - Implement the daily and monthly transaction limits as static values as part of `Card` entity itself.
-    - The values for these limits should be hardcoded and not configurable by users.
+   - Implement the daily and monthly transaction limits as static values as part of `Card` entity itself.
+   - The values for these limits should be hardcoded and not configurable by users.
 
 4. **Error Handling:**
-    - Ensure that appropriate error messages are displayed to the user when a transaction is blocked due to exceeding the daily or monthly limits.
-    - The error messages should clearly indicate which limit was exceeded.
+   - Ensure that appropriate error messages are displayed to the user when a transaction is blocked due to exceeding the daily or monthly limits.
+   - The error messages should clearly indicate which limit was exceeded.
 
 5. **Code Quality:**
-    - Follow best practices for code readability, maintainability, and performance.
-    - Ensure the code is properly documented where necessary, and that the solution integrates well with the existing codebase.
+   - Follow best practices for code readability, maintainability, and performance.
+   - Ensure the code is properly documented where necessary, and that the solution integrates well with the existing codebase.
 
 ## Domain-mode updates
 #### Transaction
@@ -50,20 +50,18 @@ These limits can be set as static values for now and do not need to be customiza
 
 ```json
 {
-  "dateCreated": "2024-08-21 10:30:00",
-  "lastCreated": "2024-08-21 10:30:00",
-  "cardNumber": "2111460214118071",
-  "accountId": 1010213161,
-  "name": "Visa",
-  "balance": 3837474.3,
-  "pin": 234,
-  "blocked": false,
-  "expireMonth": "03",
-  "expireYear": "2024",
-  "cardHolderName": "David Edel",
-  "cvv": 234,
-  "DAILY_TRANSACTION_LIMIT": 5000.00,
-  "MONTHLY_TRANSACTION_LIMIT": 20000.00
+   "dateCreated": "2024-08-21 10:30:00",
+   "lastCreated": "2024-08-21 10:30:00",
+   "cardNumber": "2111460214118071",
+   "accountId": 1010213161,
+   "name": "Visa",
+   "balance": 3837474.3,
+   "pin": 234,
+   "blocked": false,
+   "expireMonth": "03",
+   "expireYear": "2024",
+   "cardHolderName": "David Edel",
+   "cvv": 234
 }
 ```
 </details>
