@@ -8,6 +8,7 @@ import { ToastrService } from "ngx-toastr";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Store } from "@ngrx/store";
 import { updateBalance } from "src/app/state/balance.actions";
+import { AppTheme, DarkThemeSelectorService } from "src/app/services/themeToggle.service";
 
 @Component({
   selector: "app-navbar",
@@ -21,13 +22,17 @@ export class NavbarComponent {
   public isAuth: boolean = false;
   public account?: Account;
   public balance: Number = 0;
+  public isDarkMode: boolean = false;
+  public themeText = '';
 
   constructor(
     private router: Router,
     private toastr: ToastrService,
     private authService: AuthService,
     private authenticationService: AuthenticationService,
-    private store: Store<any>
+    private store: Store<any>,
+    protected darkThemeSelectorService: DarkThemeSelectorService,
+
   ) {
     this.menuList = menuList;
     this.authenticationService.isAuthenticate().subscribe((status: boolean) => {
@@ -40,10 +45,16 @@ export class NavbarComponent {
       this.balance = Number(account.balance);
     });
   }
-
   getBalance() {}
 
   ngOnInit() {
+    this.darkThemeSelectorService.currentTheme.subscribe((theme: AppTheme | undefined) => {
+      this.isDarkMode = theme === AppTheme.DARK;
+      this.themeText = theme === AppTheme.DARK ? 'Dark' : 'Light'
+    });
+
+
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentUrl = event.url;
@@ -54,6 +65,15 @@ export class NavbarComponent {
 
   toggleNavbar() {
     this.showMenu = !this.showMenu;
+  }
+  handleToggleTheme(){
+    if(this.isDarkMode){
+      this.darkThemeSelectorService.setLightTheme();
+      this.isDarkMode = false;
+      return
+    }
+    this.darkThemeSelectorService.setDarkTheme();
+    this.isDarkMode = true;
   }
 
   logout() {
