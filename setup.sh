@@ -3,5 +3,5 @@ mvn clean package -DskipTests
 cd ..
 
 cd frontend
-npm install
+npm install -f
 cd ..
