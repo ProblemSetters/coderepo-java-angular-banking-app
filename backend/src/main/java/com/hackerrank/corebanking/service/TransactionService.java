@@ -17,6 +17,10 @@ import java.util.List;
 
 @Service
 public class TransactionService {
+
+    private final double DAILY_TRANSACTION_LIMIT = 5000.00;
+    private final double MONTHLY_TRANSACTION_LIMIT = 20000.00;
+
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
     private final CardRepository cardRepository;
@@ -84,12 +88,12 @@ public class TransactionService {
         double totalMonthlyTransactions = calculateTotalMonthlyCardTransactions(sourceCard.getCardNumber());
 
         // Check if the new transaction would breach the daily limit
-        if (totalDailyTransactions + transferAmount > sourceCard.getDAILY_TRANSACTION_LIMIT()) {
+        if (totalDailyTransactions + transferAmount > DAILY_TRANSACTION_LIMIT) {
             throw new RuntimeException("Transaction cannot be completed as it exceeds the daily transaction limit.");
         }
 
         // Check if the new transaction would breach the monthly limit
-        if (totalMonthlyTransactions + transferAmount > sourceCard.getMONTHLY_TRANSACTION_LIMIT()) {
+        if (totalMonthlyTransactions + transferAmount > MONTHLY_TRANSACTION_LIMIT) {
             throw new RuntimeException("Transaction cannot be completed as it exceeds the monthly transaction limit.");
         }
     }

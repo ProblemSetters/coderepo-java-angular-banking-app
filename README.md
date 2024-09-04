@@ -4,7 +4,7 @@ Currently, there are no daily or monthly transaction limits on cards. To improve
 1.	**Daily Transaction Limit**: Users should be restricted from making transactions that exceed a certain amount in a single day.
 2.	**Monthly Transaction Limit**: Users should not be allowed to transfer more than a specified total amount in one month.
 
-These limits can be set as static values for now and do not need to be customizable at the user level.
+These **limits can be set as static values for now** and do not need to be customizable at the user level.
 
 ## Acceptance Criteria
 1. **Daily Transaction Limit Enforcement:**
@@ -61,9 +61,7 @@ These limits can be set as static values for now and do not need to be customiza
   "expireMonth": "03",
   "expireYear": "2024",
   "cardHolderName": "David Edel",
-  "cvv": 234,
-  "DAILY_TRANSACTION_LIMIT": 5000.00,
-  "MONTHLY_TRANSACTION_LIMIT": 20000.00
+  "cvv": 234
 }
 ```
 </details>

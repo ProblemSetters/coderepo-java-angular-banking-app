@@ -35,7 +35,7 @@ class AccountControllerTest {
                     .contentType("application/json")
                     .content(om.writeValueAsString(expectedRecord)))
             .andDo(print())
-            .andExpect(jsonPath("$.id", greaterThan(0)))
+            .andExpect(jsonPath("$.accountId", greaterThan(0)))
             .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString(), Account.class);
 
     Assertions.assertEquals(expectedRecord.getEmailAddress(), actualRecord.getEmailAddress());
