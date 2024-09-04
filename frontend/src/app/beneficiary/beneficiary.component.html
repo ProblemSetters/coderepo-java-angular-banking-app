@@ -1,31 +1,31 @@
-<section class="container mx-auto bg-white dark:bg-white mb-10">
-    <div class="py-10">
+<section class="container mx-auto dark:bg-gray-900 mb-10 dark:text-white">
+    <div class="py-10 dark:bg-gray-900">
         <div
             tabindex="0"
             role="heading"
-            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase lg:px-0 px-6"
+            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase lg:px-0 px-6 dark:text-white"
         >
             Beneficiary
         </div>
         <div class="lg:flex mt-12">
             <div class="lg:w-1/2">
-                <div class="text-base font-bold text-primary-blue uppercase pb-2 mb-6 border-b">
+                <div class="text-base font-bold text-primary-blue uppercase pb-2 mb-6 border-b dark:text-white">
                     Beneficiary Details
                 </div>
                 <div *ngIf="beneficiaryList && beneficiaryList.length > 0; else elseBlock">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-50 dark:text-gray-700">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 dark:bg-gray-900">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-400 dark:text-gray-700">
                             <tr>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 dark:text-white">
                                     Beneficiary Account ID
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 dark:text-white">
                                     Beneficiary Created on
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-white border-b dark:bg-white dark:border-b hover:bg-gray-50 dark:hover:bg-gray-50"
+                            <tr class="bg-white border-b dark:bg-gray-900 dark:border-b hover:bg-gray-50 dark:hover:bg-gray-50"
                                 *ngFor="let beneficiary of beneficiaryList">
                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
                                     {{beneficiary.beneficiaryAccountId}}
@@ -44,12 +44,12 @@
                 </ng-template>
             </div>
             <div class="lg:w-1/2 lg:ml-16">
-                <div class="text-base font-bold text-primary-blue uppercase pb-2 mb-6 border-b">
+                <div class="text-base font-bold text-primary-blue uppercase pb-2 mb-6 border-b dark:text-white">
                     Add New Beneficiary
                 </div>
                 <form [formGroup]="beneficiaryForm" (ngSubmit)="onSubmit()" class="beneficiary-form">
                     <div class="">
-                        <label htmlFor="beneficiaryAccountId" class="text-sm font-medium leading-none text-gray-800">
+                        <label htmlFor="beneficiaryAccountId" class="text-sm font-medium leading-none text-gray-800 dark:text-white">
                             Beneficiary Account Number
                         </label>
                         <input
@@ -67,7 +67,13 @@
                     <div class="mt-10 mx-8 md:mx-0">
                         <button
                             type="submit"
-                            class="block w-full disabled:opacity-25 rounded-md bg-primary-blue px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-secondary-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue"
+                            class="block w-full rounded-md  px-3.5 py-2.5 text-center text-sm font-semibol shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue"
+                            [ngClass]="{
+                                'bg-[#3c3c3c] text-[#959494] opacity-100': isDarkMode && !beneficiaryForm.valid,
+                                'bg-[#959494] text-[#ffffff]  hover:opacity-90': isDarkMode && beneficiaryForm.valid,
+                                'text-white disabled:opacity-25 bg-primary-blue hover:bg-secondary-blue': !isDarkMode,
+                                'bg-[#3c3c3c]': isDarkMode,
+                              }"
                             [disabled]="!beneficiaryForm.valid"
                         >
                             Add Beneficiary

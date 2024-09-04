@@ -11,5 +11,5 @@ configuration:
       - README.md
     project_menu:
       run: npm run start
-      install: npm install && npm run setup
+      install: npm install
       test: echo "No test command configured for this question."

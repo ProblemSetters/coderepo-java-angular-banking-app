@@ -23,4 +23,8 @@ export const menuList = [
 		name: "Reward Points",
 		url: "reward-points",
 	},
+	{
+		name: "Apply Loan",
+		url: "apply-loan",
+	},
 ];
