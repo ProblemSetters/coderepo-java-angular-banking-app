@@ -10,7 +10,8 @@
 		"test:task2": "ng test --include src/test/task2/cards.hide.spec.ts --karma-config karma.conf.task2.js",
 		"test:task3": "ng test --include src/test/task3/send-money.component.spec.ts --karma-config karma.conf.task3.js",
 		"test:task4": "ng test --include src/test/task4/account.component.spec.ts --karma-config karma.conf.task4.js",
-		"test:task5": "ng test --include src/test/task5/themeToggle.components.spec.ts --karma-config karma.conf.task5.js"
+		"test:task5": "ng test --include src/test/task5/themeToggle.components.spec.ts --karma-config karma.conf.task5.js",
+		"test:task12":"ng test --include src/test/task12/beneficiary.component.spec.ts --karma-config karma.conf.task12.js"
 	},
 	"private": true,
 	"dependencies": {

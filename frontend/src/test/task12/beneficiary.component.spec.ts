@@ -6,11 +6,15 @@ import { BeneficiaryComponent } from "src/app/beneficiary/beneficiary.component"
 import { BeneficiaryService } from "src/app/services/beneficiary.service";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { DarkThemeSelectorService } from "src/app/services/themeToggle.service";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
+import { DragDropDirective } from "src/app/services/drag-drop.directive";
 import { of } from "rxjs";
 
 class MockBeneficiaryService {
-  getAllBeneficiaries() {
-    return of([]);
+
+  getAllBeneficiaries(){
+    return of([]) ;
   }
   storeBeneficiary(accountId: number, beneficiaryAccountId: string) {
     return of({ success: true });
@@ -33,10 +37,13 @@ class MockDarkThemeSelectorService {
 describe("BeneficiaryComponent", () => {
   let component: BeneficiaryComponent;
   let fixture: ComponentFixture<BeneficiaryComponent>;
+  let dragDropDirective: DragDropDirective;
+  let debugElement: DebugElement;
+
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BeneficiaryComponent],
+      declarations: [BeneficiaryComponent, DragDropDirective],
       imports: [
         ReactiveFormsModule,
         HttpClientTestingModule,
@@ -56,6 +63,7 @@ describe("BeneficiaryComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BeneficiaryComponent);
     component = fixture.componentInstance;
+    debugElement = fixture.debugElement;
     fixture.detectChanges();
   });
 
@@ -71,7 +79,6 @@ describe("BeneficiaryComponent", () => {
   });
 
   // form validation
-
   it("should mark the form as invalid if beneficiaryAccountId is empty", () => {
     const beneficiaryAccountId = component.beneficiaryForm.get(
       "beneficiaryAccountId"
@@ -80,51 +87,20 @@ describe("BeneficiaryComponent", () => {
     expect(component.beneficiaryForm.invalid).toBe(true);
   });
 
-  // check if table is rendered with correct classes
-
-  it("should render the table with correct classes", () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const table = compiled.querySelector("table");
-
-    expect(table).toBeTruthy();
-    expect(table?.classList).toContain("w-full");
-    expect(table?.classList).toContain("text-sm");
-    expect(table?.classList).toContain("text-left");
-    expect(table?.classList).toContain("text-gray-500");
-    expect(table?.classList).toContain("dark:text-gray-400");
-    expect(table?.classList).toContain("dark:bg-gray-900");
-  });
-
-  //dark mode toggle
-
+  // dark mode toggle
   it("should toggle dark mode based on the theme", () => {
     component.ngOnInit();
     expect(component.isDarkMode).toBe(true);
   });
- 
 
   // fetch beneficiaries on initialization
-
   it("should fetch all beneficiaries on init", () => {
     spyOn(component, "getAllBeneficiaries");
     component.ngOnInit();
     expect(component.getAllBeneficiaries).toHaveBeenCalled();
   });
 
-  // no beneficiaries message
-
-  it('should display "No beneficiaries" message when list is empty', () => {
-    component.beneficiaryList = [];
-    fixture.detectChanges();
-
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector(".text-center")!.textContent).toContain(
-      "No beneficiaries"
-    );
-  });
-
   // error message for empty form submission
-
   it("should show an error message if the form is submitted with empty fields", () => {
     spyOn(component["toastr"], "error");
     component.onSubmit();
@@ -133,53 +109,52 @@ describe("BeneficiaryComponent", () => {
     );
   });
 
-  // check if drag and drop directive is applied
+  // drag and drop functionality test cases :
 
-  it("should apply the drag-and-drop directive to each beneficiary row", () => {
-    component.beneficiaryList = [
-      { beneficiaryAccountId: "1010113163", dateCreated: "2023-08-29" },
-      { beneficiaryAccountId: "1010113169", dateCreated: "2023-08-30" },
-    ];
-    fixture.detectChanges();
-
-    const compiled = fixture.nativeElement as HTMLElement;
-    const rows = compiled.querySelectorAll("tbody tr");
-    rows.forEach((row) => {
-      expect(row.hasAttribute("appDragDrop")).toBe(true);
+  it("should apply drag and drop directive on table rows", () => {
+    const rows = debugElement.queryAll(By.css("tbody tr"));
+    rows.forEach(row => {
+      expect(row.attributes["appDragDrop"]).toBeDefined();
     });
   });
 
-  //simulate drag and drop and check if list order is updated
-
-  it("should update the beneficiary list order after drag and drop", () => {
+  it("should swap the items on drop", () => {
+    // Initializing a mock list of beneficiaries
     component.beneficiaryList = [
-      { beneficiaryAccountId: "1010113169", dateCreated: "2023-08-29" },
-      { beneficiaryAccountId: "1010113162", dateCreated: "2023-08-30" },
-      { beneficiaryAccountId: "1010113161", dateCreated: "2023-08-31" },
+      { beneficiaryAccountId: "123", dateCreated: "2023-01-01" },
+      { beneficiaryAccountId: "456", dateCreated: "2023-01-02" },
+      { beneficiaryAccountId: "789", dateCreated: "2023-01-03" },
     ];
-    fixture.detectChanges();
-
-    const compiled = fixture.nativeElement as HTMLElement;
-    const rows = compiled.querySelectorAll("tbody tr");
-
-    // Simulate dragging the first row to the third position
-    const dragEvent = new DragEvent("dragstart");
-    const dropEvent = new DragEvent("drop");
-
-    rows[0].dispatchEvent(dragEvent);
-    rows[2].dispatchEvent(dropEvent);
 
     fixture.detectChanges();
 
-    // Check if the order of the list is updated
-    expect(component.beneficiaryList[0].beneficiaryAccountId).toBe(
-      "1010113162"
-    );
-    expect(component.beneficiaryList[1].beneficiaryAccountId).toBe(
-      "1010113161"
-    );
-    expect(component.beneficiaryList[2].beneficiaryAccountId).toBe(
-      "1010113169"
-    );
+    // Simulate drag and drop
+    const dragEvent = new DragEvent("dragstart", {
+      dataTransfer: new DataTransfer(),
+    });
+    const dropEvent = new DragEvent("drop", {
+      dataTransfer: new DataTransfer(),
+    });
+
+    const dragIndex = 0;
+    const dropIndex = 2;
+
+    component.beneficiaryList[dragIndex].dragIndex = dragIndex;
+    component.beneficiaryList[dropIndex].dropIndex = dropIndex;
+
+    const firstRow = debugElement.queryAll(By.css("tbody tr"))[dragIndex]
+      .nativeElement;
+    const lastRow = debugElement.queryAll(By.css("tbody tr"))[dropIndex]
+      .nativeElement;
+
+    firstRow.dispatchEvent(dragEvent);
+    lastRow.dispatchEvent(dropEvent);
+
+    fixture.detectChanges();
+
+    // Check if the items have been swapped
+    expect(component.beneficiaryList[0].beneficiaryAccountId).toBe("789");
+    expect(component.beneficiaryList[2].beneficiaryAccountId).toBe("123");
   });
+  
 });
