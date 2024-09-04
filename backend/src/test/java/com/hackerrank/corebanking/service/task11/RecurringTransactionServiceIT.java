@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,45 +27,61 @@ public class RecurringTransactionServiceIT {
     @Mock
     private AccountService accountService;
 
+    @Mock
+    private UserDetails userDetails;
+
     @InjectMocks
     private RecurringTransactionService recurringTransactionService;
 
     private Account account;
+    private Long fromAccountId;
+    private Long toAccountId;
     private LocalDate startDate;
     private LocalDate endDate;
-
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
         account = Account.builder()
-                .accountId(1L)
+                .accountId(1L) // Set a mock account ID
+                .firstName("John")
+                .lastName("Doe")
+                .emailAddress("john.doe@example.com")
                 .build();
+
+        fromAccountId = 1L;
+        toAccountId = 2L;
         startDate = LocalDate.now().plusDays(1);
         endDate = LocalDate.now().plusMonths(1);
+
+        when(userDetails.getUsername()).thenReturn("test@example.com");
+        when(accountService.getAccountByEmailAddress("test@example.com")).thenReturn(account);
     }
 
     @Test
     public void testCreateRecurringTransaction() {
         RecurringTransaction recurringTransaction = RecurringTransaction.builder()
                 .account(account)
-                .toAccountId(2L)
+                .fromAccountId(fromAccountId)
+                .toAccountId(toAccountId)
                 .amount(100.0)
                 .startDate(startDate)
                 .endDate(endDate)
                 .frequency(Frequency.DAILY)
                 .build();
 
-        when(accountService.getAccountByAccountId(account.getAccountId())).thenReturn(account);
+        when(accountService.getAccountByEmailAddress(anyString())).thenReturn(account);
         when(recurringTransactionRepository.save(any(RecurringTransaction.class))).thenReturn(recurringTransaction);
 
         RecurringTransaction savedTransaction = recurringTransactionService.createRecurringTransaction(
-                account.getAccountId(), 2L, 100.0, startDate, endDate, Frequency.DAILY);
+                account, fromAccountId, toAccountId, 100.0, startDate, endDate, Frequency.DAILY);
 
         assertNotNull(savedTransaction);
         assertEquals(100.0, savedTransaction.getAmount());
         assertEquals(account, savedTransaction.getAccount());
+        assertEquals(fromAccountId, savedTransaction.getFromAccountId());
+        assertEquals(toAccountId, savedTransaction.getToAccountId());
         assertEquals(startDate, savedTransaction.getStartDate());
         assertEquals(endDate, savedTransaction.getEndDate());
         assertEquals(Frequency.DAILY, savedTransaction.getFrequency());
@@ -74,6 +91,8 @@ public class RecurringTransactionServiceIT {
     public void testGetAllRecurringTransactions() {
         RecurringTransaction transaction1 = RecurringTransaction.builder()
                 .account(account)
+                .fromAccountId(fromAccountId)
+                .toAccountId(toAccountId)
                 .amount(100.0)
                 .startDate(startDate)
                 .endDate(endDate)
@@ -81,6 +100,8 @@ public class RecurringTransactionServiceIT {
                 .build();
         RecurringTransaction transaction2 = RecurringTransaction.builder()
                 .account(account)
+                .fromAccountId(fromAccountId)
+                .toAccountId(toAccountId)
                 .amount(200.0)
                 .startDate(startDate)
                 .endDate(endDate)
@@ -121,10 +142,9 @@ public class RecurringTransactionServiceIT {
     @Test
     public void testCreateRecurringTransaction_ThrowsException_WhenStartDateIsInPast() {
         LocalDate pastStartDate = LocalDate.now().minusDays(1);
-        Long toAccountId = 2L; // Specify a valid toAccountId
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            recurringTransactionService.createRecurringTransaction(account.getAccountId(), toAccountId, 100.0, pastStartDate, endDate, Frequency.DAILY);
+            recurringTransactionService.createRecurringTransaction(account, fromAccountId, toAccountId, 100.0, pastStartDate, endDate, Frequency.DAILY);
         });
         assertEquals("Start date must be at least one day in the future.", exception.getMessage());
     }

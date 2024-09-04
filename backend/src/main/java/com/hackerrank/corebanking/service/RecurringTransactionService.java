@@ -4,6 +4,7 @@ import com.hackerrank.corebanking.model.Account;
 import com.hackerrank.corebanking.model.Frequency;
 import com.hackerrank.corebanking.model.RecurringTransaction;
 import com.hackerrank.corebanking.repository.RecurringTransactionRepository;
+import com.hackerrank.corebanking.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +24,14 @@ public class RecurringTransactionService {
         this.accountService = accountService;
     }
 
-    public RecurringTransaction createRecurringTransaction(Long accountId, Long toAccountId, Double amount, LocalDate startDate, LocalDate endDate, Frequency frequency) {
+    public RecurringTransaction createRecurringTransaction(Account account, Long fromAccountId, Long toAccountId, Double amount, LocalDate startDate, LocalDate endDate, Frequency frequency) {
         if (startDate.isBefore(LocalDate.now().plusDays(1))) {
             throw new IllegalArgumentException("Start date must be at least one day in the future.");
         }
-        Account account = accountService.getAccountByAccountId(accountId);
 
         RecurringTransaction recurringTransaction = RecurringTransaction.builder()
                 .account(account)
+                .fromAccountId(fromAccountId)
                 .toAccountId(toAccountId)
                 .amount(amount)
                 .startDate(startDate)

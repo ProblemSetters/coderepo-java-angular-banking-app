@@ -1,9 +1,8 @@
 package com.hackerrank.corebanking.scheduler;
 
-import com.hackerrank.corebanking.model.Account;
 import com.hackerrank.corebanking.model.RecurringTransaction;
 import com.hackerrank.corebanking.model.Transaction;
-import com.hackerrank.corebanking.service.AccountService;
+import com.hackerrank.corebanking.model.Frequency;
 import com.hackerrank.corebanking.service.RecurringTransactionService;
 import com.hackerrank.corebanking.service.TransactionService;
 import org.slf4j.Logger;
@@ -23,8 +22,7 @@ public class RecurringTransactionScheduler {
 
     @Autowired
     public RecurringTransactionScheduler(RecurringTransactionService recurringTransactionService,
-                                         TransactionService transactionService,
-                                         AccountService accountService) {
+                                         TransactionService transactionService) {
         this.recurringTransactionService = recurringTransactionService;
         this.transactionService = transactionService;
     }
@@ -36,12 +34,12 @@ public class RecurringTransactionScheduler {
         List<RecurringTransaction> dueTransactions = recurringTransactionService.getDueRecurringTransactions(today);
 
         for (RecurringTransaction recurringTransaction : dueTransactions) {
-            Account account = recurringTransaction.getAccount();
+            Long fromAccountId = recurringTransaction.getFromAccountId();
             Long toAccountId = recurringTransaction.getToAccountId();
 
-            if (account != null && account.getAccountId() != null && toAccountId != null) {
+            if (fromAccountId != null && toAccountId != null) {
                 Transaction transaction = new Transaction();
-                transaction.setFromAccountId(account.getAccountId());
+                transaction.setFromAccountId(fromAccountId);
                 transaction.setToAccountId(toAccountId);
                 transaction.setTransferAmount(recurringTransaction.getAmount());
                 transaction.setRecurringTransaction(recurringTransaction);
@@ -49,16 +47,14 @@ public class RecurringTransactionScheduler {
                 transactionService.sendMoney(transaction);
 
                 LocalDate nextExecutionDate = recurringTransactionService.calculateNextExecutionDate(today, recurringTransaction.getFrequency());
-                if (nextExecutionDate.isBefore(recurringTransaction.getEndDate())) {
+                if (nextExecutionDate != null && !nextExecutionDate.isBefore(today) && nextExecutionDate.isBefore(recurringTransaction.getEndDate())) {
                     recurringTransactionService.createRecurringTransaction(
-                            account.getAccountId(), toAccountId, recurringTransaction.getAmount(),
+                            recurringTransaction.getAccount(), fromAccountId, toAccountId, recurringTransaction.getAmount(),
                             nextExecutionDate, recurringTransaction.getEndDate(), recurringTransaction.getFrequency());
                 }
             } else {
-                logger.warn("Invalid account detected for recurring transaction ID {}: Account or destination account is null or has no ID.", recurringTransaction.getId());
+                logger.warn("Invalid account IDs for recurring transaction ID {}: From or to account ID is null.", recurringTransaction.getId());
             }
         }
     }
 }
-
-
