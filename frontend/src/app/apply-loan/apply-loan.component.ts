@@ -44,23 +44,15 @@ export class ApplyLoanComponent {
   getValidators(validatorNames: string[]) {}
 
   panValidator(control: any) {
-    
-    return   { panInvalid: false }
+    return { panInvalid: false };
   }
 
   nextStep() {
-    if (
-      this.currentStep < this.steps.length - 1 &&
-      this.isStepComplete(this.currentStep)
-    ) {
-      this.currentStep++;
-    }
+    // add login to take next step
   }
 
   previousStep() {
-    if (this.currentStep > 0) {
-      this.currentStep--;
-    }
+    // add logic to go to previous step
   }
 
   isStepComplete(stepIndex: number): boolean {
@@ -74,7 +66,6 @@ export class ApplyLoanComponent {
     }
   }
   getOptions(optionType: string) {
-   
     return [""];
   }
   getJson(value: any) {

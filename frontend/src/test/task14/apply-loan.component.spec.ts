@@ -64,12 +64,7 @@ describe("ApplyLoanComponent", () => {
     expect(component.currentStep).toBe(initialStep + 1);
   });
 
-  it("should not move to the next step when invalid", () => {
-    spyOn(component, "isStepComplete").and.returnValue(false);
-    const initialStep = component.currentStep;
-    component.nextStep();
-    expect(component.currentStep).toBe(initialStep);
-  });
+
 
   it("should move to the previous step", () => {
     component.currentStep = 1; // Set to step 1
@@ -144,62 +139,10 @@ describe("ApplyLoanComponent", () => {
     ]);
   });
   
-
-
   it("should have correct container width", () => {
     const container = fixture.nativeElement.querySelector('.container');
     expect(container.classList).toContain('mx-auto');
   });  
-
-  it("should apply correct width classes to input fields", () => {
-    const fields = fixture.nativeElement.querySelectorAll('.col-6, .col-4, .col-3, .col-2, .col-1');
-    fields.forEach((field: HTMLElement) => {
-      const classes = field.classList;
-      expect(classes).toContain('mb-4');
-      expect(
-        classes.contains('col-6') ||
-        classes.contains('col-4') ||
-        classes.contains('col-3') ||
-        classes.contains('col-2') ||
-        classes.contains('col-1')
-      ).toBeTrue();
-    });
-  });
-
-  it("should apply correct step text colors", () => {
-    component.currentStep = 1;
-    fixture.detectChanges();
-    const steps = fixture.nativeElement.querySelectorAll('li');
-    steps.forEach((step: HTMLElement, index: number) => {
-      if (index < component.currentStep) {
-        expect(step.classList).toContain('text-green-500');
-      } else if (index === component.currentStep) {
-        expect(step.classList).toContain('text-blue-600');
-      } else {
-        expect(step.classList).toContain('text-gray-500');
-      }
-    });
-  });
-
-  it("should apply correct width classes to navigation buttons", () => {
-    const buttons = fixture.nativeElement.querySelectorAll('button');
-    buttons.forEach((button: HTMLElement) => {
-      const buttonClasses = button.classList;
-      expect(buttonClasses).toContain('px-4');
-      expect(buttonClasses).toContain('py-2');
-      expect(buttonClasses).toContain('rounded');
-    });
-  });
-
-  it("should have correct padding and border radius for input fields", () => {
-    const inputFields = fixture.nativeElement.querySelectorAll('input, textarea, select');
-    inputFields.forEach((input: HTMLElement) => {
-      const padding = getComputedStyle(input).padding;
-      expect(padding).toBe('0.5rem'); // Tailwind 'p-2'
-      const borderRadius = getComputedStyle(input).borderRadius;
-      expect(borderRadius).toBe('0.25rem'); // Tailwind 'rounded'
-    });
-  });
   
   it("should apply the correct background color class to the form section", () => {
     const formSection = fixture.nativeElement.querySelector('form.bg-slate-50');
@@ -209,7 +152,8 @@ describe("ApplyLoanComponent", () => {
 
   it("should apply the correct color class to error messages", () => {
     const errorMessages = fixture.nativeElement.querySelectorAll('.text-red-500');
-    errorMessages.forEach((error: HTMLElement) => {
+  expect(errorMessages.length).toBeGreaterThan(0);
+    errorMessages?.forEach((error: HTMLElement) => {
       expect(error.classList).toContain('text-red-500');
     });
   });
@@ -227,14 +171,36 @@ describe("ApplyLoanComponent", () => {
     expect(backButton.classList).toContain('bg-gray-200');
     expect(backButton.classList).toContain('text-gray-700'); 
   });
-  
+
   it("should apply correct text alignment to form labels", () => {
     const labels = fixture.nativeElement.querySelectorAll('label');
-    labels.forEach((label: HTMLElement) => {
+    expect(labels.length).toBeGreaterThan(0); 
+    labels?.forEach((label: HTMLElement) => {
       expect(label.classList).toContain('text-sm');
       expect(label.classList).toContain('font-medium');
       expect(label.classList).toContain('text-gray-700');
     });
   });
 
+  it("should apply correct width classes to navigation buttons", () => {
+    const buttons = fixture.nativeElement.querySelectorAll('button');
+    expect(buttons.length).toBeGreaterThan(0);
+    buttons?.forEach((button: HTMLElement) => {
+      const buttonClasses = button.classList;
+      expect(buttonClasses).toContain('px-4');
+      expect(buttonClasses).toContain('py-2');
+      expect(buttonClasses).toContain('rounded');
+    });
+  });
+
+  it("should have correct padding and border radius for input fields", () => {
+    const inputFields = fixture.nativeElement.querySelectorAll('input, textarea, select');
+    expect(inputFields.length).toBeGreaterThan(0);
+    inputFields?.forEach((input: HTMLElement) => {
+      const padding = getComputedStyle(input).padding;
+      expect(padding).toBe('0.5rem'); // Tailwind 'p-2'
+      const borderRadius = getComputedStyle(input).borderRadius;
+      expect(borderRadius).toBe('0.25rem'); // Tailwind 'rounded'
+    });
+  });
 });
