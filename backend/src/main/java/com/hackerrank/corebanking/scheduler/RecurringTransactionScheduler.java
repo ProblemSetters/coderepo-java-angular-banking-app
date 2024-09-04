@@ -27,8 +27,12 @@ public class RecurringTransactionScheduler {
         this.transactionService = transactionService;
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 * * * * ?") // This runs every minute
+    //@Scheduled(cron = "0 0 0 * * ?") // this runs daily at midnight
     public void processRecurringTransactions() {
+
+        logger.info("Running recurring txn cron...");
+
         LocalDate today = LocalDate.now();
 
         List<RecurringTransaction> dueTransactions = recurringTransactionService.getDueRecurringTransactions(today);
