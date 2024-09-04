@@ -19,16 +19,11 @@ import java.util.List;
 @RequestMapping("/api/core-banking/recurring-transactions")
 public class RecurringTransactionController {
 
-    private final RecurringTransactionService recurringTransactionService;
-    private final AccountService accountService;
+    @Autowired
+    private RecurringTransactionService recurringTransactionService;
 
     @Autowired
-    public RecurringTransactionController(
-            RecurringTransactionService recurringTransactionService,
-            AccountService accountService) {
-        this.recurringTransactionService = recurringTransactionService;
-        this.accountService = accountService;
-    }
+    private AccountService accountService;
 
     @GetMapping
     public List<RecurringTransaction> getAllRecurringTransactions() {

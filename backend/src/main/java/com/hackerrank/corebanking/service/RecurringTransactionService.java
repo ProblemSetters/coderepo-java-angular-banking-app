@@ -13,12 +13,8 @@ import java.util.List;
 @Service
 public class RecurringTransactionService {
 
-    private final RecurringTransactionRepository recurringTransactionRepository;
-
     @Autowired
-    public RecurringTransactionService(RecurringTransactionRepository recurringTransactionRepository) {
-        this.recurringTransactionRepository = recurringTransactionRepository;
-    }
+    private RecurringTransactionRepository recurringTransactionRepository;
 
     public RecurringTransaction createRecurringTransaction(
             Account account, Long fromAccountId, Long toAccountId,

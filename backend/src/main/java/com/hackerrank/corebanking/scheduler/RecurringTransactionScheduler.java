@@ -17,18 +17,14 @@ import java.util.List;
 @Component
 public class RecurringTransactionScheduler {
     private static final Logger logger = LoggerFactory.getLogger(RecurringTransactionScheduler.class);
-    private final RecurringTransactionService recurringTransactionService;
-    private final TransactionService transactionService;
 
     @Autowired
-    public RecurringTransactionScheduler(RecurringTransactionService recurringTransactionService,
-                                         TransactionService transactionService) {
-        this.recurringTransactionService = recurringTransactionService;
-        this.transactionService = transactionService;
-    }
+    private RecurringTransactionService recurringTransactionService;
 
-    @Scheduled(cron = "0 * * * * ?") // This runs every minute
-    //@Scheduled(cron = "0 0 0 * * ?") // this runs daily at midnight
+    @Autowired
+    private TransactionService transactionService;
+
+    @Scheduled(cron = "0 0 0 * * ?")
     public void processRecurringTransactions() {
 
         logger.info("Running recurring txn cron...");
