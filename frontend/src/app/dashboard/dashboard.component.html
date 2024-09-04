@@ -1,9 +1,9 @@
-<section class="container mx-auto bg-white dark:bg-gray-900 mb-10">
+<section class="container mx-auto mb-10">
     <div class="py-10">
         <div
             tabindex="0"
             role="heading"
-            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase "
+            class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase"
         >
             Personal Dashboard
         </div>
@@ -47,8 +47,8 @@
                 Latest Transaction
             </div>
             <div>
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-50 dark:text-gray-700">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 Transaction ID
@@ -68,9 +68,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b dark:bg-white dark:border-b hover:bg-gray-50 dark:hover:bg-gray-50"
+                        <tr class="bg-white border-b  hover:bg-gray-500"
                             *ngFor="let transaction of transctionsList">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 {{transaction.transactionId}}
                             </td>
                             <td class="px-6 py-4">
