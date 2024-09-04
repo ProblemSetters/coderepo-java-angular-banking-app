@@ -26,6 +26,7 @@ import { StoreModule } from '@ngrx/store';
 import { balanceReducer } from './state/balance.reducer';
 import { RewardPointsComponent } from './reward-points/reward-points.component';
 import {AuthInterceptor} from "./services/auth.interceptor";
+import { ApplyLoanComponent } from './apply-loan/apply-loan.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {AuthInterceptor} from "./services/auth.interceptor";
     CardsComponent,
     BeneficiaryComponent,
     ProfileComponent,
-    RewardPointsComponent
+    RewardPointsComponent,
+    ApplyLoanComponent,
   ],
   imports: [
     BrowserModule,

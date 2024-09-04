@@ -68,10 +68,11 @@ export class NavbarComponent {
   }
   handleToggleTheme(){
     if(this.isDarkMode){
+
       this.darkThemeSelectorService.setLightTheme(); 
       return
     }
-    this.darkThemeSelectorService.setDarkTheme(); 
+    this.darkThemeSelectorService.setDarkTheme();
   }
 
   logout() {

@@ -1,3 +1,4 @@
+
 # Springboot Angular Banking App
 
 This is a full-stack banking application built using the springboot in backend and angular in the frontend. It provides
