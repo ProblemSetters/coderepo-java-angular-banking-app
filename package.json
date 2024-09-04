@@ -12,6 +12,7 @@
         "test:task2": "cd frontend && npm run test:task2",
         "test:task3": "cd frontend && npm run test:task3",
         "test:task4": "cd frontend && npm run test:task4",
+        "test:task13":"cd frontend && npm run test:task13",
         "test:task14":"cd frontend && npm run test:task14",
         "test:task5": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.controller.task5.TransactionControllerIT; cd .. && mv ./backend/target/surefire-reports/TEST-com.hackerrank.corebanking.controller.task5.TransactionControllerIT.xml ./output/task5.xml",
         "test:task6": "cd backend && mvn test -Dtest=com.hackerrank.corebanking.service.task6.CardServiceIT; cd .. && mv ./backend/target/surefire-reports/TEST-com.hackerrank.corebanking.service.task6.CardServiceIT.xml ./output/task6.xml",

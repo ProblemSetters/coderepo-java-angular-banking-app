@@ -44,10 +44,6 @@ export class DarkThemeSelectorService {
     // Setting Dark Theme Logic goes here
   }
 
-  setSystemTheme() {
-    // Setting System Theme Logic goes
-  }
-
   private handleRouteChange(url: string) {
     // Handle Route Change Logic goes
   }
@@ -58,14 +54,6 @@ export class DarkThemeSelectorService {
 
   private removeClassFromHtml(className: string) {
     // removing class from HTML Logic goes here
-  }
-
-  private setToLocalStorage(theme: AppTheme) {
-    // Setting to Local Storage Logic goes here
-  }
-
-  private removeFromLocalStorage() {
-    // Removing from Local Storage Logic goes here
   }
 }
 
