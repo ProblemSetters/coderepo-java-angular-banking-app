@@ -90,17 +90,17 @@ Frontend start:
 1. `cd frontend`
 2. `npm start`
 
-## Example Usage :
+## Drag and Drop functionality for Beneficiary List :
 
-### Drag and Drop functionality for Beneficiary List :
+### Description :
 
 This Angular project includes a custom directive (`appDragDrop`) that provides drag-and-drop functionality for reordering a list of beneficiaries displayed in a table. This feature allows users to intuitively rearrange items by dragging and dropping them into the desired position within the list.
 
 #### Features
 
 - **Reordering Beneficiaries:** Users can drag and drop a beneficiary row to reorder it within the list.
-- **Visual Feedback:** During the drag operation, the row being dragged changes its background color, providing a visual cue that it is being moved.
-- **Dark Mode Support:** The directive is compatible with both light and dark modes, ensuring consistent behavior and appearance.
+- **Visual Feedback:** During the drag operation, the row being dragged changes its background color, providing a visual cue that it is being moved.  
+- **Dark Mode Support:** The directive is compatible with both light and dark modes, ensuring consistent behavior and appearance. 
 
 #### Implementation Details
 
@@ -116,8 +116,7 @@ In the BeneficiaryComponent, the directive is applied to each row of the table d
   (listChange)="beneficiaryList = $event"
   appDragDrop
 >
-  <td>{{ beneficiary.beneficiaryAccountId }}</td>
-  <td>{{ beneficiary.dateCreated }}</td>
+ <!-- Row content for each beneficiary -->
 </tr>
 ```
 
@@ -127,7 +126,7 @@ In the BeneficiaryComponent, the directive is applied to each row of the table d
 - `[list]`: Binds the entire list of beneficiaries to the directive, so it can reorder the list when an item is dropped.
 - `(listChange)`: Emits the updated list after reordering, ensuring the component reflects the changes.
 
-#### Drag-and-Drop Logic
+### Acceptance Criteria 
 
 1. **Initial Setup :**
 
@@ -183,18 +182,13 @@ In the BeneficiaryComponent, the directive is applied to each row of the table d
   - The updated list is emitted via the `listChange` event, ensuring the component's state is updated with the new order.
 
   ```typescript
+  
   @HostListener("drop", ["$event"])
   onDrop(event: DragEvent) {
-  event.preventDefault();
   const dragEndIndex = this.list.indexOf(this.draggableItem);
   const startIndex = +event.dataTransfer?.getData("text/plain")!;
-
-  if (startIndex !== dragEndIndex) {
-    [this.list[startIndex], this.list[dragEndIndex]] = [
-      this.list[dragEndIndex],
-      this.list[startIndex],
-    ];
-    this.listChange.emit(this.list);
+    if (dragStartIndex !== dragEndIndex) {
+    // Add swapping logic here...
   }
   }
   ```
@@ -209,10 +203,9 @@ In the BeneficiaryComponent, the directive is applied to each row of the table d
   @HostListener("dragend")
   onDragEnd() {
   this.renderer.removeClass(this.el.nativeElement, "dragging-background");
-  this.renderer.setStyle(this.el.nativeElement, "opacity", "1");
   }
   ```
 
-#### Conclusion
+#### Notes
 
 The custom `appDragDrop` directive provides an efficient way to manage a sortable list of beneficiaries within the Angular application. By using this directive, users can easily reorder the list by dragging and dropping items, improving the overall user experience.

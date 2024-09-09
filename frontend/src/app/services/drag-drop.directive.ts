@@ -25,7 +25,7 @@ export class DragDropDirective {
   @HostListener("dragstart", ["$event"])
   onDragStart(event: DragEvent) {
     this.dragStartIndex = this.list.indexOf(this.draggableItem);
-    event.dataTransfer?.setData("text/plain", this.dragStartIndex.toString());
+    event.dataTransfer?.setData("text/plain", this.dragStartIndex.toFixed());
 
     this.renderer.addClass(this.el.nativeElement, "dragging-background");
 
@@ -39,7 +39,9 @@ export class DragDropDirective {
   @HostListener("dragend")
   onDragEnd() {
     this.renderer.removeClass(this.el.nativeElement, "dragging-background");
-    this.renderer.setStyle(this.el.nativeElement, "opacity", "1");
+    setTimeout(() => {
+      this.renderer.setStyle(this.el.nativeElement, "opacity", "0.8");
+    }, 100);
   }
 
   @HostListener("dragover", ["$event"])
@@ -54,17 +56,25 @@ export class DragDropDirective {
     const startIndex = +event.dataTransfer?.getData("text/plain")!;
 
     if (startIndex !== dragEndIndex) {
-      const adjustedStartIndex = startIndex === 0 ? 1 : startIndex;
-      const adjustedEndIndex =
+      const swapItems = (a: number, b: number): void => {
+        const tempArray = [...this.list];
+        [tempArray[a], tempArray[b]] = [tempArray[b], tempArray[a]];
+        this.list = [...tempArray];
+      };
+
+      const intermediateStartIndex = startIndex === 0 ? 1 : startIndex;
+      const intermediateEndIndex =
         dragEndIndex === this.list.length - 1 ? dragEndIndex - 1 : dragEndIndex;
 
-      [this.list[adjustedStartIndex], this.list[adjustedEndIndex]] = [
-        this.list[adjustedEndIndex],
-        this.list[adjustedStartIndex],
-      ];
+      if (Math.abs(intermediateStartIndex - intermediateEndIndex) !== 0) {
+        swapItems(intermediateStartIndex, intermediateEndIndex);
+      }
 
-      // Emit the updated list
-      this.listChange.emit(this.list);
+      if (this.listChange) {
+        setTimeout(() => {
+          this.listChange.emit([...this.list]);
+        }, 100);
+      }
     }
 
     console.log("dropped index ==>", dragEndIndex);
