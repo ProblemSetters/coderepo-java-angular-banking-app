@@ -27,6 +27,7 @@ import { StoreModule } from '@ngrx/store';
 import { balanceReducer } from './state/balance.reducer';
 import { RewardPointsComponent } from './reward-points/reward-points.component';
 import {AuthInterceptor} from "./services/auth.interceptor";
+import { ApplyLoanComponent } from './apply-loan/apply-loan.component';
 
 
 @NgModule({
@@ -43,7 +44,7 @@ import {AuthInterceptor} from "./services/auth.interceptor";
     DragDropDirective,
     ProfileComponent,
     RewardPointsComponent,
-   
+    ApplyLoanComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,24 +1,27 @@
-import { Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+
+import { Injectable } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
+import { BehaviorSubject } from "rxjs";
 
 export enum AppTheme {
-  LIGHT = 'light',
-  DARK = 'dark',
+  LIGHT = "light",
+  DARK = "dark",
 }
 
-const CLIENT_RENDER = typeof localStorage !== 'undefined';
-const LS_THEME = 'theme';
+const CLIENT_RENDER = typeof localStorage !== "undefined";
+const LS_THEME = "theme";
 let selectedTheme: AppTheme | undefined = undefined;
 if (CLIENT_RENDER) {
-  selectedTheme = localStorage.getItem(LS_THEME) as AppTheme || undefined;
+  selectedTheme = (localStorage.getItem(LS_THEME) as AppTheme) || undefined;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DarkThemeSelectorService {
-  private themeSubject = new BehaviorSubject<AppTheme | undefined>(selectedTheme);
+  private themeSubject = new BehaviorSubject<AppTheme | undefined>(
+    selectedTheme
+  );
 
   currentTheme = this.themeSubject.asObservable();
 
@@ -34,70 +37,28 @@ export class DarkThemeSelectorService {
   }
 
   setLightTheme() {
-    this.themeSubject.next(AppTheme.LIGHT);
-    this.setToLocalStorage(AppTheme.LIGHT);
-    this.removeClassFromHtml(AppTheme.DARK);
-    this.handleRouteChange(this.router.url); // Ensure the class is updated on theme change
+    // Setting Light Theme Logic goes here
   }
 
   setDarkTheme() {
-    this.themeSubject.next(AppTheme.DARK);
-    this.setToLocalStorage(AppTheme.DARK);
-    this.addClassToHtml(AppTheme.DARK);
-    this.handleRouteChange(this.router.url); // Ensure the class is updated on theme change
-  }
-
-  setSystemTheme() {
-    this.removeFromLocalStorage();
-    if (isSystemDark()) {
-      this.themeSubject.next(AppTheme.DARK);
-      this.addClassToHtml('dark');
-      this.setToLocalStorage(AppTheme.DARK);
-    } else {
-      this.themeSubject.next(AppTheme.LIGHT);
-      this.removeClassFromHtml('dark');
-      this.setToLocalStorage(AppTheme.LIGHT);
-    }
-    this.handleRouteChange(this.router.url); // Ensure the class is updated on theme change
+    // Setting Dark Theme Logic goes here
   }
 
   private handleRouteChange(url: string) {
-    if (this.themeSubject.getValue() === AppTheme.DARK && url === '/beneficiary') {
-      document.body.classList.add('bg-gray-900');
-    } else {
-      document.body.classList.remove('bg-gray-900');
-    }
+    // Handle Route Change Logic goes
   }
 
   private addClassToHtml(className: string) {
-    if (CLIENT_RENDER) {
-      this.removeClassFromHtml(className);
-      document.documentElement.classList.add(className);
-    }
+    // Adding class to HTML Logic goes here
   }
 
   private removeClassFromHtml(className: string) {
-    if (CLIENT_RENDER) {
-      document.documentElement.classList.remove(className);
-    }
-  }
-
-  private setToLocalStorage(theme: AppTheme) {
-    if (CLIENT_RENDER) {
-      localStorage.setItem(LS_THEME, theme);
-    }
-  }
-
-  private removeFromLocalStorage() {
-    if (CLIENT_RENDER) {
-      localStorage.removeItem(LS_THEME);
-    }
+    // removing class from HTML Logic goes here
   }
 }
 
 function isSystemDark() {
-  if (typeof window !== 'undefined') {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
+  // Check is Theme Dark Logic goes here this will return boolean value isThemeDark or not
+  // TODO : - For Now Returning false By Default
   return false;
 }
