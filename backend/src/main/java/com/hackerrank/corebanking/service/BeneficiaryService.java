@@ -50,4 +50,8 @@ public class BeneficiaryService {
   public void deleteBeneficiaryById(Long beneficiaryId) {
     beneficiaryRepository.deleteById(beneficiaryId);
   }
+
+  public List<Long> getAllBeneficiaryAccountIds() {
+    return beneficiaryRepository.findAllBeneficiaryAccountIds();
+  }
 }

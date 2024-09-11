@@ -1,14 +1,11 @@
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { BeneficiaryService } from "src/app/services/beneficiary.service";
-import { AuthenticationService } from "src/app/services/authentication.service";
-import { HttpErrorResponse } from "@angular/common/http";
-import { Account } from "../dto/types";
-import {
-  AppTheme,
-  DarkThemeSelectorService,
-} from "../services/themeToggle.service";
+import { BeneficiaryService } from 'src/app/services/beneficiary.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Account } from '../dto/types';
+import { AppTheme, DarkThemeSelectorService } from '../services/themeToggle.service';
 
 @Component({
   selector: "app-beneficiary",
@@ -16,23 +13,24 @@ import {
   styleUrls: ["./beneficiary.component.scss"],
 })
 export class BeneficiaryComponent {
-  public isAuth: boolean = false;
-  public account?: Account;
-  public accountId!: number;
-  public beneficiaryForm!: FormGroup;
-  public beneficiaryList!: Array<any>;
-  // public beneficiaryList: Array<any> = [];
-  public isDarkMode: boolean = false;
+	public isAuth: boolean = false;
+	public account?: Account;
+	public accountId!: number
+	public beneficiaryForm!: FormGroup;
+	public beneficiaryList!: Array<any>;
+	public isDarkMode: boolean = false;
 
-  constructor(
-    private toastr: ToastrService,
-    private beneficiaryService: BeneficiaryService,
-    private authenticationService: AuthenticationService,
-    private darkThemeSelectorService: DarkThemeSelectorService // Injected here
-  ) {
-    this.authenticationService.isAuthenticate().subscribe((status: boolean) => {
-      this.isAuth = status;
-    });
+	constructor(
+		private toastr: ToastrService,
+		private beneficiaryService: BeneficiaryService,
+		private authenticationService: AuthenticationService,
+		private darkThemeSelectorService: DarkThemeSelectorService // Injected here
+	) {
+		this.authenticationService
+			.isAuthenticate()
+			.subscribe((status: boolean) => {
+				this.isAuth = status;
+			});
 
     this.authenticationService.account().subscribe((account: Account) => {
       this.account = account;
@@ -40,12 +38,12 @@ export class BeneficiaryComponent {
     });
   }
 
-  ngOnInit() {
-    this.darkThemeSelectorService.currentTheme.subscribe(
-      (theme: AppTheme | undefined) => {
-        this.isDarkMode = theme === AppTheme.DARK;
-      }
-    );
+	ngOnInit() {
+		this.darkThemeSelectorService.currentTheme.subscribe((theme: AppTheme | undefined) => {
+      this.isDarkMode = theme === AppTheme.DARK;
+    });
+		
+	
 
     this.beneficiaryForm = new FormGroup({
       beneficiaryAccountId: new FormControl(null, Validators.required),

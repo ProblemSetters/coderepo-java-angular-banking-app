@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<testsuite name="Chrome Headless 128.0.0.0 (Windows 10)" package="unit" timestamp="2024-09-11T06:03:20" id="0" hostname="DESKTOP-PEO2I2O" tests="8" errors="0" failures="0" time="0.128">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/128.0.0.0 Safari/537.36"/>
+  </properties>
+  <testcase name="BeneficiaryComponent should show an error message if the form is submitted with empty fields" time="0.081" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should apply drag and drop directive on table rows" time="0.008" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should swap the items on drop" time="0.012" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should initialize the form with a beneficiaryAccountId control" time="0.006" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should mark the form as invalid if beneficiaryAccountId is empty" time="0.005" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should toggle dark mode based on the theme" time="0.005" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should fetch all beneficiaries on init" time="0.005" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should create" time="0.006" classname=".BeneficiaryComponent"/>
+  <system-out>
+    <![CDATA[Chrome Headless 128.0.0.0 (Windows 10) LOG: []
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: []
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: []
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: 'drag start index==>', 0
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: 'dropped index==>', 2
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: []
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: []
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: []
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: []
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: []
+,Chrome Headless 128.0.0.0 (Windows 10) LOG: []
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>

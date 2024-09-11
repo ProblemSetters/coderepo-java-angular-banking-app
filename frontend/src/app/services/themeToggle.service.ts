@@ -1,24 +1,27 @@
-import { Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+
+import { Injectable } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
+import { BehaviorSubject } from "rxjs";
 
 export enum AppTheme {
-  LIGHT = 'light',
-  DARK = 'dark',
+  LIGHT = "light",
+  DARK = "dark",
 }
 
-const CLIENT_RENDER = typeof localStorage !== 'undefined';
-const LS_THEME = 'theme';
+const CLIENT_RENDER = typeof localStorage !== "undefined";
+const LS_THEME = "theme";
 let selectedTheme: AppTheme | undefined = undefined;
 if (CLIENT_RENDER) {
-  selectedTheme = localStorage.getItem(LS_THEME) as AppTheme || undefined;
+  selectedTheme = (localStorage.getItem(LS_THEME) as AppTheme) || undefined;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DarkThemeSelectorService {
-  private themeSubject = new BehaviorSubject<AppTheme | undefined>(selectedTheme);
+  private themeSubject = new BehaviorSubject<AppTheme | undefined>(
+    selectedTheme
+  );
 
   currentTheme = this.themeSubject.asObservable();
 
