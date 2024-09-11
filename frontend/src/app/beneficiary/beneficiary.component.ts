@@ -17,7 +17,8 @@ export class BeneficiaryComponent {
 	public account?: Account;
 	public accountId!: number
 	public beneficiaryForm!: FormGroup;
-	public beneficiaryList!: Array<any>;
+	public beneficiaryList!: Array<any> ;
+  public beneficiaryIdList: Array<any> = []; // To store the beneficiary IDs for the dropdown
 	public isDarkMode: boolean = false;
 
 	constructor(
@@ -49,6 +50,7 @@ export class BeneficiaryComponent {
       beneficiaryAccountId: new FormControl(null, Validators.required),
     });
     this.getAllBeneficiaries();
+    this.getBeneficiaryIds();  // Fetch IDs for dropdown
   }
 
   getAllBeneficiaries() {
@@ -71,6 +73,17 @@ export class BeneficiaryComponent {
     });
   }
 
+  // Fetch beneficiary IDs for the dropdown list
+  getBeneficiaryIds() {
+    this.beneficiaryService.getAllBeneficiaryIds().subscribe({
+      next: (data: any) => {
+        this.beneficiaryIdList = data;  // Assign the beneficiary ID list here
+      },
+      error: (e: HttpErrorResponse) => {
+        this.toastr.error("Oops! Something went wrong while fetching beneficiary IDs.");
+      }
+    });
+  }
   getFormControlError(fieldName: string): string {
     const field = this.beneficiaryForm.get(fieldName);
     if (field && field.touched && field.invalid) {
@@ -89,19 +102,15 @@ export class BeneficiaryComponent {
       return;
     }
 
+    const beneficiaryAccountId = this.beneficiaryForm.get("beneficiaryAccountId")!.value;
     const res = this.beneficiaryService
-      .storeBeneficiary(
-        this.accountId,
-        this.beneficiaryForm.get("beneficiaryAccountId")!.value
-      )
+      .storeBeneficiary(this.accountId, beneficiaryAccountId)
       .subscribe({
         next: (data: any) => {
           console.log(data);
         },
         error: (e: HttpErrorResponse) => {
-          this.toastr.error(
-            "Oops! Something went wrong while adding beneficiary"
-          );
+          this.toastr.error("Oops! Something went wrong while adding beneficiary");
         },
         complete: () => {
           this.getAllBeneficiaries();
@@ -110,4 +119,6 @@ export class BeneficiaryComponent {
         },
       });
   }
+
+  
 }
