@@ -13,10 +13,9 @@ public class CardService {
   private final CardRepository cardRepository;
 
   @Autowired
-  CardService(CardRepository cardRepository) {
+  public CardService(CardRepository cardRepository) {
     this.cardRepository = cardRepository;
   }
-
 
   public Card createNewCard(Card card) {
     if (card.getCardNumber() != null) {
@@ -72,5 +71,21 @@ public class CardService {
     cardRepository.save(existing);
 
     return existing;
+  }
+
+  public boolean isVirtualTransactionAllowed(Card card, Double transactionAmount) {
+    if (!card.isVirtual()) return true;
+
+    return (card.getTxnAllowedCount() == -1 || card.getTxnAllowedCount() > 0)
+           && (card.getVirtualLimit() == -1 || (card.getVirtualLimit() - transactionAmount) >= 0);
+  }
+
+  public void consumeVirtualTxnLimits(Card card, Double transactionAmount) {
+    if (!isVirtualTransactionAllowed(card, transactionAmount)) throw new IllegalArgumentException("The txn will violate virtual card limits.");
+
+    card.setTxnAllowedCount(card.getTxnAllowedCount() - 1);
+    card.setVirtualLimit(card.getVirtualLimit() - transactionAmount);
+
+    cardRepository.save(card);
   }
 }

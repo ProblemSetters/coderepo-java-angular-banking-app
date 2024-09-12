@@ -35,4 +35,16 @@ public class Card implements Serializable {
     private String expireYear;
     private String cardHolderName;
     private int cvv;
+
+    /* Virtual card properties
+     *
+     * Cases (isVirtual - true):
+     * * Single txn allowed with no limit       - txnAllowedCount 1, virtualLimit -1
+     * * Single txn allowed with limit          - txnAllowedCount 1, virtualLimit 5000.0
+     * * Multiple txn allowed with no limit     - txnAllowedCount -1, virtualLimit -1 (like a normal card?)
+     * * Multiple txn allowed with limit        - txnAllowedCount -1, virtualLimit 5000.0
+     */
+    private boolean isVirtual = false;
+    private int txnAllowedCount = -1;
+    private Double virtualLimit = -1.0;
 }
