@@ -71,37 +71,42 @@
       >
         Add New Beneficiary
       </div>
+
       <form
         [formGroup]="beneficiaryForm"
         (ngSubmit)="onSubmit()"
         class="beneficiary-form"
       >
-        <div class="">
+        <!-- Custom Dropdown -->
+        <div class="relative">
           <label
             for="beneficiaryAccountId"
             class="text-sm font-medium leading-none text-gray-800 dark:text-white"
           >
             Beneficiary Account Number
           </label>
-          <select
-            class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
-            id="beneficiaryAccountId"
-            name="beneficiaryAccountId"
+          <input
+            type="text"
             formControlName="beneficiaryAccountId"
+            class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+            (focus)="showDropdown = true"
+            (input)="filterDropdown($event)"
+          />
+          <div
+            *ngIf="showDropdown"
+            class="absolute w-full bg-white border mt-1 z-10 max-h-56 overflow-y-auto"
           >
-            <option
-              *ngFor="let beneficiary of beneficiaryIdList"
-              [value]="beneficiary.beneficiary"
+            <div
+              *ngFor="let beneficiary of filteredBeneficiaryList"
+              class="px-4 py-2 cursor-pointer hover:bg-gray-200"
+              [draggableItem]="beneficiary"
+              [list]="beneficiaryList"
+              (listChange)="beneficiaryList = $event"
+              appDragDrop
+              (click)="selectBeneficiary(beneficiary)"
             >
               {{ beneficiary.beneficiary }}
-            </option>
-          </select>
-
-          <div
-            class="error-message"
-            *ngIf="getFormControlError('beneficiaryAccountId')"
-          >
-            {{ getFormControlError("beneficiaryAccountId") }}
+            </div>
           </div>
         </div>
 
