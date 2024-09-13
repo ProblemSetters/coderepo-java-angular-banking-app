@@ -33,7 +33,7 @@ public class TransactionService {
 
         if (transaction.getSourceCardNumber() != null) {
             Card card = cardService.getCardByCardNumber(transaction.getSourceCardNumber());
-            cardService.consumeVirtualTxnLimits(card, transaction.getTransferAmount());
+            cardService.processVirtualTransactionLimits(card, transaction.getTransferAmount());
         }
 
         accountRepository.save(fromAccount);

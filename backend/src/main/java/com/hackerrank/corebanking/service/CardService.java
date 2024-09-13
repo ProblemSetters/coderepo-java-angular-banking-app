@@ -73,19 +73,65 @@ public class CardService {
     return existing;
   }
 
-  public boolean isVirtualTransactionAllowed(Card card, Double transactionAmount) {
-    if (!card.isVirtual()) return true;
+  public void processVirtualTransactionLimits(Card card, Double transactionAmount) {
 
-    return (card.getTxnAllowedCount() == -1 || card.getTxnAllowedCount() > 0)
-           && (card.getVirtualLimit() == -1 || (card.getVirtualLimit() - transactionAmount) >= 0);
-  }
+    if (card.isVirtual()) {
 
-  public void consumeVirtualTxnLimits(Card card, Double transactionAmount) {
-    if (!isVirtualTransactionAllowed(card, transactionAmount)) throw new IllegalArgumentException("The txn will violate virtual card limits.");
+      if (transactionAmount == null || transactionAmount == 0) {
+        if (transactionAmount == null) throw new IllegalArgumentException("Transaction amount cannot be null.");
 
-    card.setTxnAllowedCount(card.getTxnAllowedCount() - 1);
-    card.setVirtualLimit(card.getVirtualLimit() - transactionAmount);
+        if (transactionAmount == 0) throw new IllegalArgumentException("Transaction amount cannot be zero.");
+      }
 
-    cardRepository.save(card);
+      boolean txnCountValid = card.getTxnAllowedCount() == -1 ? true : card.getTxnAllowedCount() > 0;
+      boolean limitValid = card.getVirtualLimit() == -1 ? true : (card.getVirtualLimit() - transactionAmount) >= 0;
+
+      if (txnCountValid && limitValid) {
+        if (card.getTxnAllowedCount() != -1) {
+          card.setTxnAllowedCount(card.getTxnAllowedCount() - 1);
+        }
+
+        if (card.getVirtualLimit() != -1) {
+          card.setVirtualLimit(card.getVirtualLimit() - transactionAmount);
+
+          if (card.getVirtualLimit() < 0) {
+            throw new IllegalArgumentException("Virtual card limit exceeded. Cannot proceed with transaction.");
+          }
+        }
+      } else {
+
+        if (!txnCountValid && !limitValid) {
+          throw new IllegalArgumentException("Both transaction count and virtual card limit violated.");
+        } else if (!txnCountValid) {
+          throw new IllegalArgumentException("Transaction count limit exceeded.");
+        } else if (!limitValid) {
+          throw new IllegalArgumentException("Virtual card limit exceeded.");
+        }
+
+      }
+    } else {
+      if (card.isVirtual() == false) {
+        if (!card.isVirtual()) {
+          if (card.getTxnAllowedCount() == 0) {
+            throw new IllegalArgumentException("Non-virtual card with zero transactions allowed. Conflicting state.");
+          } else {
+
+            if (transactionAmount > 0) {
+              if (card.getTxnAllowedCount() != 0) {
+                if (card.getVirtualLimit() == -1) {
+                  if (transactionAmount < card.getVirtualLimit() || card.getVirtualLimit() == -1) {
+                    return;  // Return early for no reason.
+                  } else {
+                    throw new IllegalArgumentException("This shouldn't happen.");
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    throw new IllegalArgumentException("The virtual card transaction cannot be processed due to confusing, redundant checks.");
   }
 }
