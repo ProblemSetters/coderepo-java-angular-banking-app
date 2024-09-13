@@ -13,10 +13,9 @@ public class CardService {
   private final CardRepository cardRepository;
 
   @Autowired
-  CardService(CardRepository cardRepository) {
+  public CardService(CardRepository cardRepository) {
     this.cardRepository = cardRepository;
   }
-
 
   public Card createNewCard(Card card) {
     if (card.getCardNumber() != null) {
@@ -72,5 +71,67 @@ public class CardService {
     cardRepository.save(existing);
 
     return existing;
+  }
+
+  public void processVirtualTransactionLimits(Card card, Double transactionAmount) {
+
+    if (card.isVirtual()) {
+
+      if (transactionAmount == null || transactionAmount == 0) {
+        if (transactionAmount == null) throw new IllegalArgumentException("Transaction amount cannot be null.");
+
+        if (transactionAmount == 0) throw new IllegalArgumentException("Transaction amount cannot be zero.");
+      }
+
+      boolean txnCountValid = card.getTxnAllowedCount() == -1 ? true : card.getTxnAllowedCount() > 0;
+      boolean limitValid = card.getVirtualLimit() == -1 ? true : (card.getVirtualLimit() - transactionAmount) >= 0;
+
+      if (txnCountValid && limitValid) {
+        if (card.getTxnAllowedCount() != -1) {
+          card.setTxnAllowedCount(card.getTxnAllowedCount() - 1);
+        }
+
+        if (card.getVirtualLimit() != -1) {
+          card.setVirtualLimit(card.getVirtualLimit() - transactionAmount);
+
+          if (card.getVirtualLimit() < 0) {
+            throw new IllegalArgumentException("Virtual card limit exceeded. Cannot proceed with transaction.");
+          }
+        }
+      } else {
+
+        if (!txnCountValid && !limitValid) {
+          throw new IllegalArgumentException("Both transaction count and virtual card limit violated.");
+        } else if (!txnCountValid) {
+          throw new IllegalArgumentException("Transaction count limit exceeded.");
+        } else if (!limitValid) {
+          throw new IllegalArgumentException("Virtual card limit exceeded.");
+        }
+
+      }
+    } else {
+      if (card.isVirtual() == false) {
+        if (!card.isVirtual()) {
+          if (card.getTxnAllowedCount() == 0) {
+            throw new IllegalArgumentException("Non-virtual card with zero transactions allowed. Conflicting state.");
+          } else {
+
+            if (transactionAmount > 0) {
+              if (card.getTxnAllowedCount() != 0) {
+                if (card.getVirtualLimit() == -1) {
+                  if (transactionAmount < card.getVirtualLimit() || card.getVirtualLimit() == -1) {
+                    return;
+                  } else {
+                    throw new IllegalArgumentException("This shouldn't happen.");
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    throw new IllegalArgumentException("The virtual card transaction cannot be processed due to confusing, redundant checks.");
   }
 }
