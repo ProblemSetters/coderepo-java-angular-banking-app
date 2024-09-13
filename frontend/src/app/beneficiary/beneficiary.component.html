@@ -91,10 +91,11 @@
             class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
             (focus)="showDropdown = true"
             (input)="filterDropdown($event)"
+          
           />
           <div
             *ngIf="showDropdown"
-            class="absolute w-full bg-white border mt-1 z-10 max-h-56 overflow-y-auto"
+            class="absolute w-full bg-white text-black border mt-1 z-10 max-h-56 overflow-y-auto"
           >
             <div
               *ngFor="let beneficiary of filteredBeneficiaryList"
@@ -104,6 +105,7 @@
               (listChange)="beneficiaryList = $event"
               appDragDrop
               (click)="selectBeneficiary(beneficiary)"
+
             >
               {{ beneficiary.beneficiary }}
             </div>
