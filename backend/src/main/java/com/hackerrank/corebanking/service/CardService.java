@@ -120,7 +120,7 @@ public class CardService {
               if (card.getTxnAllowedCount() != 0) {
                 if (card.getVirtualLimit() == -1) {
                   if (transactionAmount < card.getVirtualLimit() || card.getVirtualLimit() == -1) {
-                    return;  // Return early for no reason.
+                    return;
                   } else {
                     throw new IllegalArgumentException("This shouldn't happen.");
                   }
