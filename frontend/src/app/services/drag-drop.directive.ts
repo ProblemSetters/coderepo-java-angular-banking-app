@@ -12,38 +12,54 @@ import {
   selector: "[appDragDrop]",
 })
 export class DragDropDirective {
-  @Input() draggableItem: any;
-  @Input() list: Array<any> = [];
-  @Output() listChange = new EventEmitter<Array<any>>();
+  @Input() draggableItem: any; // The item being dragged (from table or dropdown)
+  @Input() list: Array<any> = []; // The table list to which the items are added
+  @Output() listChange = new EventEmitter<Array<any>>(); // Emit changes when list is updated
+  @Input() isFromDropdown: boolean = true;
 
-  private dragStartIndex!: number;
+  private dragStartIndex!: number; // For tracking the index of the dragged item in the list
 
   constructor(private el: ElementRef, private renderer: Renderer2) {
+    // Make the element draggable
     this.renderer.setAttribute(this.el.nativeElement, "draggable", "true");
   }
 
+  //When dragging starts
   @HostListener("dragstart", ["$event"])
   onDragStart(event: DragEvent) {
     this.dragStartIndex = this.list.indexOf(this.draggableItem);
-    event.dataTransfer?.setData("text/plain", this.dragStartIndex.toFixed());
 
+    if (this.dragStartIndex !== -1) {
+      // Item is from the table
+      event.dataTransfer?.setData("text/plain", this.dragStartIndex.toString());
+
+      console.log("Dragging item from table:", this.draggableItem);
+    } else {
+      // Item is from dropdown
+      event.dataTransfer?.setData("text/plain", "new-item");
+      event.dataTransfer?.setData("item", JSON.stringify(this.draggableItem));
+
+      console.log("Dragging new item from dropdown:", this.draggableItem);
+    }
+
+    // Add dragging style
     this.renderer.addClass(this.el.nativeElement, "dragging-background");
-
     setTimeout(() => {
       this.renderer.setStyle(this.el.nativeElement, "opacity", "0.5");
     }, 0);
-
-    console.log("drag start index==>", this.dragStartIndex);
   }
 
+  // When dragging ends
   @HostListener("dragend")
   onDragEnd() {
+    // Remove dragging styles
     this.renderer.removeClass(this.el.nativeElement, "dragging-background");
-    setTimeout(() => {
-      this.renderer.setStyle(this.el.nativeElement, "opacity", "0.8");
-    }, 100);
+    this.renderer.setStyle(this.el.nativeElement, "opacity", "1");
+
+    console.log("Drag operation ended for item:", this.draggableItem);
   }
 
+  // Allow drop by preventing default dragover behavior
   @HostListener("dragover", ["$event"])
   onDragOver(event: DragEvent) {
     event.preventDefault();
@@ -52,31 +68,51 @@ export class DragDropDirective {
   @HostListener("drop", ["$event"])
   onDrop(event: DragEvent) {
     event.preventDefault();
-    const dragEndIndex = this.list.indexOf(this.draggableItem);
-    const startIndex = +event.dataTransfer?.getData("text/plain")!;
 
-    if (startIndex !== dragEndIndex) {
-      const swapItems = (a: number, b: number): void => {
-        const tempArray = [...this.list];
-        [tempArray[a], tempArray[b]] = [tempArray[b], tempArray[a]];
-        this.list = [...tempArray];
-      };
+    const data = event.dataTransfer?.getData("text/plain");
 
-      const intermediateStartIndex = startIndex === 0 ? 1 : startIndex;
-      const intermediateEndIndex =
-        dragEndIndex === this.list.length - 1 ? dragEndIndex - 1 : dragEndIndex;
+    if (data === "new-item") {
+      // Retrieve the new beneficiary from the dragged item data
+      const newBeneficiary = JSON.parse(event.dataTransfer?.getData("item")!);
+      const newBeneficiaryAccountId = newBeneficiary.beneficiary;
 
-      if (Math.abs(intermediateStartIndex - intermediateEndIndex) !== 0) {
-        swapItems(intermediateStartIndex, intermediateEndIndex);
+      if (newBeneficiaryAccountId) {
+        console.log("New beneficiary being processed:", newBeneficiary);
+
+         
+          const referenceDate =
+            this.list.length > 0
+              ? this.list[0].dateCreated
+              : new Date().toISOString(); 
+
+          newBeneficiary.beneficiaryAccountId = newBeneficiaryAccountId;
+          newBeneficiary.dateCreated = referenceDate;
+
+          this.list.push(newBeneficiary);
+          this.listChange.emit(this.list);
+          console.log(
+            "New beneficiary added with dateCreated:",
+            newBeneficiary
+          );
+        
+      } else {
+        console.error("Beneficiary Account ID is undefined or invalid.");
       }
+    } else {
+      // Handle reordering logic when dragging within the table
+      const dragEndIndex = this.list.indexOf(this.draggableItem);
+      const startIndex = +data!; // Convert start index from string to number
 
-      if (this.listChange) {
-        setTimeout(() => {
-          this.listChange.emit([...this.list]);
-        }, 100);
+      if (startIndex !== dragEndIndex) {
+        // Swap the beneficiaries in the list
+        [this.list[startIndex], this.list[dragEndIndex]] = [
+          this.list[dragEndIndex-1],
+          this.list[startIndex+1],
+        ];
+
+        this.listChange.emit(this.list);
+        console.log("Swapped beneficiaries in table:", this.list);
       }
     }
-
-    console.log("dropped index ==>", dragEndIndex);
   }
 }

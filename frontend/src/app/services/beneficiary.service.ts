@@ -25,4 +25,10 @@ export class BeneficiaryService {
 	public getAllBeneficiaries() { 
 		return this.httpService.get(`${this.apiUrl}/api/core-banking/beneficiary`, {withCredentials: true});
 	}
+
+	public getAllBeneficiaryIds() {
+    return this.httpService.get(`${this.apiUrl}/api/core-banking/beneficiary/beneficiary-ids`, {withCredentials: true});
+}
+
+
 }

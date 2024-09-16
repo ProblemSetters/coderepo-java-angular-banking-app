@@ -64,51 +64,66 @@
         </div>
       </ng-template>
     </div>
+
     <div class="lg:w-1/2 lg:ml-16">
       <div
         class="text-base font-bold text-primary-blue uppercase pb-2 mb-6 border-b dark:text-white"
       >
         Add New Beneficiary
       </div>
+
       <form
         [formGroup]="beneficiaryForm"
         (ngSubmit)="onSubmit()"
         class="beneficiary-form"
       >
-        <div class="">
+        <!-- Custom Dropdown -->
+        <div class="relative">
           <label
-            htmlFor="beneficiaryAccountId"
+            for="beneficiaryAccountId"
             class="text-sm font-medium leading-none text-gray-800 dark:text-white"
           >
             Beneficiary Account Number
           </label>
           <input
-            aria-label="enter from account number"
-            role="input"
             type="text"
-            class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
-            id="beneficiaryAccountId"
-            name="beneficiaryAccountId"
             formControlName="beneficiaryAccountId"
+            class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+            (focus)="showDropdown = true"
+            (input)="filterDropdown($event)"
           />
           <div
-            class="error-message"
-            *ngIf="getFormControlError('beneficiaryAccountId')"
+            *ngIf="showDropdown"
+            class="absolute w-full bg-white text-black border mt-1 z-10 max-h-56 overflow-y-auto"
           >
-            {{ getFormControlError("beneficiaryAccountId") }}
+            <div
+              *ngFor="let beneficiary of filteredBeneficiaryList"
+              class="px-4 py-2 cursor-pointer hover:bg-gray-200"
+              [draggableItem]="beneficiary"
+              [list]="beneficiaryList"
+              (listChange)="beneficiaryList = $event"
+              appDragDrop
+              (click)="selectBeneficiary(beneficiary)"
+              [isFromDropdown]="true"
+            >
+              {{ beneficiary.beneficiary }}
+            </div>
           </div>
         </div>
 
         <div class="mt-10 mx-8 md:mx-0">
           <button
             type="submit"
-            class="block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibol shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue"
+            class="block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue"
             [ngClass]="{
-                                'bg-[#3c3c3c] text-[#959494] opacity-100': isDarkMode && !beneficiaryForm.valid,
-                                'bg-[#959494] text-[#ffffff]  hover:opacity-90': isDarkMode && beneficiaryForm.valid,
-                                'text-white disabled:opacity-25 bg-primary-blue hover:bg-secondary-blue': !isDarkMode,
-                                'bg-[#3c3c3c]': isDarkMode,
-                              }"
+              'bg-[#3c3c3c] text-[#959494] opacity-100':
+                isDarkMode && !beneficiaryForm.valid,
+              'bg-[#959494] text-[#ffffff] hover:opacity-90':
+                isDarkMode && beneficiaryForm.valid,
+              'text-white disabled:opacity-25 bg-primary-blue hover:bg-secondary-blue':
+                !isDarkMode,
+              'bg-[#3c3c3c]': isDarkMode
+            }"
             [disabled]="!beneficiaryForm.valid"
           >
             Add Beneficiary
@@ -116,7 +131,8 @@
         </div>
       </form>
     </div>
-    <!-- <img class="object-cover object-center lg:w-1/2 lg:mx-6 w-full mt-8 lg:mt-0 h-96 rounded-lg lg:h-[20rem]"
-                src="../../assets/send-money-bg2.jpg" alt=""> -->
   </div>
+  
+  
+
 </section>
