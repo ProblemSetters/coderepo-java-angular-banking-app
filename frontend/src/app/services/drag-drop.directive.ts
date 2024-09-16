@@ -15,6 +15,7 @@ export class DragDropDirective {
   @Input() draggableItem: any; // The item being dragged (from table or dropdown)
   @Input() list: Array<any> = []; // The table list to which the items are added
   @Output() listChange = new EventEmitter<Array<any>>(); // Emit changes when list is updated
+  @Input() isFromDropdown: boolean = true;
 
   private dragStartIndex!: number; // For tracking the index of the dragged item in the list
 
@@ -23,7 +24,7 @@ export class DragDropDirective {
     this.renderer.setAttribute(this.el.nativeElement, "draggable", "true");
   }
 
-  // When dragging starts
+  //When dragging starts
   @HostListener("dragstart", ["$event"])
   onDragStart(event: DragEvent) {
     this.dragStartIndex = this.list.indexOf(this.draggableItem);
@@ -31,14 +32,14 @@ export class DragDropDirective {
     if (this.dragStartIndex !== -1) {
       // Item is from the table
       event.dataTransfer?.setData("text/plain", this.dragStartIndex.toString());
+
       console.log("Dragging item from table:", this.draggableItem);
     } else {
       // Item is from dropdown
       event.dataTransfer?.setData("text/plain", "new-item");
-      console.log(
-        "Dragging new item from dropdown:",
-        this.draggableItem.beneficiary
-      );
+      event.dataTransfer?.setData("item", JSON.stringify(this.draggableItem));
+
+      console.log("Dragging new item from dropdown:", this.draggableItem);
     }
 
     // Add dragging style
@@ -54,6 +55,7 @@ export class DragDropDirective {
     // Remove dragging styles
     this.renderer.removeClass(this.el.nativeElement, "dragging-background");
     this.renderer.setStyle(this.el.nativeElement, "opacity", "1");
+
     console.log("Drag operation ended for item:", this.draggableItem);
   }
 
@@ -63,33 +65,59 @@ export class DragDropDirective {
     event.preventDefault();
   }
 
-  // Handle drop logic
   @HostListener("drop", ["$event"])
   onDrop(event: DragEvent) {
     event.preventDefault();
+
     const data = event.dataTransfer?.getData("text/plain");
 
     if (data === "new-item") {
-      // If the item is from the dropdown
-      const existingItem = this.list.find(
-        (item) =>
-          item.beneficiaryAccountId === this.draggableItem.beneficiaryAccountId
-      );
+      // Retrieve the new beneficiary from the dragged item data
+      const newBeneficiary = JSON.parse(event.dataTransfer?.getData("item")!);
+      const newBeneficiaryAccountId = newBeneficiary.beneficiary;
 
-      if (!existingItem) {
-        // Add the new item to the table
-        this.list.push(this.draggableItem.beneficiary); // Using `draggableItem.beneficiary` directly
-        this.listChange.emit(this.list); // Emit the updated list
-        console.log(
-          "New beneficiary added to table:",
-          this.draggableItem.beneficiary
+      if (newBeneficiaryAccountId) {
+        console.log("New beneficiary being processed:", newBeneficiary);
+
+        // Check for an existing beneficiaryAccountId in the list
+        const existingItem = this.list.find(
+          (item) => item.beneficiaryAccountId === newBeneficiaryAccountId
         );
+
+        if (existingItem) {
+          // Update the dateCreated of the existing item if a match is found
+          existingItem.dateCreated =  this.list.length > 0
+          ? this.list[0].dateCreated
+          : new Date().toISOString(); // Set the new date
+
+          this.listChange.emit(this.list);
+          console.log(
+            "Updated existing beneficiary dateCreated:",
+            existingItem
+          );
+        } else {
+          // Add the new beneficiary if no match is found
+          const referenceDate =
+            this.list.length > 0
+              ? this.list[0].dateCreated
+              : new Date().toISOString(); // Use current date if the list is empty
+
+          newBeneficiary.beneficiaryAccountId = newBeneficiaryAccountId;
+          newBeneficiary.dateCreated = referenceDate;
+
+          this.list.push(newBeneficiary);
+          this.listChange.emit(this.list);
+          console.log(
+            "New beneficiary added with dateCreated:",
+            newBeneficiary
+          );
+        }
       } else {
-        console.log("Beneficiary already exists in the table:", existingItem);
+        console.error("Beneficiary Account ID is undefined or invalid.");
       }
     } else {
-      // If the item is from the table (perform swap logic)
-      const dragEndIndex = this.list.indexOf(this.draggableItem.beneficiary);
+      // Handle reordering logic when dragging within the table
+      const dragEndIndex = this.list.indexOf(this.draggableItem);
       const startIndex = +data!; // Convert start index from string to number
 
       if (startIndex !== dragEndIndex) {
@@ -99,7 +127,6 @@ export class DragDropDirective {
           this.list[startIndex],
         ];
 
-        // Emit the updated list after swapping
         this.listChange.emit(this.list);
         console.log("Swapped beneficiaries in table:", this.list);
       }
