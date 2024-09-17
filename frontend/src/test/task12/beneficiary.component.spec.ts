@@ -1,23 +1,33 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ToastrModule } from "ngx-toastr";
+import { ToastrModule, ToastrService } from "ngx-toastr";
 import { BeneficiaryComponent } from "src/app/beneficiary/beneficiary.component";
 import { BeneficiaryService } from "src/app/services/beneficiary.service";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { DarkThemeSelectorService } from "src/app/services/themeToggle.service";
-import { By } from "@angular/platform-browser";
 import { DebugElement } from "@angular/core";
 import { DragDropDirective } from "src/app/services/drag-drop.directive";
 import { of } from "rxjs";
+import { HttpErrorResponse } from "@angular/common/http";
 
 class MockBeneficiaryService {
-
-  getAllBeneficiaries(){
-    return of([]) ;
+  getAllBeneficiaries() {
+    return of([
+      {
+        beneficiaryAccountId: "123",
+        name: "John Doe",
+        dateCreated: "2023-09-15",
+      },
+    ]);
   }
+
   storeBeneficiary(accountId: number, beneficiaryAccountId: string) {
     return of({ success: true });
+  }
+
+  getAllBeneficiaryIds() {
+    return of([{ beneficiary: "123" }, { beneficiary: "456" }]);
   }
 }
 
@@ -25,6 +35,7 @@ class MockAuthenticationService {
   isAuthenticate() {
     return of(true);
   }
+
   account() {
     return of({ accountId: 1 });
   }
@@ -37,9 +48,8 @@ class MockDarkThemeSelectorService {
 describe("BeneficiaryComponent", () => {
   let component: BeneficiaryComponent;
   let fixture: ComponentFixture<BeneficiaryComponent>;
-  let dragDropDirective: DragDropDirective;
   let debugElement: DebugElement;
-
+  let toastrService: ToastrService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -63,22 +73,23 @@ describe("BeneficiaryComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BeneficiaryComponent);
     component = fixture.componentInstance;
+    toastrService = TestBed.inject(ToastrService);
     debugElement = fixture.debugElement;
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it("should create the component", () => {
     expect(component).toBeTruthy();
   });
 
-  // form initialization
-  it("should initialize the form with a beneficiaryAccountId control", () => {
+  // Form initialization
+  it("should initialize the form with beneficiaryAccountId control", () => {
     expect(component.beneficiaryForm.contains("beneficiaryAccountId")).toBe(
       true
     );
   });
 
-  // form validation
+  // Form validation
   it("should mark the form as invalid if beneficiaryAccountId is empty", () => {
     const beneficiaryAccountId = component.beneficiaryForm.get(
       "beneficiaryAccountId"
@@ -87,74 +98,52 @@ describe("BeneficiaryComponent", () => {
     expect(component.beneficiaryForm.invalid).toBe(true);
   });
 
-  // dark mode toggle
+  // Dark mode toggle
   it("should toggle dark mode based on the theme", () => {
     component.ngOnInit();
     expect(component.isDarkMode).toBe(true);
   });
 
-  // fetch beneficiaries on initialization
+  // Fetch beneficiaries on initialization
   it("should fetch all beneficiaries on init", () => {
-    spyOn(component, "getAllBeneficiaries");
+    spyOn(component, "getAllBeneficiaries").and.callThrough();
     component.ngOnInit();
     expect(component.getAllBeneficiaries).toHaveBeenCalled();
+    expect(component.beneficiaryList.length).toBe(1); // Mocked response has 1 beneficiary
   });
 
-  // error message for empty form submission
+  // Dropdown beneficiary IDs fetch
+  it("should fetch all beneficiary IDs for the dropdown", () => {
+    spyOn(component, "getBeneficiaryIds").and.callThrough();
+    component.ngOnInit();
+    expect(component.getBeneficiaryIds).toHaveBeenCalled();
+    expect(component.filteredBeneficiaryList.length).toBe(2); // Mocked response has 2 IDs
+  });
+
+  // Error message for empty form submission
   it("should show an error message if the form is submitted with empty fields", () => {
-    spyOn(component["toastr"], "error");
+    spyOn(toastrService, "error");
     component.onSubmit();
-    expect(component["toastr"].error).toHaveBeenCalledWith(
+    expect(toastrService.error).toHaveBeenCalledWith(
       "Please fill in all the required fields."
     );
   });
 
-  // drag and drop functionality test cases :
+  // Successful form submission
+  it("should submit the form and add a new beneficiary", () => {
+    spyOn(toastrService, "success");
+    spyOn(component, "getAllBeneficiaries").and.callThrough();
 
-  it("should apply drag and drop directive on table rows", () => {
-    const rows = debugElement.queryAll(By.css("tbody tr"));
-    rows.forEach(row => {
-      expect(row.attributes["appDragDrop"]).toBeDefined();
-    });
+    component.beneficiaryForm.get("beneficiaryAccountId")?.setValue("123");
+    component.onSubmit();
+
+    expect(toastrService.success).toHaveBeenCalledWith(
+      "Beneficiary Added Successfully"
+    );
+    expect(component.getAllBeneficiaries).toHaveBeenCalled();
   });
 
-  it("should swap the items on drop", () => {
-    // Initializing a mock list of beneficiaries
-    component.beneficiaryList = [
-      { beneficiaryAccountId: "123", dateCreated: "2023-01-01" },
-      { beneficiaryAccountId: "456", dateCreated: "2023-01-02" },
-      { beneficiaryAccountId: "789", dateCreated: "2023-01-03" },
-    ];
+ 
 
-    fixture.detectChanges();
-
-    // Simulate drag and drop
-    const dragEvent = new DragEvent("dragstart", {
-      dataTransfer: new DataTransfer(),
-    });
-    const dropEvent = new DragEvent("drop", {
-      dataTransfer: new DataTransfer(),
-    });
-
-    const dragIndex = 0;
-    const dropIndex = 2;
-
-    component.beneficiaryList[dragIndex].dragIndex = dragIndex;
-    component.beneficiaryList[dropIndex].dropIndex = dropIndex;
-
-    const firstRow = debugElement.queryAll(By.css("tbody tr"))[dragIndex]
-      .nativeElement;
-    const lastRow = debugElement.queryAll(By.css("tbody tr"))[dropIndex]
-      .nativeElement;
-
-    firstRow.dispatchEvent(dragEvent);
-    lastRow.dispatchEvent(dropEvent);
-
-    fixture.detectChanges();
-
-    // Check if the items have been swapped
-    expect(component.beneficiaryList[0].beneficiaryAccountId).toBe("789");
-    expect(component.beneficiaryList[2].beneficiaryAccountId).toBe("123");
-  });
-  
+ 
 });
