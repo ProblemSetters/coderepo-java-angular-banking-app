@@ -1,23 +1,34 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ToastrModule } from "ngx-toastr";
+import { ToastrModule, ToastrService } from "ngx-toastr";
 import { BeneficiaryComponent } from "src/app/beneficiary/beneficiary.component";
 import { BeneficiaryService } from "src/app/services/beneficiary.service";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { DarkThemeSelectorService } from "src/app/services/themeToggle.service";
-import { By } from "@angular/platform-browser";
 import { DebugElement } from "@angular/core";
 import { DragDropDirective } from "src/app/services/drag-drop.directive";
 import { of } from "rxjs";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Renderer2 } from "@angular/core";
 
 class MockBeneficiaryService {
-
-  getAllBeneficiaries(){
-    return of([]) ;
+  getAllBeneficiaries() {
+    return of([
+      {
+        beneficiaryAccountId: "123",
+        name: "John Doe",
+        dateCreated: "2023-09-15",
+      },
+    ]);
   }
+
   storeBeneficiary(accountId: number, beneficiaryAccountId: string) {
     return of({ success: true });
+  }
+
+  getAllBeneficiaryIds() {
+    return of([{ beneficiary: "123" }, { beneficiary: "456" }]);
   }
 }
 
@@ -25,6 +36,7 @@ class MockAuthenticationService {
   isAuthenticate() {
     return of(true);
   }
+
   account() {
     return of({ accountId: 1 });
   }
@@ -37,9 +49,8 @@ class MockDarkThemeSelectorService {
 describe("BeneficiaryComponent", () => {
   let component: BeneficiaryComponent;
   let fixture: ComponentFixture<BeneficiaryComponent>;
-  let dragDropDirective: DragDropDirective;
   let debugElement: DebugElement;
-
+  let toastrService: ToastrService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -63,22 +74,23 @@ describe("BeneficiaryComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BeneficiaryComponent);
     component = fixture.componentInstance;
+    toastrService = TestBed.inject(ToastrService);
     debugElement = fixture.debugElement;
     fixture.detectChanges();
   });
 
-  // it("should create", () => {
+  // it("should create the component", () => {
   //   expect(component).toBeTruthy();
   // });
 
-  // // form initialization
-  // it("should initialize the form with a beneficiaryAccountId control", () => {
+  // // Form initialization
+  // it("should initialize the form with beneficiaryAccountId control", () => {
   //   expect(component.beneficiaryForm.contains("beneficiaryAccountId")).toBe(
   //     true
   //   );
   // });
 
-  // // form validation
+  // // Form validation
   // it("should mark the form as invalid if beneficiaryAccountId is empty", () => {
   //   const beneficiaryAccountId = component.beneficiaryForm.get(
   //     "beneficiaryAccountId"
@@ -87,198 +99,229 @@ describe("BeneficiaryComponent", () => {
   //   expect(component.beneficiaryForm.invalid).toBe(true);
   // });
 
-  // // dark mode toggle
+  // // Dark mode toggle
   // it("should toggle dark mode based on the theme", () => {
   //   component.ngOnInit();
   //   expect(component.isDarkMode).toBe(true);
   // });
 
-  // // fetch beneficiaries on initialization
+  // // Fetch beneficiaries on initialization
   // it("should fetch all beneficiaries on init", () => {
-  //   spyOn(component, "getAllBeneficiaries");
+  //   spyOn(component, "getAllBeneficiaries").and.callThrough();
   //   component.ngOnInit();
   //   expect(component.getAllBeneficiaries).toHaveBeenCalled();
+  //   expect(component.beneficiaryList.length).toBe(1); // Mocked response has 1 beneficiary
   // });
 
-  // // error message for empty form submission
+  // // Dropdown beneficiary IDs fetch
+  // it("should fetch all beneficiary IDs for the dropdown", () => {
+  //   spyOn(component, "getBeneficiaryIds").and.callThrough();
+  //   component.ngOnInit();
+  //   expect(component.getBeneficiaryIds).toHaveBeenCalled();
+  //   expect(component.filteredBeneficiaryList.length).toBe(2); // Mocked response has 2 IDs
+  // });
+
+  // // Error message for empty form submission
   // it("should show an error message if the form is submitted with empty fields", () => {
-  //   spyOn(component["toastr"], "error");
+  //   spyOn(toastrService, "error");
   //   component.onSubmit();
-  //   expect(component["toastr"].error).toHaveBeenCalledWith(
+  //   expect(toastrService.error).toHaveBeenCalledWith(
   //     "Please fill in all the required fields."
   //   );
   // });
 
-  // // drag and drop functionality test cases :
+  // // Successful form submission
+  // it("should submit the form and add a new beneficiary", () => {
+  //   spyOn(toastrService, "success");
+  //   spyOn(component, "getAllBeneficiaries").and.callThrough();
 
-  // it("should apply drag and drop directive on table rows", () => {
-  //   const rows = debugElement.queryAll(By.css("tbody tr"));
-  //   rows.forEach(row => {
-  //     expect(row.attributes["appDragDrop"]).toBeDefined();
-  //   });
+  //   component.beneficiaryForm.get("beneficiaryAccountId")?.setValue("123");
+  //   component.onSubmit();
+
+  //   expect(toastrService.success).toHaveBeenCalledWith(
+  //     "Beneficiary Added Successfully"
+  //   );
+  //   expect(component.getAllBeneficiaries).toHaveBeenCalled();
   // });
 
-  it("should swap the items on drop", () => {
-    // Initializing a mock list of beneficiaries
-    component.beneficiaryList = [
-      { beneficiaryAccountId: "123", dateCreated: "2023-01-01" },
-      { beneficiaryAccountId: "456", dateCreated: "2023-01-02" },
-      { beneficiaryAccountId: "789", dateCreated: "2023-01-03" },
-    ];
-
-    fixture.detectChanges();
-
-    // Simulate drag and drop
-    const dragEvent = new DragEvent("dragstart", {
-      dataTransfer: new DataTransfer(),
-    });
-    const dropEvent = new DragEvent("drop", {
-      dataTransfer: new DataTransfer(),
-    });
-
-    const dragIndex = 0;
-    const dropIndex = 2;
-
-    component.beneficiaryList[dragIndex].dragIndex = dragIndex;
-    component.beneficiaryList[dropIndex].dropIndex = dropIndex;
-
-    const firstRow = debugElement.queryAll(By.css("tbody tr"))[dragIndex]
-      .nativeElement;
-    const lastRow = debugElement.queryAll(By.css("tbody tr"))[dropIndex]
-      .nativeElement;
-
-    firstRow.dispatchEvent(dragEvent);
-    lastRow.dispatchEvent(dropEvent);
-
-    fixture.detectChanges();
-
+ 
+  it("should swap two adjacent beneficiaries correctly", () => {
+    const fixture = TestBed.createComponent(BeneficiaryComponent);
+    const component = fixture.componentInstance;
+    const directive = new DragDropDirective(
+      fixture.debugElement,
+      fixture.debugElement.injector.get(Renderer2)
+    );
   
-
-    // Check if the items have been swapped
-    expect(component.beneficiaryList[0].beneficiaryAccountId).toBe("789");
-    expect(component.beneficiaryList[2].beneficiaryAccountId).toBe("123");
-  });
-
-  it('should swap adjacent items correctly when dragged and dropped', () => {
-    // Initialize a mock list of beneficiaries
+    // Initial beneficiaries setup
     component.beneficiaryList = [
-      { beneficiaryAccountId: '123', dateCreated: "2023-01-01" }, // Index 0
-      { beneficiaryAccountId: '456', dateCreated: "2023-01-02" }, // Index 1
-      { beneficiaryAccountId: '789', dateCreated: "2023-01-03" }, // Index 2
+      { beneficiaryAccountId: "123", name: "John Doe", dateCreated: "2023-09-15" },
+      { beneficiaryAccountId: "456", name: "Jane Smith", dateCreated: "2023-09-16 || 2023-09-15" }
     ];
   
-    fixture.detectChanges();
+    directive.list = component.beneficiaryList;
+    directive.draggableItem = component.beneficiaryList[0]; // Dragging the first item
   
-    // Simulate drag and drop between adjacent items
-    const dragEvent = new DragEvent("dragstart", {
+    // Simulate dragging the first item
+    const dragEvent = new DragEvent('dragstart');
+    const dropEvent = new DragEvent('drop', {
       dataTransfer: new DataTransfer(),
     });
-    const dropEvent = new DragEvent("drop", {
-      dataTransfer: new DataTransfer(),
-    });
   
-    const dragIndex = 0; // Index of the item to drag
-    const dropIndex = 1; // Index of the adjacent item to drop onto
+    dropEvent.dataTransfer?.setData("text/plain", "0"); // Dragging from index 0
   
-    // dragEvent.dataTransfer.setData('text/plain', dragIndex.toString());
+    // Simulate dropping the item over the second (index 1)
+    directive.onDrop(dropEvent);
   
-    const dragRow = debugElement.queryAll(By.css('tbody tr'))[dragIndex].nativeElement;
-    const dropRow = debugElement.queryAll(By.css('tbody tr'))[dropIndex].nativeElement;
-  
-    dragRow.dispatchEvent(dragEvent);
-    dropRow.dispatchEvent(dropEvent);
-  
-    fixture.detectChanges();
-  
-    // Check if the adjacent items have been swapped correctly
-    expect(component.beneficiaryList[0].beneficiaryAccountId).toBe('456');
-    expect(component.beneficiaryList[1].beneficiaryAccountId).toBe('123');
+    // Expect the items to be swapped
+    expect(component.beneficiaryList[0].beneficiaryAccountId).toBe("456");
+    expect(component.beneficiaryList[1].beneficiaryAccountId).toBe("123");
   });
   
-  it('should not modify the list if it is empty', () => {
-    // Initialize an empty list of beneficiaries
-    component.beneficiaryList = [];
+  it("should not allow adding duplicate beneficiaries from the dropdown", () => {
+    const fixture = TestBed.createComponent(BeneficiaryComponent);
+    const component = fixture.componentInstance;
+    const directive = new DragDropDirective(
+      fixture.debugElement,
+      fixture.debugElement.injector.get(Renderer2)
+    );
   
-    fixture.detectChanges();
-  
-    // Simulate dragstart and drop event even though list is empty
-    const dragEvent = new DragEvent("dragstart", {
-      dataTransfer: new DataTransfer(),
-    });
-    const dropEvent = new DragEvent("drop", {
-      dataTransfer: new DataTransfer(),
-    });
-  
-    const tbodyElement = debugElement.query(By.css('tbody')).nativeElement;
-  
-    // Dispatch drag and drop events
-    tbodyElement.dispatchEvent(dragEvent);
-    tbodyElement.dispatchEvent(dropEvent);
-  
-    fixture.detectChanges();
-  
-    // List should remain unchanged (empty)
-    expect(component.beneficiaryList).toEqual([]);
-  });
-  
-
-  it('should correctly handle multiple consecutive drag-and-drop operations', () => {
-    // Initialize a mock list of beneficiaries
+    // Existing beneficiary list with one beneficiary
     component.beneficiaryList = [
-      { beneficiaryAccountId: '123', dateCreated: "2023-01-01" }, // Index 0
-      { beneficiaryAccountId: '456', dateCreated: "2023-01-02" }, // Index 1
-      { beneficiaryAccountId: '789', dateCreated: "2023-01-03" }, // Index 2
-      { beneficiaryAccountId: '012', dateCreated: "2023-01-04" }  // Index 3
+      { beneficiaryAccountId: "123", name: "John Doe", dateCreated: "2023-09-15" }
     ];
   
-    fixture.detectChanges();
+    directive.list = component.beneficiaryList;
   
-    // Simulate first drag-and-drop operation (index 0 to index 2)
-    const dragEvent1 = new DragEvent('dragstart', {
-      dataTransfer: new DataTransfer(),
-    });
-    const dropEvent1 = new DragEvent('drop', {
+    // Mocking a drop event from the dropdown
+    const dropEvent = new DragEvent('drop', {
       dataTransfer: new DataTransfer(),
     });
   
-    // Set dataTransfer with the starting index (0) and simulate drag-and-drop
-    const dragIndex1 = 0; 
-    const dropIndex1 = 2; 
+    // Simulate dragging a duplicate beneficiary from the dropdown
+    dropEvent.dataTransfer?.setData("text/plain", "new-item");
+    dropEvent.dataTransfer?.setData(
+      "item",
+      JSON.stringify({ beneficiary: "123" })
+    );
   
-    const dragRow1 = debugElement.queryAll(By.css('tbody tr'))[dragIndex1].nativeElement;
-    const dropRow1 = debugElement.queryAll(By.css('tbody tr'))[dropIndex1].nativeElement;
+    // Simulate drop with the same beneficiary being dragged from the dropdown
+    directive.onDrop(dropEvent);
   
-    dragRow1.dispatchEvent(dragEvent1);
-    dropRow1.dispatchEvent(dropEvent1);
-  
-    fixture.detectChanges();
-  
-    // Simulate second drag-and-drop operation (index 1 to index 3)
-    const dragEvent2 = new DragEvent('dragstart', {
-      dataTransfer: new DataTransfer(),
-    });
-    const dropEvent2 = new DragEvent('drop', {
-      dataTransfer: new DataTransfer(),
-    });
-  
-    const dragIndex2 = 1;
-    const dropIndex2 = 3;
-  
-    const dragRow2 = debugElement.queryAll(By.css('tbody tr'))[dragIndex2].nativeElement;
-    const dropRow2 = debugElement.queryAll(By.css('tbody tr'))[dropIndex2].nativeElement;
-  
-    dragRow2.dispatchEvent(dragEvent2);
-    dropRow2.dispatchEvent(dropEvent2);
-  
-    fixture.detectChanges();
-  
-    // Check if the list is in the expected final state
-    expect(component.beneficiaryList).toEqual([
-      { beneficiaryAccountId: '456', dateCreated: "2023-01-02" }, // Moved from index 1 to index 0
-      { beneficiaryAccountId: '789', dateCreated: "2023-01-03" }, // Same position
-      { beneficiaryAccountId: '123', dateCreated: "2023-01-01" }, // Moved from index 0 to index 2
-      { beneficiaryAccountId: '012', dateCreated: "2023-01-04" }  // Same position
-    ]);
+    // Expect no duplicate beneficiary to be added
+    expect(component.beneficiaryList.length).toBe(1); // No new item added
   });
+
+  it("should not allow beneficiaries to disappear or leave empty rows on swap in the table", () => {
+    const fixture = TestBed.createComponent(BeneficiaryComponent);
+    const component = fixture.componentInstance;
+    const directive = new DragDropDirective(
+      fixture.debugElement,
+      fixture.debugElement.injector.get(Renderer2)
+    );
   
-});  
+    // Initial beneficiaries
+    component.beneficiaryList = [
+      { beneficiaryAccountId: "123", name: "John Doe", dateCreated: "2023-09-15" },
+      { beneficiaryAccountId: "456", name: "Jane Smith", dateCreated: "2023-09-16" },
+      { beneficiaryAccountId: "789", name: "Alice Wonderland", dateCreated: "2023-09-17" }
+    ];
+  
+    directive.list = component.beneficiaryList;
+  
+    // Mocking a drop event for swapping two items
+    const dropEvent = new DragEvent('drop', {
+      dataTransfer: new DataTransfer(),
+    });
+  
+    // Simulate dragging the first item
+    dropEvent.dataTransfer?.setData("text/plain", "0"); // Index 0 for John Doe
+  
+    // Simulate drop on the second item (Jane Smith)
+    directive.draggableItem = component.beneficiaryList[0];
+    directive.onDrop(dropEvent);
+  
+    // Ensure the items are swapped correctly
+    expect(component.beneficiaryList[0].beneficiaryAccountId).toBe("456"); // Jane Smith now at index 0
+    expect(component.beneficiaryList[1].beneficiaryAccountId).toBe("123"); // John Doe now at index 1
+    expect(component.beneficiaryList[2].beneficiaryAccountId).toBe("789"); // Alice Wonderland remains unchanged
+  
+    // Check that no rows are empty (no undefined or null beneficiaries in the list)
+    component.beneficiaryList.forEach(beneficiaryAccountId => {
+      expect(beneficiaryAccountId).toBeTruthy(); // Ensures no empty rows
+    });
+  
+    // Check that the length of the list is still 3 (no rows added or removed)
+    expect(component.beneficiaryList.length).toBe(3);
+  });
+ 
+  it('should ensure that no beneficiary in the dropdown is undefined', () => {
+  const fixture = TestBed.createComponent(BeneficiaryComponent);
+  const component = fixture.componentInstance;
+
+  // Mocked beneficiary list
+  component.filteredBeneficiaryList = [
+    { beneficiary: '123', name: 'John Doe' , status:'invalid'},
+    { beneficiary: '456', name: 'Jane Smith' , status:'valid'}
+  ];
+
+  fixture.detectChanges();
+
+  // Check that no item in the filteredBeneficiaryList is undefined
+  component.filteredBeneficiaryList.forEach(beneficiary => {
+    expect(beneficiary).toBeDefined();
+   expect(beneficiary.status).toBeTruthy();
+  });
+});
+
+it("should reorder items within the table on drop", () => {
+  const directive = new DragDropDirective(fixture.debugElement, TestBed.inject(Renderer2));
+
+  // Mock beneficiary list setup
+  component.beneficiaryList = [
+    { beneficiaryAccountId: "123", name: "John Doe", dateCreated: "2023-09-15" },
+    { beneficiaryAccountId: "456", name: "Jane Smith", dateCreated: "2023-09-16" }
+  ];
+
+  directive.list = component.beneficiaryList;
+  directive.draggableItem = component.beneficiaryList[0]; // Simulate dragging the first item
+
+  // Simulate drop event
+  const event = new DragEvent('drop');
+  spyOn(event.dataTransfer!, 'getData').and.returnValue('0'); // Dragging from index 0
+
+  directive.onDrop(event);
+
+  // Ensure items at index 0 and 1 are swapped
+  expect(directive.list[0]).toEqual(component.beneficiaryList[1]);
+  expect(directive.list[1]).toEqual(component.beneficiaryList[0]);
+});
+
+it("should swap the first and last beneficiary correctly", () => {
+  const directive = new DragDropDirective(fixture.debugElement, TestBed.inject(Renderer2));
+
+  // Initial beneficiaries setup
+  component.beneficiaryList = [
+    { beneficiaryAccountId: "123", name: "John Doe", dateCreated: "2023-09-15" },
+    { beneficiaryAccountId: "456", name: "Jane Smith", dateCreated: "2023-09-16" },
+    { beneficiaryAccountId: "789", name: "Alice Wonderland", dateCreated: "2023-09-17" }
+  ];
+
+  directive.list = component.beneficiaryList;
+  directive.draggableItem = component.beneficiaryList[0]; // Simulate dragging the first item
+
+  // Simulate drop event
+  const event = new DragEvent('drop');
+  spyOn(event.dataTransfer!, 'getData').and.returnValue('0'); // Dragging from index 0
+
+  // Simulate dropping the item at the last position (index 2)
+  directive.onDrop(event);
+
+  // Ensure the first and last items are swapped
+  expect(component.beneficiaryList[0].beneficiaryAccountId).toBe("789");
+  expect(component.beneficiaryList[2].beneficiaryAccountId).toBe("123");
+});
+
+});
+
+   

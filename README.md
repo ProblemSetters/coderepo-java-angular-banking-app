@@ -106,6 +106,7 @@ This Angular project includes a custom directive (`appDragDrop`) that provides d
 
 ##### HTML Structure
 
+
 In the BeneficiaryComponent, the directive is applied to each row of the table displaying the list of beneficiaries. This enables drag-and-drop functionality on the rows.
 
 ```html
@@ -118,6 +119,27 @@ In the BeneficiaryComponent, the directive is applied to each row of the table d
 >
  <!-- Row content for each beneficiary -->
 </tr>
+```
+
+This directive is also applied to the dropdown list of beneficiaries on input statement. It alowws drag items from the dropdown list and drop it in the table with previous beneficiaries list.
+
+```html
+<div
+  *ngIf="showDropdown"
+  class="absolute w-full bg-white text-black border mt-1 z-10 max-h-56 overflow-y-auto"
+>
+  <div
+    *ngFor="let beneficiary of filteredBeneficiaryList"  
+    [draggableItem]="beneficiary"
+    [list]="beneficiaryList"
+    (listChange)="beneficiaryList = $event"
+    appDragDrop
+    (click)="selectBeneficiary(beneficiary)"
+    [isFromDropdown]="true"
+  >
+    {{ beneficiary.beneficiary }}
+  </div>
+</div>
 ```
 
 #### Explanation :
