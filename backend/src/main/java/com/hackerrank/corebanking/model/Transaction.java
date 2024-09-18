@@ -1,11 +1,10 @@
 package com.hackerrank.corebanking.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,4 +30,9 @@ public class Transaction implements Serializable {
     private String sourceCardNumber;
     private Long toAccountId;
     private Double transferAmount;
+
+    @ManyToOne
+    @JoinColumn(name = "recurring_transaction_id")
+    @JsonBackReference
+    private RecurringTransaction recurringTransaction;
 }

@@ -1,6 +1,7 @@
 package com.hackerrank.corebanking.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,7 +38,11 @@ public class Account implements Serializable {
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "user_roles",
-    joinColumns = @JoinColumn(name = "account_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
+          joinColumns = @JoinColumn(name = "account_id"),
+          inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
+
+  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+  @JsonManagedReference
+  private Set<RecurringTransaction> recurringTransactions = new HashSet<>();
 }
