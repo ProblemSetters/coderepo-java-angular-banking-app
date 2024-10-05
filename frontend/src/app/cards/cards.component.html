@@ -1,6 +1,7 @@
 <section class="container mx-auto bg-white dark:bg-gray-900 mb-10">
     <div class="py-10">
         <div
+            aria-label="cards page"
             tabindex="0"
             role="heading"
             class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase lg:px-0 px-6"
@@ -21,33 +22,33 @@
                     <div class="px-3">
                         <img src="../../assets/chip.png" alt="chip" class="w-12 h-9" />
                     </div>
-                    <div class="card-no text-xl text-start font-normal uppercase text-white p-3">
+                    <div class="card-no text-xl text-start font-normal uppercase text-white p-3" [attr.aria-label]="'card number ' + formatCardNumber(card.cardNumber.toString())" role="text">
                         {{ formatCardNumber(card.cardNumber.toString()) }}
                     </div>
                     <div class="flex justify-end px-3">
-                        <pre class="text-xs text-gray-400 mr-2 pt-1">
+                        <pre class="text-xs text-gray-400 mr-2 pt-1" role="text" aria-label="VALID THRU">
                             VALID THRU
                         </pre>
-                        <p class="card-expire-month-year text-sm text-white">
+                        <p class="card-expire-month-year text-sm text-white" role="text" [attr.aria-label]="card.expireMonth + '/' + card.expireYear">
                             {{ card.expireMonth }}/{{ card.expireYear }}
                         </p>
                     </div>
                     <div class="flex justify-between items-center pb-4 px-3">
-                        <div class="card-holder-name text-lg text-start font-normal uppercase text-white">
+                        <div class="card-holder-name text-lg text-start font-normal uppercase text-white" role="text" [attr.aria-label]="'card holder name ' + card.cardHolderName">
                             {{ card.cardHolderName }}
                         </div>
                         <div class="card-cvv text-lg text-start font-normal uppercase">
-                            <button (click)="showCvv(card)" class="text-white leading-3 border px-2 py-1 rounded" [id]="'btnShowCvv'+card.cardNumber">
+                            <button role="button" aria-label="show cvv" (click)="showCvv(card)" class="text-white leading-3 border px-2 py-1 rounded" [id]="'btnShowCvv'+card.cardNumber">
                                 show cvv
                             </button>
-                            <span class="text-white leading-3 hidden" [id]="'cvv'+card.cardNumber">
+                            <span class="text-white leading-3 hidden" role="text" [attr.aria-label]="card.cvv" [id]="'cvv'+card.cardNumber">
                                 {{ card.cvv }}
                             </span>             
                         </div>
                     </div>
                 </div>
                 <div class="rounded-lg font-medium tracking-wide px-4 mt-2">
-                    <div class="my-4">
+                    <div class="my-4" role="text" [attr.aria-label]="'account number '+ formatAccountNumber(card.accountId.toString())">
                         Account Number :  {{ formatAccountNumber(card.accountId.toString()) }}
                     </div>
                     <div class="card-pin  my-4" [class.blocked]="card.blocked">
@@ -62,6 +63,8 @@
                                 Card Pin
                             </label>
                             <input
+                                role="textbox"
+                                aria-label="enter card pin"
                                 id="cardPin"
                                 type="number"
                                 name="cardPin"
@@ -70,17 +73,21 @@
                             >
         
                             <button
+                                role="button"
+                                aria-label="update pin now"
                                 type="submit"
                                 [disabled]="!cardUpdatePinForms[card.cardNumber].valid"
                                 class="ml-6 focus:ring-2 focus:ring-offset-2 focus:ring-secondary-blue text-sm font-semibold uppercase leading-none text-white focus:outline-none bg-primary-blue border rounded hover:bg-secondary-blue p-2 disabled:opacity-25"
                                 
                             >Update</button>
                         </form>
-                        <div class="error-message" *ngIf="getFormControlError('cardPin', card.cardNumber)">{{ getFormControlError('cardPin', card.cardNumber) }}</div>
+                        <div class="error-message" role="text" [attr.aria-label]="getFormControlError('cardPin', card.cardNumber)" *ngIf="getFormControlError('cardPin', card.cardNumber)">{{ getFormControlError('cardPin', card.cardNumber) }}</div>
                     </div>
                     <div class="card-block flex justify-end my-2">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input
+                                role="checkbox"
+                                aria-label="block this card"
                                 type="checkbox"
                                 class="sr-only peer"
                                 (ngModelChange)="cardBlockUnblock(card)"
