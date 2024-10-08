@@ -1,25 +1,12 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome Headless 129.0.0.0 (Windows 10)" package="unit" timestamp="2024-10-08T07:57:21" id="0" hostname="DESKTOP-PEO2I2O" tests="4" errors="0" failures="4" time="0.107">
+<testsuite name="Chrome Headless 129.0.0.0 (Windows 10)" package="unit" timestamp="2024-10-08T10:14:01" id="0" hostname="DESKTOP-PEO2I2O" tests="4" errors="0" failures="4" time="0.105">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/129.0.0.0 Safari/537.36"/>
   </properties>
-  <testcase name="BeneficiaryComponent should show an error message if the form is submitted with empty fields" time="0.081" classname=".BeneficiaryComponent">
-    <failure type="">Expected spy error to have been called with:
-  [ 'Please fill in all the required fields.' ]
-but it was never called.
+  <testcase name="BeneficiaryComponent should not allow adding duplicate beneficiaries from the dropdown" time="0.081" classname=".BeneficiaryComponent">
+    <failure type="">Expected 2 to be 1.
     at &lt;Jasmine&gt;
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:86:33)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
-    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
-</failure>
-  </testcase>
-  <testcase name="BeneficiaryComponent should submit the form and add a new beneficiary" time="0.009" classname=".BeneficiaryComponent">
-    <failure type="">Expected spy success to have been called with:
-  [ 'Beneficiary Added Successfully' ]
-but it was never called.
-    at &lt;Jasmine&gt;
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:99:35)
+    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:172:46)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
     at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
@@ -41,10 +28,23 @@ but it was never called.
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
 </failure>
   </testcase>
-  <testcase name="BeneficiaryComponent should not allow adding duplicate beneficiaries from the dropdown" time="0.009" classname=".BeneficiaryComponent">
-    <failure type="">Expected 2 to be 1.
+  <testcase name="BeneficiaryComponent should submit the form and add a new beneficiary" time="0.009" classname=".BeneficiaryComponent">
+    <failure type="">Expected spy success to have been called with:
+  [ 'Beneficiary Added Successfully' ]
+but it was never called.
     at &lt;Jasmine&gt;
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:172:46)
+    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:99:35)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
+    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
+    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
+</failure>
+  </testcase>
+  <testcase name="BeneficiaryComponent should show an error message if the form is submitted with empty fields" time="0.007" classname=".BeneficiaryComponent">
+    <failure type="">Expected spy error to have been called with:
+  [ 'Please fill in all the required fields.' ]
+but it was never called.
+    at &lt;Jasmine&gt;
+    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:86:33)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
     at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)

@@ -98,8 +98,7 @@ This Angular project includes a custom directive (`appDragDrop`) that provides d
 
 #### Features
 
-- **Reordering Beneficiaries:** Users can drag and drop a beneficiary row to reorder it within the list.
-- **Visual Feedback:** During the drag operation, the row being dragged changes its background color, providing a visual cue that it is being moved.  
+- **Reordering Beneficiaries:** Users can drag and drop a beneficiary row to reorder it within the list. 
 - **Dark Mode Support:** The directive is compatible with both light and dark modes, ensuring consistent behavior and appearance. 
 
 #### Implementation Details
