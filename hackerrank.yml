@@ -6,6 +6,7 @@ configuration:
     - backend/src/test/*
     - README.md
     - setup.sh
+    - run_all_testcases.sh
   ide_config:
     default_open_files:
       - README.md
