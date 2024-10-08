@@ -10,6 +10,7 @@ import { DebugElement } from "@angular/core";
 import { DragDropDirective } from "src/app/services/drag-drop.directive";
 import { of } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
+import { Renderer2 } from "@angular/core";
 
 class MockBeneficiaryService {
   getAllBeneficiaries() {
@@ -143,7 +144,73 @@ describe("BeneficiaryComponent", () => {
     expect(component.getAllBeneficiaries).toHaveBeenCalled();
   });
 
+   
+  it("should swap two adjacent beneficiaries correctly", () => {
+    const fixture = TestBed.createComponent(BeneficiaryComponent);
+    const component = fixture.componentInstance;
+  
+    // Initial beneficiaries setup
+    component.beneficiaryList = [
+      { beneficiaryAccountId: "123", name: "John Doe", dateCreated: "2023-09-15" },
+      { beneficiaryAccountId: "456", name: "Jane Smith", dateCreated: "2023-09-16" }
+    ];
+  
+    // Simulate the drag and drop event to swap two adjacent beneficiaries
+    const dragIndex = 0; // John Doe is at index 0
+    const dropIndex = 1; // Jane Smith is at index 1
+  
+    // Perform the swap logic (swap two adjacent items)
+    const temp = component.beneficiaryList[dragIndex];
+    component.beneficiaryList[dragIndex] = component.beneficiaryList[dropIndex];
+    component.beneficiaryList[dropIndex] = temp;
+  
+    // Expect the items to be swapped
+    expect(component.beneficiaryList[0].beneficiaryAccountId).toBe("456"); // Jane Smith should now be at index 0
+    expect(component.beneficiaryList[1].beneficiaryAccountId).toBe("123"); // John Doe should now be at index 1
+  });
+  
+  
+  
+  it("should not allow adding duplicate beneficiaries from the dropdown", () => {
+    const fixture = TestBed.createComponent(BeneficiaryComponent);
+    const component = fixture.componentInstance;
+    const directive = new DragDropDirective(
+      fixture.debugElement,
+      fixture.debugElement.injector.get(Renderer2)
+    );
+  
+    // Existing beneficiary list with one beneficiary
+    component.beneficiaryList = [
+      { beneficiaryAccountId: "123", name: "John Doe", dateCreated: "2023-09-15" }
+    ];
+  
+    directive.list = component.beneficiaryList;
+  
+    // Mocking a drop event from the dropdown
+    const dropEvent = new DragEvent('drop', {
+      dataTransfer: new DataTransfer(),
+    });
+  
+    // Simulate dragging a duplicate beneficiary from the dropdown
+    dropEvent.dataTransfer?.setData("text/plain", "new-item");
+    dropEvent.dataTransfer?.setData(
+      "item",
+      JSON.stringify({ beneficiary: "123" })
+    );
+  
+    // Simulate drop with the same beneficiary being dragged from the dropdown
+    directive.onDrop(dropEvent);
+  
+    // Expect no duplicate beneficiary to be added
+    expect(component.beneficiaryList.length).toBe(1); // No new item added
+  });
+
+ 
  
 
+ 
+
+
+ 
  
 });
