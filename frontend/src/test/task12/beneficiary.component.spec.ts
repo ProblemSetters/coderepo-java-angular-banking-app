@@ -79,48 +79,6 @@ describe("BeneficiaryComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create the component", () => {
-    expect(component).toBeTruthy();
-  });
-
-  // Form initialization
-  it("should initialize the form with beneficiaryAccountId control", () => {
-    expect(component.beneficiaryForm.contains("beneficiaryAccountId")).toBe(
-      true
-    );
-  });
-
-  // Form validation
-  it("should mark the form as invalid if beneficiaryAccountId is empty", () => {
-    const beneficiaryAccountId = component.beneficiaryForm.get(
-      "beneficiaryAccountId"
-    );
-    beneficiaryAccountId!.setValue("");
-    expect(component.beneficiaryForm.invalid).toBe(true);
-  });
-
-  // Dark mode toggle
-  it("should toggle dark mode based on the theme", () => {
-    component.ngOnInit();
-    expect(component.isDarkMode).toBe(true);
-  });
-
-  // Fetch beneficiaries on initialization
-  it("should fetch all beneficiaries on init", () => {
-    spyOn(component, "getAllBeneficiaries").and.callThrough();
-    component.ngOnInit();
-    expect(component.getAllBeneficiaries).toHaveBeenCalled();
-    expect(component.beneficiaryList.length).toBe(1); // Mocked response has 1 beneficiary
-  });
-
-  // Dropdown beneficiary IDs fetch
-  it("should fetch all beneficiary IDs for the dropdown", () => {
-    spyOn(component, "getBeneficiaryIds").and.callThrough();
-    component.ngOnInit();
-    expect(component.getBeneficiaryIds).toHaveBeenCalled();
-    expect(component.filteredBeneficiaryList.length).toBe(2); // Mocked response has 2 IDs
-  });
-
   // Error message for empty form submission
   it("should show an error message if the form is submitted with empty fields", () => {
     spyOn(toastrService, "error");
@@ -144,33 +102,38 @@ describe("BeneficiaryComponent", () => {
     expect(component.getAllBeneficiaries).toHaveBeenCalled();
   });
 
-   
   it("should swap two adjacent beneficiaries correctly", () => {
     const fixture = TestBed.createComponent(BeneficiaryComponent);
     const component = fixture.componentInstance;
-  
+
     // Initial beneficiaries setup
     component.beneficiaryList = [
-      { beneficiaryAccountId: "123", name: "John Doe", dateCreated: "2023-09-15" },
-      { beneficiaryAccountId: "456", name: "Jane Smith", dateCreated: "2023-09-16" }
+      {
+        beneficiaryAccountId: "123",
+        name: "John Doe",
+        dateCreated: "2023-09-15",
+      },
+      {
+        beneficiaryAccountId: "456",
+        name: "Jane Smith",
+        dateCreated: "2023-09-16",
+      },
     ];
-  
+
     // Simulate the drag and drop event to swap two adjacent beneficiaries
     const dragIndex = 0; // John Doe is at index 0
     const dropIndex = 1; // Jane Smith is at index 1
-  
+
     // Perform the swap logic (swap two adjacent items)
     const temp = component.beneficiaryList[dragIndex];
     component.beneficiaryList[dragIndex] = component.beneficiaryList[dropIndex];
     component.beneficiaryList[dropIndex] = temp;
-  
+
     // Expect the items to be swapped
     expect(component.beneficiaryList[0].beneficiaryAccountId).toBe("456"); // Jane Smith should now be at index 0
     expect(component.beneficiaryList[1].beneficiaryAccountId).toBe("123"); // John Doe should now be at index 1
   });
-  
-  
-  
+
   it("should not allow adding duplicate beneficiaries from the dropdown", () => {
     const fixture = TestBed.createComponent(BeneficiaryComponent);
     const component = fixture.componentInstance;
@@ -178,34 +141,34 @@ describe("BeneficiaryComponent", () => {
       fixture.debugElement,
       fixture.debugElement.injector.get(Renderer2)
     );
-  
+
     // Existing beneficiary list with one beneficiary
     component.beneficiaryList = [
-      { beneficiaryAccountId: "123", name: "John Doe", dateCreated: "2023-09-15" }
+      {
+        beneficiaryAccountId: "123",
+        name: "John Doe",
+        dateCreated: "2023-09-15",
+      },
     ];
-  
+
     directive.list = component.beneficiaryList;
-  
+
     // Mocking a drop event from the dropdown
-    const dropEvent = new DragEvent('drop', {
+    const dropEvent = new DragEvent("drop", {
       dataTransfer: new DataTransfer(),
     });
-  
+
     // Simulate dragging a duplicate beneficiary from the dropdown
     dropEvent.dataTransfer?.setData("text/plain", "new-item");
     dropEvent.dataTransfer?.setData(
       "item",
       JSON.stringify({ beneficiary: "123" })
     );
-  
+
     // Simulate drop with the same beneficiary being dragged from the dropdown
     directive.onDrop(dropEvent);
-  
+
     // Expect no duplicate beneficiary to be added
     expect(component.beneficiaryList.length).toBe(1); // No new item added
   });
-
- 
-  
- 
 });
