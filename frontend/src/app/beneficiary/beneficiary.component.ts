@@ -104,8 +104,7 @@ export class BeneficiaryComponent {
   }
 
   onSubmit() {
-    if (this.beneficiaryForm.invalid) {
-      this.toastr.error("Please fill in all the required fields.");
+    if (this.beneficiaryForm.invalid) { 
       return;
     }
 

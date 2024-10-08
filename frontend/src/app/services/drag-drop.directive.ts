@@ -107,7 +107,7 @@ export class DragDropDirective {
         // Swap the beneficiaries in the list
         [this.list[startIndex], this.list[dragEndIndex]] = [
           this.list[startIndex-1],
-          this.list[dragEndIndex-1],
+          this.list[startIndex+1],
         ];
 
         this.listChange.emit(this.list);
