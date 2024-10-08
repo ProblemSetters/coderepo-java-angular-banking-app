@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome Headless 129.0.0.0 (Windows 10)" package="unit" timestamp="2024-10-08T07:10:02" id="0" hostname="DESKTOP-PEO2I2O" tests="10" errors="0" failures="0" time="0.128">
+<testsuite name="Chrome Headless 129.0.0.0 (Windows 10)" package="unit" timestamp="2024-10-08T07:36:05" id="0" hostname="DESKTOP-PEO2I2O" tests="10" errors="0" failures="0" time="0.131">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/129.0.0.0 Safari/537.36"/>
   </properties>
-  <testcase name="BeneficiaryComponent should swap two adjacent beneficiaries correctly" time="0.077" classname=".BeneficiaryComponent"/>
-  <testcase name="BeneficiaryComponent should show an error message if the form is submitted with empty fields" time="0.007" classname=".BeneficiaryComponent"/>
-  <testcase name="BeneficiaryComponent should submit the form and add a new beneficiary" time="0.006" classname=".BeneficiaryComponent"/>
-  <testcase name="BeneficiaryComponent should fetch all beneficiaries on init" time="0.006" classname=".BeneficiaryComponent"/>
-  <testcase name="BeneficiaryComponent should mark the form as invalid if beneficiaryAccountId is empty" time="0.005" classname=".BeneficiaryComponent"/>
-  <testcase name="BeneficiaryComponent should fetch all beneficiary IDs for the dropdown" time="0.004" classname=".BeneficiaryComponent"/>
-  <testcase name="BeneficiaryComponent should toggle dark mode based on the theme" time="0.005" classname=".BeneficiaryComponent"/>
-  <testcase name="BeneficiaryComponent should initialize the form with beneficiaryAccountId control" time="0.005" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should fetch all beneficiaries on init" time="0.081" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should initialize the form with beneficiaryAccountId control" time="0.007" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should mark the form as invalid if beneficiaryAccountId is empty" time="0.006" classname=".BeneficiaryComponent"/>
   <testcase name="BeneficiaryComponent should create the component" time="0.005" classname=".BeneficiaryComponent"/>
   <testcase name="BeneficiaryComponent should not allow adding duplicate beneficiaries from the dropdown" time="0.008" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should submit the form and add a new beneficiary" time="0.007" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should swap two adjacent beneficiaries correctly" time="0.005" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should fetch all beneficiary IDs for the dropdown" time="0.004" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should show an error message if the form is submitted with empty fields" time="0.004" classname=".BeneficiaryComponent"/>
+  <testcase name="BeneficiaryComponent should toggle dark mode based on the theme" time="0.004" classname=".BeneficiaryComponent"/>
   <system-out>
     <![CDATA[Chrome Headless 129.0.0.0 (Windows 10) LOG: 'New beneficiary being processed:', Object{beneficiary: '123'}
 ,Chrome Headless 129.0.0.0 (Windows 10) LOG: 'Updated existing beneficiary dateCreated:', Object{beneficiaryAccountId: '123', name: 'John Doe', dateCreated: '2023-09-15'}

@@ -206,11 +206,6 @@ describe("BeneficiaryComponent", () => {
   });
 
  
- 
-
- 
-
-
- 
+  
  
 });
