@@ -1,100 +1,47 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome Headless 128.0.0.0 (Windows 10)" package="unit" timestamp="2024-09-17T11:29:58" id="0" hostname="DESKTOP-PEO2I2O" tests="6" errors="0" failures="6" time="0.12">
+<testsuite name="Chrome Headless 129.0.0.0 (Windows 10)" package="unit" timestamp="2024-10-08T07:33:23" id="0" hostname="DESKTOP-PEO2I2O" tests="3" errors="0" failures="3" time="0.102">
   <properties>
-    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/128.0.0.0 Safari/537.36"/>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/129.0.0.0 Safari/537.36"/>
   </properties>
-  <testcase name="BeneficiaryComponent should not allow beneficiaries to disappear or leave empty rows on swap in the table" time="0.084" classname=".BeneficiaryComponent">
-    <failure type="">Expected '123' to be '456'.
-    at &lt;Jasmine&gt;
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:245:63)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
-    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
-</failure>
-    <failure type="">Expected '456' to be '123'.
-    at &lt;Jasmine&gt;
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:246:63)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
-    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
-</failure>
-  </testcase>
-  <testcase name="BeneficiaryComponent should not allow adding duplicate beneficiaries from the dropdown" time="0.008" classname=".BeneficiaryComponent">
+  <testcase name="BeneficiaryComponent should not allow adding duplicate beneficiaries from the dropdown" time="0.083" classname=".BeneficiaryComponent">
     <failure type="">Expected 2 to be 1.
     at &lt;Jasmine&gt;
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:212:46)
+    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:156:44)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
     at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
 </failure>
   </testcase>
-  <testcase name="BeneficiaryComponent should reorder items within the table on drop" time="0.007" classname=".BeneficiaryComponent">
-    <failure type="">NullInjectorError: R3InjectorError[Renderer2 -&gt; Renderer2]: 
-  NullInjectorError: No provider for Renderer2!
-error properties: Object({ ngTempTokenPath: null, ngTokenPath: [ 'Renderer2', 'Renderer2' ] })
-    at NullInjector.get (node_modules/@angular/core/fesm2022/core.mjs:8853:27)
-    at R3Injector.get (node_modules/@angular/core/fesm2022/core.mjs:9292:33)
-    at R3Injector.get (node_modules/@angular/core/fesm2022/core.mjs:9292:33)
-    at TestBedImpl.inject (node_modules/@angular/core/fesm2022/testing.mjs:27392:62)
-    at Function.inject (node_modules/@angular/core/fesm2022/testing.mjs:27250:37)
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:278:73)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
-    at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
-    at Zone.run (node_modules/zone.js/fesm2015/zone.js:129:43)
-</failure>
-  </testcase>
-  <testcase name="BeneficiaryComponent should ensure that no beneficiary in the dropdown is undefined" time="0.008" classname=".BeneficiaryComponent">
-    <failure type="">Expected undefined to be truthy.
+  <testcase name="BeneficiaryComponent should submit the form and add a new beneficiary" time="0.012" classname=".BeneficiaryComponent">
+    <failure type="">Expected spy success to have been called with:
+  [ 'Beneficiary Added Successfully' ]
+but it was never called.
     at &lt;Jasmine&gt;
-    at forEach (src/test/task12/beneficiary.component.spec.ts:273:31)
-    at Array.forEach (&lt;anonymous&gt;)
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:271:37)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
-</failure>
-    <failure type="">Expected undefined to be truthy.
-    at &lt;Jasmine&gt;
-    at forEach (src/test/task12/beneficiary.component.spec.ts:273:31)
-    at Array.forEach (&lt;anonymous&gt;)
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:271:37)
-    at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
-</failure>
-  </testcase>
-  <testcase name="BeneficiaryComponent should swap the first and last beneficiary correctly" time="0.006" classname=".BeneficiaryComponent">
-    <failure type="">NullInjectorError: R3InjectorError[Renderer2 -&gt; Renderer2]: 
-  NullInjectorError: No provider for Renderer2!
-error properties: Object({ ngTempTokenPath: null, ngTokenPath: [ 'Renderer2', 'Renderer2' ] })
-    at NullInjector.get (node_modules/@angular/core/fesm2022/core.mjs:8853:27)
-    at R3Injector.get (node_modules/@angular/core/fesm2022/core.mjs:9292:33)
-    at R3Injector.get (node_modules/@angular/core/fesm2022/core.mjs:9292:33)
-    at TestBedImpl.inject (node_modules/@angular/core/fesm2022/testing.mjs:27392:62)
-    at Function.inject (node_modules/@angular/core/fesm2022/testing.mjs:27250:37)
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:301:73)
+    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:92:33)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
     at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
-    at Zone.run (node_modules/zone.js/fesm2015/zone.js:129:43)
 </failure>
   </testcase>
   <testcase name="BeneficiaryComponent should swap two adjacent beneficiaries correctly" time="0.007" classname=".BeneficiaryComponent">
-    <failure type="">Expected '123' to be '456'.
+    <failure type="">Expected '456' to be '123'.
     at &lt;Jasmine&gt;
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:177:63)
+    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:119:61)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
     at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
 </failure>
-    <failure type="">Expected '456' to be '123'.
+    <failure type="">Expected '123' to be '456'.
     at &lt;Jasmine&gt;
-    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:178:63)
+    at UserContext.apply (src/test/task12/beneficiary.component.spec.ts:120:61)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:368:26)
     at ProxyZoneSpec.onInvoke (node_modules/zone.js/fesm2015/zone-testing.js:273:39)
     at _ZoneDelegate.invoke (node_modules/zone.js/fesm2015/zone.js:367:52)
 </failure>
   </testcase>
   <system-out>
-    <![CDATA[Chrome Headless 128.0.0.0 (Windows 10) LOG: 'New beneficiary being processed:', Object{beneficiary: '123'}
-,Chrome Headless 128.0.0.0 (Windows 10) LOG: 'New beneficiary added with dateCreated:', Object{beneficiary: '123', beneficiaryAccountId: '123', dateCreated: '2023-09-15'}
+    <![CDATA[Chrome Headless 129.0.0.0 (Windows 10) LOG: 'New beneficiary being processed:', Object{beneficiary: '123'}
+,Chrome Headless 129.0.0.0 (Windows 10) LOG: 'New beneficiary added with dateCreated:', Object{beneficiary: '123', beneficiaryAccountId: '123', dateCreated: '2023-09-15'}
 
 ]]>
   </system-out>

@@ -117,7 +117,7 @@ export class BeneficiaryComponent {
       .subscribe({
         next: (data: any) => {
           this.getAllBeneficiaries();
-          this.toastr.success("Beneficiary Added Successfully");
+
           this.beneficiaryForm.reset();
         },
         error: (e: HttpErrorResponse) => {
