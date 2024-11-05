@@ -3,36 +3,37 @@
         <div
             tabindex="0"
             role="heading"
+            aria-label="Personal Dashboard"
             class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase"
         >
             Personal Dashboard
         </div>
         <div class="lg:flex mt-12">
             <div class="">
-                <div class="font-bold text-2xl text-primary-blue">Hello, {{ account?.firstName }}</div>
+                <div class="font-bold text-2xl text-primary-blue" role="text" [attr.aria-label]="'hello '+ account?.firstName ">Hello, {{ account?.firstName }}</div>
                 <div class="lg:flex mt-4 lg:flex-wrap">
                     <div class="rounded-3xl shadow-md flex w-80 py-6 px-4 mr-14 mb-5 lg:mb-0 bg-green-100">
                         <div>
-                            <div class="text-lg text-gray-400 mb-3">Account</div>
-                            <div class="font-bold text-4xl">{{ formatedAccountId }}</div>
+                            <div class="text-lg text-gray-400 mb-3" role="heading" aria-label="account card">Account</div>
+                            <div class="font-bold text-4xl" [attr.aria-label]="'Account id '+ formatedAccountId">{{ formatedAccountId }}</div>
                         </div>
                     </div>
                     <div class="rounded-3xl shadow-md flex w-80 py-6 px-4 mr-14 mb-5 lg:mb-0 bg-red-100">
                         <div>
-                            <div class="text-lg text-gray-400 mb-3">Balance</div>
-                            <div class="font-bold text-4xl">$ {{account?.balance &&  numberFormat(account?.balance) }}</div>
+                            <div class="text-lg text-gray-400 mb-3" role="text" aria-label="Balance card">Balance</div>
+                            <div class="font-bold text-4xl" role="text" [attr.aria-label]="'balance ' + (account?.balance &&  numberFormat(account?.balance))">$ {{account?.balance &&  numberFormat(account?.balance) }}</div>
                         </div>
                     </div>
                     <div class="rounded-3xl shadow-md flex w-80 py-6 px-4 mr-14 mb-5 lg:mb-0 bg-blue-100">
                         <div>
-                            <div class="text-lg text-gray-400 mb-3">Latest Transaction</div>
-                            <div class="font-bold text-4xl">{{ account?.totalTransactions}}</div>
+                            <div class="text-lg text-gray-400 mb-3" role="text" aria-label="Latest Transaction">Latest Transaction</div>
+                            <div class="font-bold text-4xl" role="text" [attr.aria-label]="account?.totalTransactions">{{ account?.totalTransactions}}</div>
                         </div>
                     </div>
                     <div class="rounded-3xl shadow-md flex w-80 py-6 px-3 mr-14 mb-5 lg:mb-0 bg-orange-100">
                         <div>
-                            <div class="text-lg text-gray-400 mb-3">Cards</div>
-                            <div class="font-bold text-4xl">{{ account?.totalCards}}</div>
+                            <div class="text-lg text-gray-400 mb-3" role="text" aria-label="total cards">Cards</div>
+                            <div class="font-bold text-4xl" role="text" [attr.aria-label]="account?.totalCards">{{ account?.totalCards}}</div>
                         </div>
                     </div>
                 </div>

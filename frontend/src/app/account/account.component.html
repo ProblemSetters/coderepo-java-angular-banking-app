@@ -31,7 +31,7 @@
               First name
             </label>
             <div class="mt-2.5">
-              <input type="text" name="firstName" id="firstName" [(ngModel)]="openAccount.firstName"
+              <input role="textbox" aria-label="Enter your email" type="text" name="firstName" id="firstName" [(ngModel)]="openAccount.firstName"
                 autocomplete="given-name"
                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
@@ -41,7 +41,7 @@
               Last name
             </label>
             <div class="mt-2.5">
-              <input type="text" name="lastName" id="lastName" [(ngModel)]="openAccount.lastName"
+              <input type="text" name="lastName" id="lastName" [(ngModel)]="openAccount.lastName" role="textbox" aria-label="enter your last name"
                 autocomplete="family-name"
                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
@@ -51,7 +51,7 @@
               Email
             </label>
             <div class="mt-2.5">
-              <input type="email" name="emailAddress" id="emailAddress" [(ngModel)]="openAccount.emailAddress"
+              <input type="email" name="emailAddress" id="emailAddress" [(ngModel)]="openAccount.emailAddress" role="textbox" aria-label="enter email"
                 autocomplete="email"
                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
@@ -62,7 +62,7 @@
               Password
             </label>
             <div class="mt-2.5">
-              <input type="password" name="password" id="password" [(ngModel)]="openAccount.password"
+              <input type="password" name="password" id="password" [(ngModel)]="openAccount.password" role="textbox" aria-label="enter password"
                 autocomplete="password"
                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
@@ -72,7 +72,7 @@
               DOB
             </label>
             <div class="input-group">
-              <input autocomplete="off"
+              <input autocomplete="off" role="textbox" aria-label="enter date of birth"
                 class="form-control block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 placeholder="yyyy-mm-dd" name="dob" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()"
                 [maxDate]="todayDate" [(ngModel)]="openAccount.dob" />
@@ -82,7 +82,7 @@
             <div class="block text-sm font-semibold leading-6 text-gray-900">Gender</div>
             <div class="flex gap-x-4 sm:col-span-2 mt-2.5">
               <div class="flex items-center gap-x-3">
-                <input id="female" name="gender" type="radio" value="female"
+                <input id="female" name="gender" type="radio" value="female" role="radio" aria-label="female"
                   class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   [(ngModel)]="openAccount.gender" />
                 <label for="female" class="block text-sm font-medium leading-6 text-gray-900">
@@ -90,7 +90,7 @@
                 </label>
               </div>
               <div class="flex items-center gap-x-3">
-                <input id="male" name="gender" type="radio" value="male"
+                <input id="male" name="gender" type="radio" value="male" role="radio" aria-label="Male"
                   class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                   [(ngModel)]="openAccount.gender" />
                 <label for="male" class="block text-sm font-medium leading-6 text-gray-900">
@@ -104,7 +104,7 @@
               City
             </label>
             <div class="mt-2.5">
-              <input type="text" name="city" id="city" autocomplete="city" [(ngModel)]="openAccount.city"
+              <input type="text" name="city" id="city" autocomplete="city" [(ngModel)]="openAccount.city" role="textbox" aria-label="enter city"
                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
           </div>
@@ -113,12 +113,12 @@
               Address
             </label>
             <div class="mt-2.5">
-              <textarea name="address" id="address" rows="4" [(ngModel)]="openAccount.address"
+              <textarea name="address" id="address" rows="4" [(ngModel)]="openAccount.address" role="textbox" aria-label="enter address"
                 class="block w-full rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
             </div>
           </div>
           <div class="flex gap-x-4 sm:col-span-2">
-            <input id="privacyPolicy" type="checkbox" name="privacyPolicy"
+            <input id="privacyPolicy" type="checkbox" name="privacyPolicy" role="checkbox" aria-label="By selecting this, you agree to our privacy policy"
               class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 mt-1"
               [(ngModel)]="openAccount.privacyPolicy" />
             <label for="privacyPolicy" class="text-sm leading-6 text-gray-600">
@@ -127,7 +127,7 @@
           </div>
         </div>
         <div class="mt-10 mx-8 md:mx-6">
-          <button type="submit"
+          <button type="submit" role="button" aria-label="create my account now"
             class="block w-full disabled:opacity-25 rounded-md bg-primary-blue px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-secondary-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-blue">
             Create Account
           </button>

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { CardsComponent } from "./cards.component";
+import { CardsComponent } from "../../app/cards/cards.component";
 import { By } from "@angular/platform-browser";
 
 describe("CardsComponent", () => {

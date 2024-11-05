@@ -3,6 +3,7 @@
         <div
             tabindex="0"
             role="heading"
+            aria-label="send money page"
             class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase lg:px-0 px-6"
         >
             Send Money
@@ -15,15 +16,16 @@
                             Select beneficiary
                         </label>
                         <select
-                            class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+                            class="border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                             name="beneficiary_select"
                             id="beneficiary_select"
                             formControlName="toAccountId"
                             placeholder="Select Beneficiary Account"
-                            
+                            role="list"
+                            aria-label="select beneficiary"
                         >
                             <option value="">Select Beneficiary Account</option>
-                            <option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary.beneficiaryAccountId">
+                            <option role="listitem" [attr.aria-label]="beneficiary.beneficiaryAccountId" *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary.beneficiaryAccountId">
                                 Account Number : {{ beneficiary.beneficiaryAccountId }}
                             </option>
                         </select>
@@ -38,19 +40,20 @@
                                 aria-label="enter amount" 
                                 role="input" 
                                 type="number"
-                                class="border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+                                class="border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                                 id="transferAmount"
                                 name="transferAmount"
                                 formControlName="transferAmount"
                             />
                            
                         </div>
-                        <div class="error-message" *ngIf="getFormControlError('transferAmount')">{{ getFormControlError('transferAmount') }}</div>
+                        <div class="error-message" role="text" [attr.aria-label]="getFormControlError('transferAmount')" *ngIf="getFormControlError('transferAmount')">{{ getFormControlError('transferAmount') }}</div>
 
                     </div>
                     <div class="mt-6">
                         <button
                             aria-label="create my account"
+                            role="button"
                             class="flex justify-center focus:ring-2 focus:ring-offset-2 focus:ring-secondary-blue text-sm font-semibold uppercase leading-none text-white focus:outline-none bg-primary-blue border rounded hover:bg-secondary-blue py-3 w-full disabled:opacity-25"
                             type="submit"
                             [disabled]="!sendMoneyForm.valid"

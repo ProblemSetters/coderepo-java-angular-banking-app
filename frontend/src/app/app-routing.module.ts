@@ -12,7 +12,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { RewardPointsComponent } from './reward-points/reward-points.component';
 import { ApplyLoanComponent } from './apply-loan/apply-loan.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'open-account', component: AccountComponent },
   { path: 'login', component: LoginComponent },
   { path: 'send-money', component: SendMoneyComponent, canActivate: [AuthGuard] },
