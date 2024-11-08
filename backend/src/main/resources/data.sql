@@ -1,15 +1,15 @@
 /*add accounts*/
-insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted)
+insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted, locked)
 values (1010213161, 'david@gmail.com', 'david123', 'David', 'Edel', '1990-01-03', 'Male', '21- Right Way', 'NYC',
-        45837.87, false);
-insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted)
+        45837.87, false, false);
+insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted, locked)
 values (1010113163, 'yalen@gmail.com', 'yalen123', 'Yalen', 'Brother', '1993-01-03', 'Male', '22- Right Way', 'CA',
-        95437.12, false);
-insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted)
-values (1010213162, 'rome@gmail.com', 'rome', 'Rome', 'Wool', '1998-12-13', 'Male', 'Left way', 'LA', 384747.98, false);
-insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted)
+        95437.12, false, false);
+insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted, locked)
+values (1010213162, 'rome@gmail.com', 'rome', 'Rome', 'Wool', '1998-12-13', 'Male', 'Left way', 'LA', 384747.98, false, false);
+insert into account(account_id, email_address, password, first_name, last_name, dob, gender, address, city, balance, deleted, locked)
 values (1010113169, 'ravi@gmail.com', 'ravi', 'Ravi', 'Mahale', '1991-09-23', 'Male', 'Statue Road', 'Delhi',
-        474636.09, false);
+        474636.09, false, false);
 
 insert into role(id, name)
 values (1, 'ADMIN'),
@@ -152,3 +152,7 @@ values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1041, 
 insert into transaction(date_created, last_created, transaction_id, from_account_id, to_account_id, transfer_amount)
 values (CURRENT_DATE - INTERVAL '4' DAY, CURRENT_DATE - INTERVAL '4' DAY, 1042, 1010113169, 1010213162, 34);
 -- if add more transaction do not forget to change initialValue for Transaction.transactionId, in annotitaion TableGenerator
+
+/*fraud merchant*/
+INSERT INTO fraud_merchants (id, account_number) VALUES (1, 9999999991);
+INSERT INTO fraud_merchants (id, account_number) VALUES (2, 9999999992);

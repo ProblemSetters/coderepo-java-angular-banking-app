@@ -27,7 +27,7 @@ public class TransactionService {
 
 
     public Transaction sendMoney(Transaction transaction) {
-        if (fraudDetectionService.isFrequentTransaction(transaction.getFromAccountId()) || fraudDetectionService.isOddHourTransaction(transaction.getDateCreated()) || fraudDetectionService.exceedsTransactionLimit(transaction.getTransferAmount())) {
+        if (fraudDetectionService.isSuspiciousTransaction(transaction)) {
             Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
             fromAccount.setLocked(true);
             accountRepository.save(fromAccount);

@@ -1,11 +1,15 @@
-package com.hackerrank.corebanking.fraud;
+package com.hackerrank.corebanking.fraudanalysis;
 
 import com.hackerrank.corebanking.model.Transaction;
+import com.hackerrank.corebanking.repository.FraudMerchantRepository;
 import com.hackerrank.corebanking.repository.TransactionRepository;
 import com.hackerrank.corebanking.service.FraudDetectionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -18,13 +22,18 @@ import static org.mockito.Mockito.when;
 
 public class FraudDetectionServiceTest {
 
-    private FraudDetectionService fraudDetectionService;
+    @Mock
     private TransactionRepository transactionRepository;
+
+    @Mock
+    private FraudMerchantRepository fraudMerchantRepository;
+
+    @InjectMocks
+    private FraudDetectionService fraudDetectionService;
 
     @BeforeEach
     void setup() {
-        transactionRepository = Mockito.mock(TransactionRepository.class);
-        fraudDetectionService = new FraudDetectionService(transactionRepository);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -48,7 +57,7 @@ public class FraudDetectionServiceTest {
     @Test
     void testIsOddHourTransaction() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 2); // Set time to 2 AM
+        calendar.set(Calendar.HOUR_OF_DAY, 2);
         Date oddHourDate = calendar.getTime();
 
         assertTrue(fraudDetectionService.isOddHourTransaction(oddHourDate), "Transaction should be flagged as odd hour");
@@ -57,12 +66,11 @@ public class FraudDetectionServiceTest {
     @Test
     void testIsNotOddHourTransaction() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 10); // Set time to 10 AM
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
         Date normalHourDate = calendar.getTime();
 
         assertFalse(fraudDetectionService.isOddHourTransaction(normalHourDate), "Transaction should not be flagged as odd hour");
     }
-
 
     @Test
     void testExceedsTransactionLimit() {
@@ -72,5 +80,27 @@ public class FraudDetectionServiceTest {
     @Test
     void testDoesNotExceedTransactionLimit() {
         assertFalse(fraudDetectionService.exceedsTransactionLimit(5000.0), "Transaction should not exceed the limit");
+    }
+
+    @Test
+    void testIsSuspiciousMerchant() {
+        Long suspiciousAccountNumber = 9999999991L;
+
+        when(fraudMerchantRepository.existsByAccountNumber(suspiciousAccountNumber)).thenReturn(true);
+
+        boolean result = fraudDetectionService.isSuspiciousMerchant(suspiciousAccountNumber);
+
+        assertTrue(result);
+    }
+
+    @Test
+    void testIsNotSuspiciousMerchant() {
+        Long nonSuspiciousAccountNumber = 1234567890L;
+
+        when(fraudMerchantRepository.existsByAccountNumber(nonSuspiciousAccountNumber)).thenReturn(false);
+
+        boolean result = fraudDetectionService.isSuspiciousMerchant(nonSuspiciousAccountNumber);
+
+        assertFalse(result);
     }
 }

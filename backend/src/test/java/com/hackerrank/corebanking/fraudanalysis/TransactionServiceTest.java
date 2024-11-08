@@ -1,5 +1,5 @@
 
-package com.hackerrank.corebanking.fraud;
+package com.hackerrank.corebanking.fraudanalysis;
 
 import com.hackerrank.corebanking.model.Account;
 import com.hackerrank.corebanking.model.Transaction;
@@ -35,7 +35,7 @@ public class TransactionServiceTest {
 
     @Test
     void testSendMoneyFrequentTransaction() {
-        when(fraudDetectionService.isFrequentTransaction(Mockito.anyLong())).thenReturn(true);
+        when(fraudDetectionService.isSuspiciousTransaction(Mockito.any(Transaction.class))).thenReturn(true);
         Account account = new Account();
         account.setLocked(false);
         when(accountRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(account));
@@ -47,12 +47,12 @@ public class TransactionServiceTest {
 
         assertThrows(RuntimeException.class, () -> transactionService.sendMoney(transaction));
 
-        assertTrue(account.isLocked(), "Account should be locked due to suspicious activity");
+        assertTrue(account.isLocked(), "Account is locked due to suspicious activity");
     }
 
     @Test
     void testSendMoneyOddHourTransaction() {
-        when(fraudDetectionService.isOddHourTransaction(Mockito.any(Date.class))).thenReturn(true);
+        when(fraudDetectionService.isSuspiciousTransaction(Mockito.any(Transaction.class))).thenReturn(true);
         Account account = new Account();
         account.setLocked(false);
         when(accountRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(account));
@@ -65,12 +65,12 @@ public class TransactionServiceTest {
 
         assertThrows(RuntimeException.class, () -> transactionService.sendMoney(transaction));
 
-        assertTrue(account.isLocked(), "Account should be locked due to suspicious activity");
+        assertTrue(account.isLocked(), "Account is locked due to suspicious activity");
     }
 
     @Test
     void testSendMoneyExceedsTransactionLimit() {
-        when(fraudDetectionService.exceedsTransactionLimit(Mockito.anyDouble())).thenReturn(true);
+        when(fraudDetectionService.isSuspiciousTransaction(Mockito.any(Transaction.class))).thenReturn(true);
         Account account = new Account();
         account.setLocked(false);
         when(accountRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(account));
@@ -83,6 +83,19 @@ public class TransactionServiceTest {
 
         assertThrows(RuntimeException.class, () -> transactionService.sendMoney(transaction));
 
-        assertTrue(account.isLocked(), "Account should be locked due to exceeding transaction limit");
+        assertTrue(account.isLocked(), "Account is locked due to exceeding transaction limit");
+    }
+
+    @Test
+    public void testSendMoney_SuspiciousMerchant() {
+        Transaction transaction = new Transaction();
+        transaction.setFromAccountId(1L);
+        transaction.setToAccountId(9999999991L);
+
+        when(fraudDetectionService.isSuspiciousTransaction(transaction)).thenReturn(true);
+
+        assertThrows(RuntimeException.class, () -> {
+            transactionService.sendMoney(transaction);
+        });
     }
 }
