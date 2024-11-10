@@ -1,8 +1,6 @@
 <section class="container mx-auto bg-white dark:bg-gray-900 mb-10">
   <div class="py-10">
-    <div
-      class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase lg:px-0 px-6"
-    >
+    <div class="pb-6 border-b text-xl font-bold text-left leading-6 text-primary-blue uppercase lg:px-0 px-6">
       Transaction History
     </div>
     <div class="relative sm:rounded-lg mt-12 lg:px-0 px-6">
@@ -14,26 +12,16 @@
               name="time_select"
               id="time_select"
               (change)="onDateSelectChange($event)"
+              onclick="ToggleEvent"
             >
               <option value="7">Last 7 days</option>
               <option value="30">Last 30 days</option>
               <option value="183">Last 6 Month</option>
               <option value="365">Last year</option>
             </select>
-
-            <button
-              class="lg:hidden block items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-500 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-              id="export"
-              (click)="exportToCsv()"
-            >
-              Export To Csv
-            </button>
           </div>
 
-          <label
-            for="fromDate"
-            class="lg:ml-12 pt-1 block text-sm font-semibold leading-6 text-gray-900"
-          >
+          <label for="fromDate" class="lg:ml-12 pt-1 block text-sm font-semibold leading-6 text-gray-900">
             From Date
           </label>
           <input
@@ -47,10 +35,7 @@
             (click)="df.toggle()"
             [maxDate]="todayDate"
           />
-          <label
-            for="toDate"
-            class="lg:ml-6 pt-1 block text-sm font-semibold leading-6 text-gray-900"
-          >
+          <label for="toDate" class="lg:ml-6 pt-1 block text-sm font-semibold leading-6 text-gray-900">
             To Date
           </label>
           <input
@@ -68,6 +53,7 @@
             <button
               class="lg:ml-2 h-10 items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-500 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
               (click)="searchDateFilter()"
+              id="search"
             >
               Search
             </button>
@@ -81,17 +67,9 @@
           Export To Csv
         </button>
       </div>
-      <div
-        *ngIf="transactionsList && transactionsList.length > 0; else elseBlock"
-      >
-        <table
-          datatable
-           
-          class="w-full text-sm text-left text-gray-500 dark:text-gray-500"
-        >
-          <thead
-            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-50 dark:text-gray-700"
-          >
+      <div *ngIf="transactionsList && transactionsList.length > 0; else elseBlock">
+        <table datatable class="w-full text-sm text-left text-gray-500 dark:text-gray-500">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-50 dark:text-gray-700">
             <tr>
               <th scope="col" class="p-4">
                 <div class="flex items-center">
@@ -100,9 +78,7 @@
                     type="checkbox"
                     class="w-4 h-4 text-blue-600 bg-cool-gray border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label for="checkbox-all-search" class="sr-only"
-                    >checkbox</label
-                  >
+                  <label for="checkbox-all-search" class="sr-only">checkbox</label>
                 </div>
               </th>
               <th scope="col" class="px-6 py-3">Transaction ID</th>
@@ -114,8 +90,9 @@
           </thead>
           <tbody>
             <tr
+              *ngFor="let transaction of transactionsList; let i = index"
+              [id]="'row_' + i"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              *ngFor="let transaction of transactionsList"
             >
               <td class="w-4 p-4">
                 <div class="flex items-center">
@@ -124,15 +101,10 @@
                     type="checkbox"
                     class="w-4 h-4 text-blue-600 bg-cool-gray border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label for="checkbox-table-search-3" class="sr-only"
-                    >checkbox</label
-                  >
+                  <label for="checkbox-table-search-3" class="sr-only">checkbox</label>
                 </div>
               </td>
-              <td
-                scope="row"
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900"
-              >
+              <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
                 {{ transaction.transactionId }}
               </td>
               <td class="px-6 py-4">
@@ -150,9 +122,7 @@
         </table>
       </div>
       <ng-template #elseBlock>
-        <div
-          class="text-primary-blue uppercase font-bold text-center text-base"
-        >
+        <div class="text-primary-blue uppercase font-bold text-center text-base">
           No Transactions
         </div>
       </ng-template>
