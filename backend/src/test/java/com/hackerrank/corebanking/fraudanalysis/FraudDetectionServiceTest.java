@@ -60,7 +60,7 @@ public class FraudDetectionServiceTest {
         calendar.set(Calendar.HOUR_OF_DAY, 2);
         Date oddHourDate = calendar.getTime();
 
-        assertTrue(fraudDetectionService.isOddHourTransaction(oddHourDate), "Transaction should be flagged as odd hour");
+        assertTrue(fraudDetectionService.isOddHourTransaction(oddHourDate), "Transaction is flagged as odd hour");
     }
 
     @Test
@@ -69,17 +69,17 @@ public class FraudDetectionServiceTest {
         calendar.set(Calendar.HOUR_OF_DAY, 10);
         Date normalHourDate = calendar.getTime();
 
-        assertFalse(fraudDetectionService.isOddHourTransaction(normalHourDate), "Transaction should not be flagged as odd hour");
+        assertFalse(fraudDetectionService.isOddHourTransaction(normalHourDate), "Transaction is not flagged as odd hour");
     }
 
     @Test
     void testExceedsTransactionLimit() {
-        assertTrue(fraudDetectionService.exceedsTransactionLimit(15000.0), "Transaction should exceed the limit");
+        assertTrue(fraudDetectionService.exceedsTransactionLimit(15000.0), "Transaction exceeds the limit");
     }
 
     @Test
     void testDoesNotExceedTransactionLimit() {
-        assertFalse(fraudDetectionService.exceedsTransactionLimit(5000.0), "Transaction should not exceed the limit");
+        assertFalse(fraudDetectionService.exceedsTransactionLimit(5000.0), "Transaction does not exceeds the limit");
     }
 
     @Test
@@ -102,5 +102,45 @@ public class FraudDetectionServiceTest {
         boolean result = fraudDetectionService.isSuspiciousMerchant(nonSuspiciousAccountNumber);
 
         assertFalse(result);
+    }
+
+    @Test
+    void testIsSuspiciousTransaction() {
+        Transaction transaction = new Transaction();
+        transaction.setFromAccountId(1L);
+        transaction.setToAccountId(2L);
+        transaction.setTransferAmount(15000.0);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 2);
+        Date oddHourDate = calendar.getTime();
+        transaction.setDateCreated(oddHourDate);
+
+        List<Transaction> transactions = Collections.nCopies(6, new Transaction());
+        when(transactionRepository.findTransactionsByFromAccountIdAndDateCreatedAfter(1L, new Date(System.currentTimeMillis() - 30 * 60 * 1000)))
+                .thenReturn(transactions);
+
+        when(fraudMerchantRepository.existsByAccountNumber(2L)).thenReturn(true);
+
+        assertTrue(fraudDetectionService.isSuspiciousTransaction(transaction), "Transaction is flagged as suspicious");
+    }
+
+    @Test
+    void testIsNotSuspiciousTransaction() {
+        Transaction transaction = new Transaction();
+        transaction.setFromAccountId(1L);
+        transaction.setToAccountId(2L);
+        transaction.setTransferAmount(5000.0);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        Date normalHourDate = calendar.getTime();
+        transaction.setDateCreated(normalHourDate);
+
+        List<Transaction> transactions = Collections.nCopies(2, new Transaction());
+        when(transactionRepository.findTransactionsByFromAccountIdAndDateCreatedAfter(1L, new Date(System.currentTimeMillis() - 30 * 60 * 1000)))
+                .thenReturn(transactions);
+
+        when(fraudMerchantRepository.existsByAccountNumber(2L)).thenReturn(false);
+
+        assertFalse(fraudDetectionService.isSuspiciousTransaction(transaction), "Transaction is not flagged as suspicious");
     }
 }
