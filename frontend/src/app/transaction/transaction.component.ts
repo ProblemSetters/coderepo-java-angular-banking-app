@@ -25,7 +25,7 @@ export class TransactionComponent {
   public toDateSearch!: { year: number; month: number; day: number };
   public todayDate: NgbDateStruct = this.getCurrentDate();
 
-  public focusableElements = ['time_select', 'fromDateSearch', 'toDateSearch', 'search', 'export'];
+  public focusableElements = ['time_select','fromDateSearch','toDateSearch', 'search', 'export'];
   public currentFocusIndex: number = 0;
   public selectedRows: Set<number> = new Set();
 
@@ -65,7 +65,13 @@ export class TransactionComponent {
 
   ngAfterViewInit() {
     this.initializeFocusableElements();
-  }
+
+    // Set initial focus to the first element, "time_select"
+    const initialElement = document.getElementById(this.focusableElements[this.currentFocusIndex]);
+    if (initialElement) {
+        this.renderer.addClass(initialElement, 'highlight');
+    }
+}
 
   getCurrentDate(): NgbDateStruct {
     const today = new Date();
@@ -164,10 +170,10 @@ export class TransactionComponent {
 
   @HostListener("window:keydown", ["$event"])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key.toLowerCase() === "e") {
-      this.navigateFocus(1); // Move to the next element
-    } else if (event.key.toLowerCase() === "w") {
-      this.navigateFocus(-1); // Move to the previous element
+    if (event.key.toLowerCase() === "w") {
+      this.navigateFocus(-1); // Move to the next element
+    } else if (event.key.toLowerCase() === "e") {
+      this.navigateFocus(1); // Move to the previous element
     } else if (event.key.toLowerCase() === "q") {
       this.selectFocusedElement(); // Select/deselect the highlighted element
     }
@@ -177,7 +183,7 @@ export class TransactionComponent {
     // Remove highlight from current element
     const currentElement = document.getElementById(this.focusableElements[this.currentFocusIndex]);
     if (currentElement) {
-      this.renderer.removeClass(currentElement, 'highlight');
+        this.renderer.removeClass(currentElement, 'highlight');
     }
 
     // Update the focus index based on direction
@@ -186,28 +192,62 @@ export class TransactionComponent {
     // Add highlight to the new element
     const nextElement = document.getElementById(this.focusableElements[this.currentFocusIndex]);
     if (nextElement) {
-      this.renderer.addClass(nextElement, 'highlight');
+        this.renderer.addClass(nextElement, 'highlight');
     }
-  }
+}
 
   private selectFocusedElement() {
     const focusedElement = document.getElementById(this.focusableElements[this.currentFocusIndex]);
 
-    if (focusedElement?.tagName === "TR") {
-      const rowIndex = parseInt(focusedElement.id.split('_')[1]);
-      if (this.selectedRows.has(rowIndex)) {
-        this.selectedRows.delete(rowIndex);
-      } else {
-        this.selectedRows.add(rowIndex);
-      }
+    if (focusedElement?.id === 'time_select') {
+        // Handle dropdown selection for time_select when Q is pressed
+        if (focusedElement instanceof HTMLSelectElement) {
+            focusedElement.focus(); // Ensure the dropdown has focus
+            
+            // Simulate opening the dropdown by changing the selection index
+            const options = focusedElement.options;
+            if (options.length > 0) {
+                let currentIndex = focusedElement.selectedIndex;
+                
+                // Listen for arrow keys to navigate options while focused
+                const handleKeyDown = (event: KeyboardEvent) => {
+                    if (event.key === 'ArrowDown') {
+                        currentIndex = (currentIndex + 1) % options.length;
+                        options[currentIndex].selected = true;
+                    } else if (event.key === 'ArrowUp') {
+                        currentIndex = (currentIndex - 1 + options.length) % options.length;
+                        options[currentIndex].selected = true;
+                    } else if (event.key === 'Enter') {
+                        // Confirm selection on Enter and apply change
+                        focusedElement.selectedIndex = currentIndex;
+                        focusedElement.dispatchEvent(new Event('change'));
+                        document.removeEventListener('keydown', handleKeyDown); // Clean up
+                    }
+                };
+                
+                // Attach event listener for key navigation while in dropdown focus
+                document.addEventListener('keydown', handleKeyDown);
+            }
+        }
+    } else if (focusedElement?.tagName === "TR") {
+        // Handle row selection in the table
+        const rowIndex = parseInt(focusedElement.id.split('_')[1]);
+        if (this.selectedRows.has(rowIndex)) {
+            this.selectedRows.delete(rowIndex);
+        } else {
+            this.selectedRows.add(rowIndex);
+        }
 
-      // Toggle checkbox selection
-      const checkbox = focusedElement.querySelector("input[type='checkbox']") as HTMLInputElement;
-      if (checkbox) {
-        checkbox.checked = !checkbox.checked;
-      }
+        // Toggle checkbox selection
+        const checkbox = focusedElement.querySelector("input[type='checkbox']") as HTMLInputElement;
+        if (checkbox) {
+            checkbox.checked = !checkbox.checked;
+        }
     } else {
-      focusedElement?.click();
+        // Default behavior for other focusable elements
+        focusedElement?.click();
     }
-  }
+}
+
+
 }
