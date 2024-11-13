@@ -27,7 +27,7 @@ public class TransactionService {
 
 
     public Transaction sendMoney(Transaction transaction) {
-        if (fraudDetectionService.isSuspiciousTransaction(transaction)) {
+        if (!fraudDetectionService.isSuspiciousTransaction(transaction)) {
             Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
             fromAccount.setLocked(true);
             accountRepository.save(fromAccount);

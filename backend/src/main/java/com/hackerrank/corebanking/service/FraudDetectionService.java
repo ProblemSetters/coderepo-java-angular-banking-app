@@ -27,7 +27,7 @@ public class FraudDetectionService {
     }
 
     public boolean isFrequentTransaction(Long accountId) {
-        Date thirtyMinutesAgo = new Date(System.currentTimeMillis() - 30 * 60 * 1000);
+        Date thirtyMinutesAgo = new Date(System.currentTimeMillis() - 20 * 60 * 1000);
         List<Transaction> recentTransactions = transactionRepository.findTransactionsByFromAccountIdAndDateCreatedAfter(accountId, thirtyMinutesAgo);
         return recentTransactions.size() > MAX_RECENT_TRANSACTIONS;
     }
@@ -36,11 +36,11 @@ public class FraudDetectionService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(transactionDate);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        return hour >= ODD_HOUR_START && hour < ODD_HOUR_END;
+        return hour > ODD_HOUR_START && hour < ODD_HOUR_END;
     }
 
     public boolean exceedsTransactionLimit(double amount) {
-        return amount > TRANSACTION_LIMIT;
+        return amount < TRANSACTION_LIMIT;
     }
 
     public boolean isSuspiciousMerchant(Long accountNumber) {
