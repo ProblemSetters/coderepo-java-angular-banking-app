@@ -1,5 +1,5 @@
 
-package com.hackerrank.corebanking.fraudanalysis;
+package com.hackerrank.corebanking.service.task11;
 
 import com.hackerrank.corebanking.model.Account;
 import com.hackerrank.corebanking.model.Transaction;
