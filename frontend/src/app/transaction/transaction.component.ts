@@ -1,4 +1,4 @@
-import { Component, Renderer2 } from "@angular/core";
+import { Component, HostListener, Renderer2 } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { TransactionService } from "src/app/services/transaction.service";
 import { Router } from "@angular/router";
@@ -25,9 +25,9 @@ export class TransactionComponent {
   public toDateSearch!: { year: number; month: number; day: number };
   public todayDate: NgbDateStruct = this.getCurrentDate();
 
-  // Idle properties for accessibility
-  public currentFocusIndex: number = 0;
-  public focusableElements: string[] = [];
+  public focusableElements = [];
+  public currentFocusIndex = 0;
+
   public selectedRows: Set<number> = new Set();
 
   constructor(
@@ -64,6 +64,11 @@ export class TransactionComponent {
     this.getTransactions();
   }
 
+  ngAfterViewInit() {
+    this.initializeFocusableElements();
+    this.setInitialFocus();
+  }
+
   getCurrentDate(): NgbDateStruct {
     const today = new Date();
     return {
@@ -81,6 +86,7 @@ export class TransactionComponent {
           this.transactionsList = [];
           setTimeout(() => {
             this.transactionsList = data;
+            this.initializeFocusableElements();
           }, 100);
         },
         error: (e: HttpErrorResponse) => {
@@ -99,9 +105,16 @@ export class TransactionComponent {
       .format("YYYY-MM-DD");
     this.toDate = dayjs().format("YYYY-MM-DD");
     this.fromDateSearch = {
-      year: dayjs().subtract(Number(this.selectedTransactionsDay), "day").get("year"),
-      month: dayjs().subtract(Number(this.selectedTransactionsDay), "day").get("month") + 1,
-      day: dayjs().subtract(Number(this.selectedTransactionsDay), "day").get("date"),
+      year: dayjs()
+        .subtract(Number(this.selectedTransactionsDay), "day")
+        .get("year"),
+      month:
+        dayjs()
+          .subtract(Number(this.selectedTransactionsDay), "day")
+          .get("month") + 1,
+      day: dayjs()
+        .subtract(Number(this.selectedTransactionsDay), "day")
+        .get("date"),
     };
     this.toDateSearch = {
       year: dayjs().get("year"),
@@ -130,13 +143,22 @@ export class TransactionComponent {
 
     const propertyNames = Object.keys(data[0]);
     const rows = data.map((item) =>
-      propertyNames.map((key) => (item[key] !== undefined ? item[key] : "")).join(",")
+      propertyNames
+        .map((key) => (item[key] !== undefined ? item[key] : ""))
+        .join(",")
     );
     return [propertyNames.join(","), ...rows].join("\n");
   }
 
   exportToCsv() {
-    const csvContent = this.saveDataInCSV(this.transactionsList);
+    const selectedData = this.transactionsList.filter((_, index) =>
+      this.selectedRows.has(index)
+    );
+    const dataToExport = selectedData.length
+      ? selectedData
+      : this.transactionsList;
+    const csvContent = this.saveDataInCSV(dataToExport);
+
     const hiddenElement = document.createElement("a");
     hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csvContent);
     hiddenElement.target = "_blank";
@@ -144,8 +166,51 @@ export class TransactionComponent {
     hiddenElement.click();
   }
 
-  // Placeholder function for navigation
-  public navigateFocus(direction: number) {
-    // Placeholder: To be implemented by the developer.
+  initializeFocusableElements() {
+    this.focusableElements = [];
   }
+
+  setInitialFocus() {
+    const initialElement = document.getElementById("search");
+    if (initialElement) {
+      this.renderer.addClass(initialElement, "highlight");
+    }
+  }
+
+  @HostListener("window:keydown", ["$event"])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === "w") {
+    } else if (event.key.toLowerCase() === "e") {
+    } else if (event.key.toLowerCase() === "q") {
+    }
+  }
+
+  public navigateFocus(direction: number) {
+    const currentElement = document.getElementById("export");
+    if (currentElement) {
+      this.renderer.removeClass(currentElement, "highlight");
+    }
+
+    let nextElement = null;
+    /*const nextElement = document.getElementById(
+      this.focusableElements["export"]
+    );*/
+    if (nextElement) {
+      this.renderer.addClass(nextElement, "highlight");
+    }
+  }
+
+  /*private selectFocusedElement() {
+    const focusedElement = document.getElementById(
+      this.focusableElements["export"]
+    );
+
+    if (focusedElement?.tagName === "TR") {
+      const rowIndex = parseInt(focusedElement.id.split("_")[1]);
+      this.selectedRows.add(rowIndex);
+
+      const checkbox = focusedElement.querySelector(
+        "input[type='checkbox']"
+      ) as HTMLInputElement;
+  }*/
 }
