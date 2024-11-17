@@ -25,8 +25,16 @@ export class TransactionComponent {
   public toDateSearch!: { year: number; month: number; day: number };
   public todayDate: NgbDateStruct = this.getCurrentDate();
 
-  public focusableElements = ['time_select','fromDateSearch','toDateSearch', 'search', 'export'];
-  public currentFocusIndex: number = 0;
+  // Array of IDs for focusable elements in the component
+  public focusableElements = [
+    "",
+    "fromDateSearch",
+    "toDateSearch",
+    "search",
+    "export",
+  ];
+  public currentFocusIndex: number = 0; // Ensure this starts at the first element index
+
   public selectedRows: Set<number> = new Set();
 
   constructor(
@@ -36,10 +44,12 @@ export class TransactionComponent {
     private transactionService: TransactionService,
     private renderer: Renderer2
   ) {
+    // Check authentication status
     this.authenticationService.isAuthenticate().subscribe((status: boolean) => {
       this.isAuth = status;
     });
 
+    // Get account information
     this.authenticationService.account().subscribe((account: Account) => {
       this.account = account;
       this.accountId = account.accountId;
@@ -65,13 +75,8 @@ export class TransactionComponent {
 
   ngAfterViewInit() {
     this.initializeFocusableElements();
-
-    // Set initial focus to the first element, "time_select"
-    const initialElement = document.getElementById(this.focusableElements[this.currentFocusIndex]);
-    if (initialElement) {
-        this.renderer.addClass(initialElement, 'highlight');
-    }
-}
+    this.setInitialFocus(); // Set the initial focus when component is fully loaded
+  }
 
   getCurrentDate(): NgbDateStruct {
     const today = new Date();
@@ -90,7 +95,7 @@ export class TransactionComponent {
           this.transactionsList = [];
           setTimeout(() => {
             this.transactionsList = data;
-            this.initializeFocusableElements(); // Initialize after transactions load
+            this.initializeFocusableElements(); // Initialize focusable elements after loading transactions
           }, 100);
         },
         error: (e: HttpErrorResponse) => {
@@ -109,9 +114,16 @@ export class TransactionComponent {
       .format("YYYY-MM-DD");
     this.toDate = dayjs().format("YYYY-MM-DD");
     this.fromDateSearch = {
-      year: dayjs().subtract(Number(this.selectedTransactionsDay), "day").get("year"),
-      month: dayjs().subtract(Number(this.selectedTransactionsDay), "day").get("month") + 1,
-      day: dayjs().subtract(Number(this.selectedTransactionsDay), "day").get("date"),
+      year: dayjs()
+        .subtract(Number(this.selectedTransactionsDay), "day")
+        .get("year"),
+      month:
+        dayjs()
+          .subtract(Number(this.selectedTransactionsDay), "day")
+          .get("month") + 1,
+      day: dayjs()
+        .subtract(Number(this.selectedTransactionsDay), "day")
+        .get("date"),
     };
     this.toDateSearch = {
       year: dayjs().get("year"),
@@ -140,16 +152,22 @@ export class TransactionComponent {
 
     const propertyNames = Object.keys(data[0]);
     const rows = data.map((item) =>
-      propertyNames.map((key) => (item[key] !== undefined ? item[key] : "")).join(",")
+      propertyNames
+        .map((key) => (item[key] !== undefined ? item[key] : ""))
+        .join(",")
     );
     return [propertyNames.join(","), ...rows].join("\n");
   }
 
   exportToCsv() {
-    const selectedData = this.transactionsList.filter((_, index) => this.selectedRows.has(index));
-    const dataToExport = selectedData.length ? selectedData : this.transactionsList;
+    const selectedData = this.transactionsList.filter((_, index) =>
+      this.selectedRows.has(index)
+    );
+    const dataToExport = selectedData.length
+      ? selectedData
+      : this.transactionsList;
     const csvContent = this.saveDataInCSV(dataToExport);
-    
+
     const hiddenElement = document.createElement("a");
     hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csvContent);
     hiddenElement.target = "_blank";
@@ -158,96 +176,88 @@ export class TransactionComponent {
   }
 
   initializeFocusableElements() {
+    // Define focusable elements, including dynamically generated table rows
     this.focusableElements = [
-      'time_select',
-      'fromDateSearch',
-      'toDateSearch',
-      'search',
-      'export',
+      "",
+      "fromDateSearch",
+      "toDateSearch",
+      "search",
+      "export",
       ...this.transactionsList.map((_, index) => `row_${index}`),
     ];
+    this.currentFocusIndex = 0; // Reset focus index to start from the first element
+  }
+
+  setInitialFocus() {
+    // Add focus to the first element, "fromDateSearch"
+    const initialElement = document.getElementById(
+      this.focusableElements[this.currentFocusIndex]
+    );
+    if (initialElement) {
+      this.renderer.addClass(initialElement, "highlight"); // Add a visual indication of focus
+    }
   }
 
   @HostListener("window:keydown", ["$event"])
   handleKeyboardEvent(event: KeyboardEvent) {
+    // Accessibility: Use "W" and "E" keys to navigate, "Q" to select
     if (event.key.toLowerCase() === "w") {
-      this.navigateFocus(-1); // Move to the next element
+      this.navigateFocus(-1); // Move to the previous element
     } else if (event.key.toLowerCase() === "e") {
-      this.navigateFocus(1); // Move to the previous element
+      this.navigateFocus(1); // Move to the next element
     } else if (event.key.toLowerCase() === "q") {
-      this.selectFocusedElement(); // Select/deselect the highlighted element
+      this.selectFocusedElement(); // Trigger select on focused element
     }
   }
 
   public navigateFocus(direction: number) {
     // Remove highlight from current element
-    const currentElement = document.getElementById(this.focusableElements[this.currentFocusIndex]);
+    const currentElement = document.getElementById(
+      this.focusableElements[this.currentFocusIndex]
+    );
     if (currentElement) {
-        this.renderer.removeClass(currentElement, 'highlight');
+      this.renderer.removeClass(currentElement, "highlight");
     }
 
-    // Update the focus index based on direction
-    this.currentFocusIndex = (this.currentFocusIndex + direction + this.focusableElements.length) % this.focusableElements.length;
+    // Update focus index based on direction
+    this.currentFocusIndex =
+      (this.currentFocusIndex + direction + this.focusableElements.length) %
+      this.focusableElements.length;
 
     // Add highlight to the new element
-    const nextElement = document.getElementById(this.focusableElements[this.currentFocusIndex]);
+    const nextElement = document.getElementById(
+      this.focusableElements[this.currentFocusIndex]
+    );
     if (nextElement) {
-        this.renderer.addClass(nextElement, 'highlight');
+      this.renderer.addClass(nextElement, "highlight");
     }
-}
+  }
 
   private selectFocusedElement() {
-    const focusedElement = document.getElementById(this.focusableElements[this.currentFocusIndex]);
+    // Accessibility: Handle selecting or interacting with the currently focused element
+    const focusedElement = document.getElementById(
+      this.focusableElements[this.currentFocusIndex]
+    );
 
-    if (focusedElement?.id === 'time_select') {
-        // Handle dropdown selection for time_select when Q is pressed
-        if (focusedElement instanceof HTMLSelectElement) {
-            focusedElement.focus(); // Ensure the dropdown has focus
-            
-            // Simulate opening the dropdown by changing the selection index
-            const options = focusedElement.options;
-            if (options.length > 0) {
-                let currentIndex = focusedElement.selectedIndex;
-                
-                // Listen for arrow keys to navigate options while focused
-                const handleKeyDown = (event: KeyboardEvent) => {
-                    if (event.key === 'ArrowDown') {
-                        currentIndex = (currentIndex + 1) % options.length;
-                        options[currentIndex].selected = true;
-                    } else if (event.key === 'ArrowUp') {
-                        currentIndex = (currentIndex - 1 + options.length) % options.length;
-                        options[currentIndex].selected = true;
-                    } else if (event.key === 'Enter') {
-                        // Confirm selection on Enter and apply change
-                        focusedElement.selectedIndex = currentIndex;
-                        focusedElement.dispatchEvent(new Event('change'));
-                        document.removeEventListener('keydown', handleKeyDown); // Clean up
-                    }
-                };
-                
-                // Attach event listener for key navigation while in dropdown focus
-                document.addEventListener('keydown', handleKeyDown);
-            }
-        }
-    } else if (focusedElement?.tagName === "TR") {
-        // Handle row selection in the table
-        const rowIndex = parseInt(focusedElement.id.split('_')[1]);
-        if (this.selectedRows.has(rowIndex)) {
-            this.selectedRows.delete(rowIndex);
-        } else {
-            this.selectedRows.add(rowIndex);
-        }
+    if (focusedElement?.tagName === "TR") {
+      // Handle row selection in the table
+      const rowIndex = parseInt(focusedElement.id.split("_")[1]);
+      if (this.selectedRows.has(rowIndex)) {
+        this.selectedRows.delete(rowIndex);
+      } else {
+        this.selectedRows.add(rowIndex);
+      }
 
-        // Toggle checkbox selection
-        const checkbox = focusedElement.querySelector("input[type='checkbox']") as HTMLInputElement;
-        if (checkbox) {
-            checkbox.checked = !checkbox.checked;
-        }
+      // Toggle checkbox selection
+      const checkbox = focusedElement.querySelector(
+        "input[type='checkbox']"
+      ) as HTMLInputElement;
+      if (checkbox) {
+        checkbox.checked = !checkbox.checked;
+      }
     } else {
-        // Default behavior for other focusable elements
-        focusedElement?.click();
+      // Default behavior for other focusable elements
+      focusedElement?.click();
     }
-}
-
-
+  }
 }

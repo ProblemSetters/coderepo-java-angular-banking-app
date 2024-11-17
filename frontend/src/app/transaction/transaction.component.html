@@ -5,32 +5,37 @@
     >
       Transaction History
     </div>
-    <div class="relative sm:rounded-lg mt-12 lg:px-0 px-6">
+    <div class="relative sm:rounded-lg mt-12 lg:px-0">
       <div class="lg:flex items-center justify-between mb-8">
         <div class="lg:flex">
+          <!-- 
           <div class="flex justify-between lg:flex-none">
             <select
               class="items-center h-10 text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-500 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
               name="time_select"
               id="time_select"
+              aria-label="Select time range for transactions"
               (change)="onDateSelectChange($event)"
-              onclick="ToggleEvent"
             >
-              <option value="7">Last 7 days</option>
-              <option value="30">Last 30 days</option>
-              <option value="183">Last 6 Month</option>
-              <option value="365">Last year</option>
+              <option value="7" aria-label="Last 7 days">Last 7 days</option>
+              <option value="30" aria-label="Last 30 days">Last 30 days</option>
+              <option value="183" aria-label="Last 6 months">
+                Last 6 months
+              </option>
+              <option value="365" aria-label="Last year">Last year</option>
             </select>
           </div>
+          -->
 
           <label
-            for="fromDate"
-            class="lg:ml-12 pt-1 block text-sm font-semibold leading-6 text-gray-900"
+            for="fromDateSearch"
+            class="pt-1 block text-sm font-semibold leading-6 text-gray-900"
           >
             From Date
           </label>
           <input
             id="fromDateSearch"
+            aria-label="Select start date for transactions"
             autocomplete="off"
             class="lg:ml-2 h-10 border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-1 pl-3"
             ngbDatepicker
@@ -40,14 +45,16 @@
             (click)="df.toggle()"
             [maxDate]="todayDate"
           />
+
           <label
-            for="toDate"
+            for="toDateSearch"
             class="lg:ml-6 pt-1 block text-sm font-semibold leading-6 text-gray-900"
           >
             To Date
           </label>
           <input
             id="toDateSearch"
+            aria-label="Select end date for transactions"
             autocomplete="off"
             class="lg:ml-2 h-10 border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-1 pl-3"
             ngbDatepicker
@@ -57,30 +64,36 @@
             (click)="dt.toggle()"
             [maxDate]="todayDate"
           />
+
           <div>
             <button
               class="lg:ml-2 h-10 items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-500 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
               (click)="searchDateFilter()"
               id="search"
+              aria-label="Search transactions"
             >
               Search
             </button>
           </div>
         </div>
+
         <button
           class="lg:block h-10 hidden items-center text-gray-500 bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-500 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
           id="export"
           (click)="exportToCsv()"
+          aria-label="Export transactions to CSV"
         >
           Export To Csv
         </button>
       </div>
+
       <div
         *ngIf="transactionsList && transactionsList.length > 0; else elseBlock"
       >
         <table
           datatable
           class="w-full text-sm text-left text-gray-500 dark:text-gray-500"
+          aria-label="Transaction history table"
         >
           <thead
             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-50 dark:text-gray-700"
@@ -92,9 +105,10 @@
                     id="checkbox-all-search"
                     type="checkbox"
                     class="w-4 h-4 text-blue-600 bg-cool-gray border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    aria-label="Select all transactions"
                   />
                   <label for="checkbox-all-search" class="sr-only"
-                    >checkbox</label
+                    >Select all transactions</label
                   >
                 </div>
               </th>
@@ -108,18 +122,22 @@
           <tbody>
             <tr
               *ngFor="let transaction of transactionsList; let i = index"
+              [attr.aria-label]="'Transaction row ' + (i + 1)"
               [id]="'row_' + i"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               <td class="w-4 p-4">
                 <div class="flex items-center">
                   <input
-                    id="checkbox-table-search-3"
+                    id="checkbox-table-search-{{ i }}"
                     type="checkbox"
                     class="w-4 h-4 text-blue-600 bg-cool-gray border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    [attr.aria-label]="
+                      'Select transaction ' + transaction.transactionId
+                    "
                   />
-                  <label for="checkbox-table-search-3" class="sr-only"
-                    >checkbox</label
+                  <label for="checkbox-table-search-{{ i }}" class="sr-only"
+                    >Select transaction</label
                   >
                 </div>
               </td>
@@ -143,9 +161,11 @@
           </tbody>
         </table>
       </div>
+
       <ng-template #elseBlock>
         <div
           class="text-primary-blue uppercase font-bold text-center text-base"
+          aria-label="No transactions available"
         >
           No Transactions
         </div>
