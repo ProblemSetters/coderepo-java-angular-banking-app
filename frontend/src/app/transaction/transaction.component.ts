@@ -25,8 +25,8 @@ export class TransactionComponent {
   public toDateSearch!: { year: number; month: number; day: number };
   public todayDate: NgbDateStruct = this.getCurrentDate();
 
-  public focusableElements = [];
-  public currentFocusIndex = 0;
+  public focusableElements: readonly string[] = [];
+  public currentFocusIndex: number = 0;
 
   public selectedRows: Set<number> = new Set();
 
