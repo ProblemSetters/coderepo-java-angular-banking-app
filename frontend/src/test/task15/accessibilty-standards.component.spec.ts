@@ -60,6 +60,16 @@ describe("TransactionComponent (Accessibility Keyboard Navigation)", () => {
     component.fromDateSearch = { year: 2024, month: 1, day: 1 };
     component.toDateSearch = { year: 2024, month: 1, day: 31 };
 
+    // Explicitly type the array as string[]
+    component.focusableElements = [
+      "fromDateSearch",
+      "toDateSearch",
+      "search",
+      "export",
+      "row_0",
+      "row_1"
+    ] as string[];
+    
     fixture.detectChanges();
   });
 
