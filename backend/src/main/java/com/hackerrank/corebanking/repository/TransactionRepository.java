@@ -22,6 +22,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     List<Transaction> findTransactionByFromAccountId(Long fromAccountId);
 
+    List<Transaction> findTransactionsByFromAccountIdAndDateCreatedAfter(Long fromAccountId, Date dateCreated);
+
     @Query("SELECT t FROM Transaction t WHERE t.fromAccountId = :accountId AND t.dateCreated BETWEEN :startDate AND :endDate")
     List<Transaction> findByFromAccountIdAndTransactionDateBetween(
             @Param("accountId") Long accountId,
