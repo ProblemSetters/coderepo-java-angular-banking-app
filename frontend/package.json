@@ -12,6 +12,7 @@
     "test:task4": "ng test --include src/test/task4/account.component.spec.ts --karma-config karma.conf.task4.js",
     "test:task13": "ng test --include src/test/task13/themeToggle.components.spec.ts --karma-config karma.conf.task13.js",
     "test:task14":"ng test --include src/test/task14/apply-loan.component.spec.ts --karma-config karma.conf.task14.js",
+    "test:task15":"ng test --include src/test/task15/accessibilty-standards.component.spec.ts --karma-config karma.conf.task15.js"
     "test:task12":"ng test --include src/test/task12/beneficiary.component.spec.ts --karma-config karma.conf.task12.js"
   },
   "private": true,

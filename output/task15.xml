@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<testsuite name="Chrome Headless 130.0.0.0 (Windows 10)" package="unit" timestamp="2024-11-17T17:15:59" id="0" hostname="DESKTOP-4USMBPG" tests="5" errors="0" failures="0" time="0.141">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/130.0.0.0 Safari/537.36"/>
+  </properties>
+  <testcase name="TransactionComponent (Accessibility Keyboard Navigation) should navigate forward through elements on 'e' key press" time="0.089" classname=".TransactionComponent (Accessibility Keyboard Navigation)"/>
+  <testcase name="TransactionComponent (Accessibility Keyboard Navigation) should toggle row selection on 'Q' key press" time="0.016" classname=".TransactionComponent (Accessibility Keyboard Navigation)"/>
+  <testcase name="TransactionComponent (Accessibility Keyboard Navigation) should navigate backward through elements on 'W' key press" time="0.011" classname=".TransactionComponent (Accessibility Keyboard Navigation)"/>
+  <testcase name="TransactionComponent (Accessibility Keyboard Navigation) should call exportToCsv() when export button is focused and Q is pressed" time="0.011" classname=".TransactionComponent (Accessibility Keyboard Navigation)"/>
+  <testcase name="TransactionComponent (Accessibility Keyboard Navigation) should have aria-labels for accessible elements" time="0.014" classname=".TransactionComponent (Accessibility Keyboard Navigation)"/>
+  <system-out>
+    <![CDATA[
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
