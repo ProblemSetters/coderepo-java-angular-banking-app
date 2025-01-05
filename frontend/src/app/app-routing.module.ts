@@ -11,6 +11,7 @@ import { BeneficiaryComponent } from './beneficiary/beneficiary.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RewardPointsComponent } from './reward-points/reward-points.component';
 import { ApplyLoanComponent } from './apply-loan/apply-loan.component';
+import { DonationsComponent } from "./donations/donations.component";
 
 const routes: Routes = [
   { path: 'open-account', component: AccountComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'reward-points', component: RewardPointsComponent, canActivate: [AuthGuard] },
   { path: 'apply-loan', component: ApplyLoanComponent, canActivate: [AuthGuard]},
+  { path: "donations", component: DonationsComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

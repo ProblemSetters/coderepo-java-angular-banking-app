@@ -1,0 +1,67 @@
+<div>
+  <div class="container mt-4">
+    <h2 class="mb-4 text-center">Donate to Trusts</h2>
+    <div class="row">
+      <div class="mb-4 col-md-4" *ngFor="let trust of trusts">
+        <div class="shadow card h-100">
+          <img
+            [src]="trust.imageUrl"
+            class="card-img-top"
+            alt="{{ trust.name }}"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ trust.name }}</h5>
+            <p class="card-text">{{ trust.description }}</p>
+          </div>
+          <div class="card-footer d-flex justify-content-end">
+            <button class="btn btn-primary" (click)="openModal(trust)">
+              Donate
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade show"
+    tabindex="-1"
+    *ngIf="isModalOpen"
+    [style.display]="'block'"
+    role="dialog"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Donation</h5>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="closeModal()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            How much would you like to donate to
+            <strong>{{ selectedTrust?.name }}</strong
+            >?
+          </p>
+          <input
+            type="number"
+            class="form-control mt-3"
+            [(ngModel)]="donationAmount"
+            placeholder="Enter donation amount"
+          />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="closeModal()">
+            Cancel
+          </button>
+          <button class="btn btn-primary" (click)="handleConfirm()">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
