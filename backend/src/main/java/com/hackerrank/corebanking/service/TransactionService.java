@@ -25,26 +25,12 @@ public class TransactionService {
         this.fraudDetectionService = fraudDetectionService;
     }
 
-
     public Transaction sendMoney(Transaction transaction) {
-        if (!fraudDetectionService.isSuspiciousTransaction(transaction)) {
-            Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
-            fromAccount.setLocked(true);
-            accountRepository.save(fromAccount);
-            throw new RuntimeException("Account locked due to suspicious activity");
-        }
-
         Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
         Account toAccount = accountRepository.findById(transaction.getToAccountId()).get();
 
-        fromAccount.setBalance(fromAccount.getBalance() - transaction.getTransferAmount());
-        toAccount.setBalance(toAccount.getBalance() + transaction.getTransferAmount());
-
-        if (transaction.getSourceCardNumber() != null) {
-            Card card = cardService.getCardByCardNumber(transaction.getSourceCardNumber());
-            cardService.processVirtualTransactionLimits(card, transaction.getTransferAmount());
-        }
-
+        fromAccount.setBalance(fromAccount.getBalance() + transaction.getTransferAmount());
+        toAccount.setBalance(toAccount.getBalance() - transaction.getTransferAmount());
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
 
@@ -55,9 +41,7 @@ public class TransactionService {
         return transactionRepository.findTransactionByFromAccountId(accountId);
     }
 
-
     public Object getErrorMessage() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getErrorMessage'");
     }
 }
