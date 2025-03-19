@@ -38,4 +38,8 @@ public class Card implements Serializable {
     private boolean isVirtual = false;
     private int txnAllowedCount = -1;
     private Double virtualLimit = -1.0;
+    
+    // Add these new fields for transaction limits
+    private double dailyTransactionLimit = 5000.0;
+    private double monthlyTransactionLimit = 25000.0;
 }
