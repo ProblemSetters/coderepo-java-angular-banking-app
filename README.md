@@ -4,67 +4,118 @@
 The Banking Application is a comprehensive financial management system designed to facilitate seamless transactions, account management, and user authentication. Built using Angular for the frontend and Spring Boot for the backend, this application provides a secure and user-friendly interface for managing banking operations. Users can send money, view transaction history, and manage their accounts efficiently.
 
 ## Functionalities
-- **User Authentication**: Secure login and registration for users to access their accounts.
-- **Send Money**: Users can transfer funds to beneficiaries with ease.
-- **Transaction History**: View a detailed history of all transactions made by the user.
-- **Beneficiary Management**: Add and manage beneficiaries for quick transactions.
-- **Responsive Design**: The application is designed to be mobile-friendly and accessible on various devices.
-- **Error Handling**: Comprehensive error messages and validation to enhance user experience.
-
-## Technologies Used
-- **Frontend**:
-  - **Angular**: A powerful framework for building dynamic single-page applications (SPAs) using TypeScript.
-  - **RxJS**: A library for reactive programming using Observables, allowing for asynchronous data handling.
-  - **NgBootstrap**: Provides Bootstrap components for Angular applications, enhancing UI design.
-  - **ngx-toastr**: A library for displaying toast notifications, providing feedback to users on actions taken.
-  
-- **Backend**:
-  - **Spring Boot**: A Java-based framework that simplifies the development of RESTful APIs and microservices.
-  - **Spring Data JPA**: A part of the Spring framework that simplifies database interactions and provides a repository abstraction.
-  - **Hibernate**: An object-relational mapping (ORM) tool for Java, facilitating database operations.
-  - **JUnit**: A testing framework for Java, used for writing and running unit tests.
-  - **Mockito**: A mocking framework for unit tests in Java, allowing for the simulation of objects and behaviors.
-
-- **Database**:
-  - **H2 Database**: An in-memory database used for development and testing, providing fast data access and easy setup.
-
-- **Development Tools**:
-  - **Node.js**: A JavaScript runtime used for running the Angular development server and managing packages.
-  - **npm**: The package manager for JavaScript, used to install and manage project dependencies.
-  - **Maven**: A build automation tool used for managing Java projects and their dependencies.
-
+- **User Authentication**: Secure login and registration
+- **Send Money**: Transfer funds to beneficiaries
+- **Transaction History**: View all transactions
+- **Beneficiary Management**: Add and manage beneficiaries
+- **Error Handling**: Validation and error messages
+- **Role Based Access**: Admin, User and Manager roles
+- **Pin Validation**: PIN verification for transactions
+- **Fraud Detection**: Detect suspicious transactions
+- **Card Security**: CVV masking, limits, virtual cards
+- **Dark Mode**: Light and dark theme toggle
+- **Multi-Step Forms**: Step-by-step transaction forms
+- **Drag & Drop**: Easy beneficiary management
+- **Real-time Updates**: Live balance display
+- **Accessibility**: WCAG 2.1 compliant
+- **Rewards**: Points system for transactions
+- **Profile**: User settings and preferences
+- **Donations**: Charitable giving platform
+- **Loans**: Applications and EMI calculator
+- **Recurring Payments**: Scheduled transactions
+- **Security Validation**: Registration and transaction checks
+- **Fraud Analysis**: Pattern detection and monitoring
 
 ## File Structure
 The file structure of this repository is organized as follows:
 
 ```
-├── src
-│ ├── app
-│ │ ├── account
-│ │ ├── beneficiary
-│ │ ├── cards
-│ │ ├── components
-│ │ │ └── navbar
-│ │ ├── dashboard
-│ │ ├── login
-│ │ ├── profile
-│ │ ├── send-money
-│ │ └── transaction
-│ ├── assets
-│ ├── services
-│ ├── dto
-│ ├── state
-│ ├── app.module.ts
-│ ├── app.component.ts
-│ ├── app-routing.module.ts
-│ ├── main.ts
-│ ├── styles.scss
-│ └── index.html
-├── package.json
-├── angular.json
-├── testconfig.json
+coderepo-java-angular-banking-app/
+├── frontend/
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/
+│   │   │   │   ├── account/
+│   │   │   │   │   ├── account.component.ts
+│   │   │   │   │   ├── account.component.html
+│   │   │   │   │   └── account.component.scss
+│   │   │   │   ├── beneficiary/
+│   │   │   │   │   ├── beneficiary.component.ts
+│   │   │   │   │   ├── beneficiary.component.html
+│   │   │   │   │   └── beneficiary.component.scss
+│   │   │   │   ├── cards/
+│   │   │   │   │   ├── card-list.component.ts
+│   │   │   │   │   ├── card-detail.component.ts
+│   │   │   │   │   └── virtual-card.component.ts
+│   │   │   │   ├── dashboard/
+│   │   │   │   │   ├── dashboard.component.ts
+│   │   │   │   │   └── balance-widget.component.ts
+│   │   │   │   ├── login/
+│   │   │   │   └── transaction/
+│   │   │   ├── services/
+│   │   │   │   ├── account.service.ts
+│   │   │   │   ├── auth.service.ts
+│   │   │   │   ├── transaction.service.ts
+│   │   │   │   └── fraud-detection.service.ts
+│   │   │   ├── models/
+│   │   │   │   ├── account.model.ts
+│   │   │   │   ├── transaction.model.ts
+│   │   │   │   └── card.model.ts
+│   │   │   └── shared/
+│   │   │       ├── guards/
+│   │   │       └── interceptors/
+│   │   ├── assets/
+│   │   │   ├── images/
+│   │   │   └── styles/
+│   │   ├── environments/
+│   │   ├── app.module.ts
+│   │   ├── app.component.ts
+│   │   └── app-routing.module.ts
+│   ├── package.json
+│   └── angular.json
+│
+├── backend/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com/hackerrank/corebanking/
+│   │   │   │       ├── controller/
+│   │   │   │       │   ├── AccountController.java
+│   │   │   │       │   ├── TransactionController.java
+│   │   │   │       │   ├── CardController.java
+│   │   │   │       │   └── AuthController.java
+│   │   │   │       ├── model/
+│   │   │   │       │   ├── Account.java
+│   │   │   │       │   ├── Transaction.java
+│   │   │   │       │   ├── Card.java
+│   │   │   │       │   └── User.java
+│   │   │   │       ├── repository/
+│   │   │   │       │   ├── AccountRepository.java
+│   │   │   │       │   └── TransactionRepository.java
+│   │   │   │       ├── service/
+│   │   │   │       │   ├── AccountService.java
+│   │   │   │       │   ├── TransactionService.java
+│   │   │   │       │   └── FraudDetectionService.java
+│   │   │   │       ├── config/
+│   │   │   │       │   ├── SecurityConfig.java
+│   │   │   │       │   └── SwaggerConfig.java
+│   │   │   │       └── dto/
+│   │   │   │           ├── AccountDTO.java
+│   │   │   │           └── TransactionDTO.java
+│   │   │   └── resources/
+│   │   │       ├── application.properties
+│   │   │       └── data.sql
+│   │   └── test/
+│   │       └── java/
+│   │           └── com/hackerrank/corebanking/
+│   │               ├── service/
+│   │               │   └── TransactionServiceIT.java
+│   │               └── controller/
+│   └── pom.xml
+│
 ├── README.md
-└── .gitignore
+└── setup.sh
+
 ```
 
 ## Installation and Running the Application

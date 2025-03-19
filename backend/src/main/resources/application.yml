@@ -11,9 +11,16 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: false
+  security:
+    headers:
+      frame-options:
+        mode: SAMEORIGIN
+  mvc:
+    dispatch-options-request: true
 
 server:
   port: 8000
+  address: 0.0.0.0
 corebanking:
   app:
     jwtCookieName: corebanking

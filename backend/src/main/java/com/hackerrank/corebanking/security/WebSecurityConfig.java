@@ -66,6 +66,8 @@ public class WebSecurityConfig {
 
         http = http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
+        http = http.headers().frameOptions().disable().and();
+
         return http.build();
     }
 }
