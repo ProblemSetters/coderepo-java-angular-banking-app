@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="transctionsList && transctionsList.length > 0;"> 
+        <div *ngIf="transactionsList && transactionsList.length > 0;"> 
             <div
                 tabindex="0"
                 role="heading"
@@ -69,7 +69,7 @@
                     </thead>
                     <tbody>
                         <tr class="bg-white border-b  hover:bg-gray-500"
-                            *ngFor="let transaction of transctionsList">
+                            *ngFor="let transaction of transactionsList">
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 {{transaction.transactionId}}
                             </td>

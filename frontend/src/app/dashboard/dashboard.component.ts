@@ -16,7 +16,7 @@ export class DashboardComponent {
   public accountId!: number;
   public formatedDob?: string;
   public formatedAccountId?: string;
-  public transctionsList!: Array<Transaction>;
+  public transactionsList: Transaction[] = [];
   public fromDate!: string;
   public toDate!: string;
 
@@ -44,17 +44,25 @@ export class DashboardComponent {
 	}
 
   getTransactions() {
-    this.transactionService.transactionHistory(this.accountId, this.fromDate, this.toDate).subscribe(
-      {
+    this.transactionService
+      .transactionHistory(this.accountId, this.fromDate, this.toDate)
+      .subscribe({
         next: (data: any) => {
-				  this.transctionsList = data;
+          this.transactionsList = [];
+          setTimeout(() => {
+            // Using the same sorting logic as the transaction history page
+            this.transactionsList = data.sort((a: Transaction, b: Transaction) => {
+              return new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime();
+            });
+          }, 100);
         },
         error: (e: HttpErrorResponse) => {
-          this.toastr.error('Oops! Something went wrong while fetching all transactions.');
+          this.toastr.error(
+            "Oops! Something went wrong while fetching all transactions."
+          );
         },
         complete: () => {}
-      }
-		);
+      });
   }
   numberFormat(value: string | number | undefined) {
     if (!value) return "0.00";
