@@ -85,7 +85,9 @@ export class TransactionComponent {
         next: (data: any) => {
           this.transactionsList = [];
           setTimeout(() => {
-            this.transactionsList = data;
+            this.transactionsList = data.sort((a: Transaction, b: Transaction) => {
+              return new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime();
+            });
             this.initializeFocusableElements();
           }, 100);
         },

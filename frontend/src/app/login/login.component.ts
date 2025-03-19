@@ -60,10 +60,10 @@ export class LoginComponent {
 					error: (e: HttpErrorResponse) => {
 						if(e.status === 401)
 						{
-							this.toastr.error('Invalid credential. Please enter valid email address or password.');
+							this.toastr.error('Invalid credentials. Please enter a valid email address and password.');
 						}
 						else {
-							this.toastr.error("Oops! Something went wrong while login user.");
+							this.toastr.error("Oops! Something went wrong while logging in.");
 						}
 						
 					},
@@ -96,10 +96,10 @@ export class LoginComponent {
 		if (field && field.touched && field.invalid) {
 			if (field.errors?.["required"]) {
 				if(fieldName === 'emailAddress'){
-					return 'Please enter a email address. It is required.';
+					return 'Please enter an email address.';
 				}
 				if(fieldName === 'password'){
-					return 'Please enter a password. It is required.';
+					return "Please enter your password.";
 				}
 			}
 			if (field.errors?.["minlength"]) {
@@ -109,7 +109,7 @@ export class LoginComponent {
 			}
 
 			if (field.errors?.["email"]) {
-				return `Please enter a valid email address.`;
+				return "Please enter a valid email address.";
 			}
 		}
 		return "";
