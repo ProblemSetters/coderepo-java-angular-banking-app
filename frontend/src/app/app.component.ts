@@ -25,9 +25,15 @@ export class AppComponent {
 	) {}
 
   ngOnInit(): void {
-    this.darkThemeSelectorService.currentTheme.subscribe(theme => {
-      this.isDarkMode = theme === AppTheme.DARK;
-    });
+    // Ensure light mode on every initialization
+    document.documentElement.classList.remove('dark');
+    document.body.classList.remove('bg-gray-900');
+    
+    // Always set isDarkMode to false
+    this.isDarkMode = false;
+    
+    // Force light theme
+    this.darkThemeSelectorService.setLightTheme();
 
     this.authenticationService.isAuthenticate().subscribe((status) => {
 			this.isAuth = status;
@@ -41,13 +47,9 @@ export class AppComponent {
   }
 
   handleToggleTheme(){
-    if(this.isDarkMode){
-      this.darkThemeSelectorService.setLightTheme();
-      this.isDarkMode = false;
-      return
-    }
-    this.darkThemeSelectorService.setDarkTheme();
-    this.isDarkMode = true;
+    // Always ensure light theme
+    this.darkThemeSelectorService.setLightTheme();
+    this.isDarkMode = false;
   }
 
   getUserAccount() {

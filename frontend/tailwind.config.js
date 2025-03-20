@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class",
+  darkMode: false,
   content: [
     "./src/**/*.{html,ts}",
   ],
@@ -16,7 +16,7 @@ module.exports = {
   },
   variants: {
     extend: {
-      textColor: ['dark', 'active'],
+      textColor: ['active'],
       fontWeight: ['active', 'focus'],
     },
   },

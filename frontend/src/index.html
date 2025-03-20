@@ -10,17 +10,22 @@
 <body class="">
   <app-root></app-root>
   <script>
-    const theme = localStorage.getItem('theme');
-    const browserDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (theme !== null) {
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
+    // Remove dark theme class from HTML element
+    document.documentElement.classList.remove('dark');
+    
+    // Set theme to light in localStorage
+    localStorage.setItem('theme', 'light');
+    
+    // Remove any dark mode classes from body
+    document.body.classList.remove('bg-gray-900');
+    
+    // Disable system color scheme preference matching
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      if (colorSchemeQuery.removeEventListener) {
+        // Some browsers support this to disable system theme changes
+        colorSchemeQuery.removeEventListener('change', () => {});
       }
-      else{
-      document.documentElement.classList.remove('dark');
-    }
-    } else if (browserDark) {
-      document.documentElement.classList.add('dark');
     }
   </script>
 </body>

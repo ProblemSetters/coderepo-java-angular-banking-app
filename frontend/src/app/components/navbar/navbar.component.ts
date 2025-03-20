@@ -48,12 +48,10 @@ export class NavbarComponent {
   getBalance() {}
 
   ngOnInit() {
-    this.darkThemeSelectorService.currentTheme.subscribe((theme: AppTheme | undefined) => {
-      this.isDarkMode = theme === AppTheme.DARK;
-      this.themeText = theme === AppTheme.DARK ? 'Dark' : 'Light'
-    });
-
-
+    // Always set to light theme
+    this.isDarkMode = false;
+    this.themeText = 'Light';
+    this.darkThemeSelectorService.setLightTheme();
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -67,13 +65,9 @@ export class NavbarComponent {
     this.showMenu = !this.showMenu;
   }
   handleToggleTheme(){
-    if(this.isDarkMode){
-      this.darkThemeSelectorService.setLightTheme();
-      this.isDarkMode = false;
-      return
-    }
-    this.darkThemeSelectorService.setDarkTheme();
-    this.isDarkMode = true;
+    // Always ensure light theme
+    this.darkThemeSelectorService.setLightTheme();
+    this.isDarkMode = false;
   }
 
   logout() {

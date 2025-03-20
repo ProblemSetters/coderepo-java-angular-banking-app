@@ -76,3 +76,28 @@
     width: 150px;
     inset: 0px auto auto -50px !important;
   }
+
+// Add these overrides at the end of the file
+html {
+  background-color: white !important;
+}
+
+body {
+  background-color: white !important;
+}
+
+// Override any dark mode text colors
+.dark\:text-white {
+  color: inherit !important;
+}
+
+.dark\:bg-gray-900 {
+  background-color: white !important;
+}
+
+// Ensure text color in primary-blue stays consistent
+.text-primary-blue {
+  color: #163172 !important;
+}
+
+// Add more overrides as needed for specific dark mode classes

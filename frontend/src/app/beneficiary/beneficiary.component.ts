@@ -43,18 +43,15 @@ export class BeneficiaryComponent {
   }
 
   ngOnInit() {
-    this.darkThemeSelectorService.currentTheme.subscribe(
-      (theme: AppTheme | undefined) => {
-        this.isDarkMode = theme === AppTheme.DARK;
-      }
-    );
-
+    // Set isDarkMode to always false
+    this.isDarkMode = false;
+    
     this.beneficiaryForm = new FormGroup({
       beneficiaryAccountId: new FormControl(null, Validators.required),
     });
 
     this.getAllBeneficiaries();
-    this.getBeneficiaryIds(); // Fetch IDs for dropdown
+    this.getBeneficiaryIds();
   }
 
   getAllBeneficiaries() {

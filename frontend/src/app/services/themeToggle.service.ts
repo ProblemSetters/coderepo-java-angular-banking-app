@@ -1,4 +1,3 @@
-
 import { Injectable } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { BehaviorSubject } from "rxjs";
@@ -26,50 +25,67 @@ export class DarkThemeSelectorService {
   currentTheme = this.themeSubject.asObservable();
 
   constructor(private router: Router) {
+    // Completely override any attempts to use dark mode
+    document.documentElement.classList.remove('dark');
+    document.body.classList.remove('bg-gray-900');
+    
+    // Clear all dark mode from localStorage
+    localStorage.setItem('theme', 'light');
+    
+    // Remove any dark mode specific attributes
+    if (document.body.hasAttribute('data-theme')) {
+      document.body.removeAttribute('data-theme');
+    }
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        // Always ensure light theme after navigation
+        this.setLightTheme();
         this.handleRouteChange(event.url);
       }
     });
 
-    // Initial theme application
+    // Force light theme on initialization
+    this.setLightTheme();
     this.handleRouteChange(this.router.url);
+  }
+
+  setDarkTheme() {
+    // Override this method to always set light theme
+    this.setLightTheme();
   }
 
   setLightTheme() {
     this.themeSubject.next(AppTheme.LIGHT);
     this.setToLocalStorage(AppTheme.LIGHT);
     this.removeClassFromHtml(AppTheme.DARK);
-    this.handleRouteChange(this.router.url); // Ensure the class is updated on theme change
-  }
-
-  setDarkTheme() {
-    this.themeSubject.next(AppTheme.DARK);
-    this.setToLocalStorage(AppTheme.DARK);
-    this.addClassToHtml(AppTheme.DARK);
-    this.handleRouteChange(this.router.url); // Ensure the class is updated on theme change
+    
+    // Make extra sure all dark classes are gone
+    document.documentElement.classList.remove('dark');
+    document.body.classList.remove('bg-gray-900');
+    
+    // Add specific light mode classes if needed
+    document.body.classList.add('bg-white');
+    
+    this.handleRouteChange(this.router.url);
   }
 
   setSystemTheme() {
     this.removeFromLocalStorage();
-    if (isSystemDark()) {
-      this.themeSubject.next(AppTheme.DARK);
-      this.addClassToHtml('dark');
-      this.setToLocalStorage(AppTheme.DARK);
-    } else {
-      this.themeSubject.next(AppTheme.LIGHT);
-      this.removeClassFromHtml('dark');
-      this.setToLocalStorage(AppTheme.LIGHT);
-    }
-    this.handleRouteChange(this.router.url); // Ensure the class is updated on theme change
+    // Always use light theme, ignoring system preference
+    this.themeSubject.next(AppTheme.LIGHT);
+    this.removeClassFromHtml('dark');
+    this.setToLocalStorage(AppTheme.LIGHT);
+    this.handleRouteChange(this.router.url);
   }
 
   private handleRouteChange(url: string) {
-    if (this.themeSubject.getValue() === AppTheme.DARK && url === '/beneficiary') {
-      document.body.classList.add('bg-gray-900');
-    } else {
-      document.body.classList.remove('bg-gray-900');
-    }
+    // Always remove dark mode classes regardless of route
+    document.body.classList.remove('bg-gray-900');
+    document.documentElement.classList.remove('dark');
+    
+    // Add light mode if needed
+    document.body.classList.add('bg-white');
   }
 
   private addClassToHtml(className: string) {
@@ -99,8 +115,6 @@ export class DarkThemeSelectorService {
 }
 
 function isSystemDark() {
-  if (typeof window !== 'undefined') {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
+  // Always return false to prevent system dark mode detection
   return false;
 }
