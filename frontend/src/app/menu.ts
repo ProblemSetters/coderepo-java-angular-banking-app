@@ -4,7 +4,7 @@ export const menuList = [
 		url: "",
 	},
 	{
-		name: "Beneficiary",
+		name: "Beneficiaries",
 		url: "beneficiary",
 	},
 	{
@@ -12,7 +12,7 @@ export const menuList = [
 		url: "send-money",
 	},
     {
-		name: "Transaction",
+		name: "Transactions",
 		url: "transaction",
 	},
     {

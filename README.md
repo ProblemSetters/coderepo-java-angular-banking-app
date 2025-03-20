@@ -126,4 +126,4 @@ To install the necessary dependencies and start the application, follow these st
    ```bash setup.sh```
 
 2. **Start the Application**: After the installation is complete, run the following command to start the application:
-   ```concurrently \"npm run client\" \"npm run server\"```
+   ```npm run start```
