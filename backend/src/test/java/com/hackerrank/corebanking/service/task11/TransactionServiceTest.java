@@ -53,6 +53,10 @@ public class TransactionServiceTest {
         transaction.setFromAccountId(1L);
         transaction.setToAccountId(9999999991L);
 
+        Account account = new Account();
+        account.setLocked(false);
+
+        when(accountRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(account));
         when(fraudDetectionService.isSuspiciousTransaction(transaction)).thenReturn(true);
 
         assertThrows(FraudTransactionException.class, () -> transactionService.sendMoney(transaction));
