@@ -1,6 +1,7 @@
 
 package com.hackerrank.corebanking.service.task11;
 
+import com.hackerrank.corebanking.exception.FraudTransactionException;
 import com.hackerrank.corebanking.model.Account;
 import com.hackerrank.corebanking.model.Transaction;
 import com.hackerrank.corebanking.repository.AccountRepository;
@@ -43,7 +44,7 @@ public class TransactionServiceTest {
         transaction.setToAccountId(2L);
         transaction.setTransferAmount(100.0);
 
-        assertThrows(RuntimeException.class, () -> transactionService.sendMoney(transaction));
+        assertThrows(FraudTransactionException.class, () -> transactionService.sendMoney(transaction));
     }
 
     @Test
@@ -54,8 +55,6 @@ public class TransactionServiceTest {
 
         when(fraudDetectionService.isSuspiciousTransaction(transaction)).thenReturn(true);
 
-        assertThrows(RuntimeException.class, () -> {
-            transactionService.sendMoney(transaction);
-        });
+        assertThrows(FraudTransactionException.class, () -> transactionService.sendMoney(transaction));
     }
 }
