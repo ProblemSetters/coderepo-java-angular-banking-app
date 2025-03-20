@@ -29,25 +29,6 @@ public class TransactionService {
 
     public Transaction sendMoney(Transaction transaction) {
         Account fromAccount = accountRepository.findById(transaction.getFromAccountId()).get();
-
-        if (fromAccount.isLocked()) {
-            throw new AccountLockedException("Transaction unsuccessful, account is locked!");
-        }
-
-        if (fraudDetectionService.isSuspiciousTransaction(transaction)) {
-            int currentFraudCount = fromAccount.getFraudTxnCount();
-            currentFraudCount++;
-            fromAccount.setFraudTxnCount(currentFraudCount);
-
-            if (currentFraudCount >= 3) {
-                fromAccount.setLocked(true);
-            }
-
-            accountRepository.save(fromAccount);
-
-            throw new FraudTransactionException("Transaction unsuccessful, fraud detected!");
-        }
-
         Account toAccount = accountRepository.findById(transaction.getToAccountId()).get();
 
         fromAccount.setBalance(fromAccount.getBalance() - transaction.getTransferAmount());
