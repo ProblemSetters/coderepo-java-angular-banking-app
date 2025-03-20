@@ -35,8 +35,6 @@ public class FraudDetectionServiceTest {
     @Test
     void testIsFrequentTransaction() {
         List<Transaction> transactions = Collections.nCopies(6, new Transaction());
-        when(transactionRepository.findTransactionsByFromAccountIdAndDateCreatedAfter(Mockito.anyLong(), Mockito.any(Date.class)))
-                .thenReturn(transactions);
         when(transactionRepository.findTransactionsByFromAccountIdAndDateCreatedAfter(Mockito.anyLong(), Mockito.any(LocalDateTime.class)))
                 .thenReturn(transactions);
 
@@ -46,8 +44,6 @@ public class FraudDetectionServiceTest {
     @Test
     void testIsNotFrequentTransaction() {
         List<Transaction> transactions = Collections.nCopies(2, new Transaction());
-        when(transactionRepository.findTransactionsByFromAccountIdAndDateCreatedAfter(Mockito.anyLong(), Mockito.any(Date.class)))
-                .thenReturn(transactions);
         when(transactionRepository.findTransactionsByFromAccountIdAndDateCreatedAfter(Mockito.anyLong(), Mockito.any(LocalDateTime.class)))
                 .thenReturn(transactions);
 
