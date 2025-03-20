@@ -9,8 +9,6 @@ import com.hackerrank.corebanking.service.FraudDetectionService;
 import com.hackerrank.corebanking.service.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
@@ -19,27 +17,26 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TransactionServiceTest {
 
-    @Mock
-    private TransactionRepository mockTransactionRepository;
-
-    @InjectMocks
     private FraudDetectionService mockFraudDetectionService;
 
     private TransactionService transactionService;
-    private TransactionRepository transactionRepository;
-    private AccountRepository accountRepository;
+    private TransactionRepository mockTransactionRepository;
+    private AccountRepository mockAccountRepository;
     private FraudDetectionService fraudDetectionService;
 
     @BeforeEach
     void setup() {
-        transactionRepository = Mockito.mock(TransactionRepository.class);
-        accountRepository = Mockito.mock(AccountRepository.class);
-        fraudDetectionService = Mockito.mock(FraudDetectionService.class);
-        transactionService = new TransactionService(transactionRepository, accountRepository, null, fraudDetectionService);
+        mockTransactionRepository = mock(TransactionRepository.class);
+        mockAccountRepository = mock(AccountRepository.class);
+        fraudDetectionService = mock(FraudDetectionService.class);
+
+        mockFraudDetectionService = new FraudDetectionService(mockTransactionRepository);
+        transactionService = new TransactionService(mockTransactionRepository, mockAccountRepository, null, fraudDetectionService);
     }
 
     @Test
@@ -47,7 +44,7 @@ public class TransactionServiceTest {
         when(fraudDetectionService.isSuspiciousTransaction(Mockito.any(Transaction.class))).thenReturn(true);
         Account account = new Account();
         account.setLocked(false);
-        when(accountRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(account));
+        when(mockAccountRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(account));
 
         Transaction transaction = new Transaction();
         transaction.setFromAccountId(1L);
@@ -66,7 +63,7 @@ public class TransactionServiceTest {
         Account account = new Account();
         account.setLocked(false);
 
-        when(accountRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(account));
+        when(mockAccountRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(account));
         when(fraudDetectionService.isSuspiciousTransaction(transaction)).thenReturn(true);
 
         assertThrows(FraudTransactionException.class, () -> transactionService.sendMoney(transaction));
