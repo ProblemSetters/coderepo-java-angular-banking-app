@@ -36,6 +36,7 @@ public class Account implements Serializable {
   private boolean deleted = false;
   private Date deletedAt;
   private boolean locked = false;
+  private int fraudTxnCount = 0;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "user_roles",
