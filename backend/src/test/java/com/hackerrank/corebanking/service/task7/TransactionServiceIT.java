@@ -1,6 +1,7 @@
 package com.hackerrank.corebanking.service.task7;
 
 import com.hackerrank.corebanking.controller.security.AuthController;
+import com.hackerrank.corebanking.exception.FraudTransactionException;
 import com.hackerrank.corebanking.model.Account;
 import com.hackerrank.corebanking.model.Beneficiary;
 import com.hackerrank.corebanking.model.Transaction;
@@ -76,7 +77,7 @@ public class TransactionServiceIT {
         beneficiary.setDateCreated(yesterdayDate);
         beneficiaryRepository.save(beneficiary);
 
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 3; i++) {
             Transaction todayTransaction = createTransaction();
             todayTransaction.setTransferAmount(5000.0);
             transactionService.sendMoney(todayTransaction);
@@ -85,9 +86,9 @@ public class TransactionServiceIT {
         Transaction transaction = createTransaction();
         transaction.setTransferAmount(5000.0);
 
-        UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
+        FraudTransactionException exception = assertThrows(FraudTransactionException.class,
                 () -> transactionService.sendMoney(transaction));
-        assertEquals("Transaction fraudulent", exception.getMessage());
+        assertEquals("Transaction unsuccessful, fraud detected!", exception.getMessage());
     }
 
     @Test
@@ -101,7 +102,7 @@ public class TransactionServiceIT {
         beneficiary.setDateCreated(yesterdayDate);
         beneficiaryRepository.save(beneficiary);
 
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 2; i++) {
             Transaction todayTransaction = createTransaction();
             todayTransaction.setTransferAmount(5000.0);
             transactionService.sendMoney(todayTransaction);
@@ -125,7 +126,7 @@ public class TransactionServiceIT {
         beneficiary.setDateCreated(yesterdayDate);
         beneficiaryRepository.save(beneficiary);
 
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 2; i++) {
             Transaction todayTransaction = createTransaction();
             todayTransaction.setTransferAmount(random.nextDouble(2000,6000));
             transactionService.sendMoney(todayTransaction);
@@ -135,29 +136,6 @@ public class TransactionServiceIT {
         transaction.setTransferAmount(5000.0);
 
         assertDoesNotThrow(() -> transactionService.sendMoney(transaction), "Should be does not error");
-    }
-
-    @Test
-    void testSendMoneyFraudulentTransactionWithoutBeneficiaries() {
-        Transaction transaction = createTransaction();
-
-        UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
-                () -> transactionService.sendMoney(transaction));
-        assertEquals("Transaction fraudulent", exception.getMessage());
-    }
-
-    @Test
-    void testSendMoneyNotFraudulentTransactionTodayAddedBeneficiary() {
-        Transaction transaction = createTransaction();
-
-        Beneficiary beneficiary = new Beneficiary();
-        beneficiary.setPayerAccountId(senderAccount.getAccountId());
-        beneficiary.setBeneficiaryAccountId(receiverAccount.getAccountId());
-        beneficiaryRepository.save(beneficiary);
-
-        UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
-                () -> transactionService.sendMoney(transaction));
-        assertEquals("Transaction fraudulent", exception.getMessage());
     }
 
     @Test

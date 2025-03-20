@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> findTransactionByFromAccountId(Long fromAccountId);
 
     List<Transaction> findTransactionsByFromAccountIdAndDateCreatedAfter(Long fromAccountId, Date dateCreated);
+
+    List<Transaction> findTransactionsByFromAccountIdAndDateCreatedAfter(Long fromAccountId, LocalDateTime dateCreated);
 
     @Query("SELECT t FROM Transaction t WHERE t.fromAccountId = :accountId AND t.dateCreated BETWEEN :startDate AND :endDate")
     List<Transaction> findByFromAccountIdAndTransactionDateBetween(
