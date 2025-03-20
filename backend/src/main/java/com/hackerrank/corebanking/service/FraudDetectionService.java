@@ -24,17 +24,17 @@ public class FraudDetectionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public boolean isFrequentTransaction(Long accountId) {
+    public Boolean isFrequentTransaction(Long accountId) {
         LocalDateTime fiveMinutesAgo = LocalDateTime.now().minusMinutes(FRAUD_TXN_RECENT_TIME_IN_MINUTES);
         List<Transaction> recentTransactions = transactionRepository.findTransactionsByFromAccountIdAndDateCreatedAfter(accountId, fiveMinutesAgo);
         return recentTransactions.size() > MAX_RECENT_TRANSACTIONS;
     }
 
-    public boolean isSuspiciousMerchant(Long accountNumber) {
+    public Boolean isSuspiciousMerchant(Long accountNumber) {
         return String.valueOf(accountNumber).startsWith("9");
     }
 
-    public boolean isSuspiciousTransaction(Transaction transaction) {
+    public Boolean isSuspiciousTransaction(Transaction transaction) {
         return isFrequentTransaction(transaction.getFromAccountId()) || isSuspiciousMerchant(transaction.getToAccountId());
     }
 }
